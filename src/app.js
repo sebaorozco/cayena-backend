@@ -1,21 +1,17 @@
 // Importar nuestras dependencias
 import express from 'express';
 import productsRouter from './routes/products.routes.js'
+import cartsRouter from './routes/carts.routes.js'
 
 // Instanciar constantes
 const app = express();
 
-/* // Instanciar las constantes de nuestras rutas
-const routerProducts = express.Router();
-const routerCarts = express.Router();*/
-
 // Vamos a crear las rutas de nuestros endpoints
 app.use('/api/products', productsRouter);
-//app.use('/api/carts', routerCarts);
+app.use('/api/carts', cartsRouter);
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-
 
 
 // Configurar nuestro servidor
