@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Ingreso de Productos</title>
+</head>
+<body>
+    <h2>Ingrese Producto</h2>
+    <form action = "/api/productos/guardar" method="post">
+        Nombre: <input type="text" name="title">
+        Precio: <input type="text" name="price">
+        Foto url: <input type="text" name="thumbnail">
+        <button>ENVIAR</button>
+    </form>
+    
+</body>
+</html>
