@@ -10,8 +10,8 @@ const routerProducts = express.Router();
 const routerCarts = express.Router();*/
 
 // Vamos a crear las rutas de nuestros endpoints
-app.use('/products', productsRouter);
-//app.use('/carts', routerCarts);
+app.use('/api/products', productsRouter);
+//app.use('/api/carts', routerCarts);
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
