@@ -6,6 +6,11 @@ class ProductManager {
         this.path = './src/models/products.json';
     }
 
+    existProduct = async (pid) => {
+        let existeProd = await this.readProducts();
+        return existeProd.find(prod => prod.id === pid);
+    }
+
     readProducts = async () => {
         let contenido = await fs.readFile(this.path, 'utf-8');
         return JSON.parse(contenido);
@@ -30,11 +35,11 @@ class ProductManager {
     getProductById = async (id) => {
         let contenidoArray = await this.readProducts();
         let filter = await contenidoArray.find(product => product.id === id);
-        if(filter){
+        /* if(filter){
             return filter; 
         } else {
             return "ERROR! Producto no encontrado";
-        }
+        } */
     }
 
     deleteProductById = async (id) => {
