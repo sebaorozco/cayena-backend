@@ -11,7 +11,7 @@ class CartManager {
 
     existCart = async (cid) => {
         let contenido = await this.readCarts();
-        return contenido.find(cart => cart.id ===cid);
+        return contenido.find(cart => cart.id === cid);
     }
 
     readCarts = async () => {
@@ -24,7 +24,7 @@ class CartManager {
     }
 
     addCarts = async () => {
-        let oldCarts = await this.exist();
+        let oldCarts = await this.readCarts();
         let id = Date.now();
         let allCarts = [{id: id, products: []}, ...oldCarts];
         await this.writeCarts(allCarts);
@@ -69,8 +69,19 @@ class CartManager {
         let concat = [cartById,...filter];
         await this.writeCarts(concat);
         return "Agregaste un producto al carrito!";
-        
-    }    
+    }  
+    
+    deleteCartById = async (id) => {
+        let content = await this.readCarts();
+        let exist = content.some(cart => cart.id === id)
+        if(exist) {
+            let cartFilter = content.filter(cart => cart.id != id);
+            await this.writeCarts(cartFilter);
+            return "Carrito Eliminado!";
+        } else {
+            return "Carrito Inexistente";
+        } 
+    }
 }
 
 export default CartManager;

@@ -23,11 +23,6 @@ productsRouter.get('/:pid', async (req, res) => {
     res.send(await product.getProductById(pid));
 })
 
-/* productsRouter.post('/', async (req, res) => {
-    let newProduct = req.body;
-    res.send(await product.addProducts(newProduct));
-}) */
-
 productsRouter.post('/', async (req, res) => {
     const { title, description, code, price, status, stock, category, thumbnails }  = req.body;
     const newProduct = await product.addProducts({

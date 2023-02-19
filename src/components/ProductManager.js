@@ -22,11 +22,13 @@ class ProductManager {
     
     addProducts = async (product) => {
         let oldProducts = await this.readProducts();
-        //if (product.title && product.description && product.code && product.price && product.status && product.stock && product.category)
-        //product.id = Date.now();
-        let allProducts = [...oldProducts, product];
-        await this.writeProducts(allProducts);
-        return "Producto Agregado!";
+        if(product.title && product.description && product.code && product.price && product.status && product.stock && product.category){
+            let allProducts = [...oldProducts, product];
+            await this.writeProducts(allProducts);
+            return "Producto Agregado!";
+        } else {
+            return "Los campos title, description, code, price, stock y category son obligatorios.Revise y vuelva a agregar el producto si desea."
+        }
     }
 
     getProducts = async () => {
@@ -59,16 +61,9 @@ class ProductManager {
         if(!content) return "Producto no Encontrado!";
         await this.deleteProductById(id);
         let oldProducts = await this.readProducts();
-        let prodModif = [{...updateData, id: id}, ...oldProducts];
+        let prodModif = [{id: id, ...updateData}, ...oldProducts];
         await this.writeProducts(prodModif);
         return "Producto Actualizado"
-        
-        /* if(exist) {
-            await this.deleteProductById(id);
-            let oldProducts = await this.readProducts();
-            let prodModif = [{...updateData, id}, ...oldProducts];
-            return "Producto Actualizado";
-        } */
     }
 }
 

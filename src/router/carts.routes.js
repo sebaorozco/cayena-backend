@@ -11,7 +11,6 @@ const cartsRouter = Router();
 cartsRouter.get('/', async (req, res) => {
     // Agrego el soporte para recibir por query param el valor limite de resultados
     let limit = parseInt(req.query.limit);
-
     if(!limit) return res.send(await cart.getCarts());
     let arrayProd = await cart.readCarts();
     let cartsLimit = arrayProd.slice(0, limit);
@@ -33,15 +32,9 @@ cartsRouter.post('/:cid/product/:pid', async (req, res) => {
     res.send(await cart.productInCart(cartId, prodId));
 })
 
-/*productsRouter.put('/:pid', async (req, res) => {
-    let pid = parseInt(req.params.pid);
-    let updateProduct = req.body;
-    res.send(await product.updateProductById(pid, updateProduct));
+cartsRouter.delete('/:cid', async (req, res) => {
+    let cid = parseInt(req.params.cid);
+    res.send(await cart.deleteCartById(cid));
 })
-
-productsRouter.delete('/:pid', async (req, res) => {
-    let pid = parseInt(req.params.pid);
-    res.send(await product.deleteProductById(pid));
-})*/
 
 export default cartsRouter;
