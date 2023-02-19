@@ -33,7 +33,7 @@ cartsRouter.post('/:cid/product/:pid', async (req, res) => {
     res.send(await cart.productInCart(cartId, prodId));
 })
 
-/* productsRouter.put('/:pid', async (req, res) => {
+/*productsRouter.put('/:pid', async (req, res) => {
     let pid = parseInt(req.params.pid);
     let updateProduct = req.body;
     res.send(await product.updateProductById(pid, updateProduct));
@@ -42,6 +42,6 @@ cartsRouter.post('/:cid/product/:pid', async (req, res) => {
 productsRouter.delete('/:pid', async (req, res) => {
     let pid = parseInt(req.params.pid);
     res.send(await product.deleteProductById(pid));
-})
- */
+})*/
+
 export default cartsRouter;

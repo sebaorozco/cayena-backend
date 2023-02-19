@@ -24,7 +24,7 @@ class CartManager {
     }
 
     addCarts = async () => {
-        let oldCarts = await this.readCarts();
+        let oldCarts = await this.exist();
         let id = Date.now();
         let allCarts = [{id: id, products: []}, ...oldCarts];
         await this.writeCarts(allCarts);

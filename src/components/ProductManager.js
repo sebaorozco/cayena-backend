@@ -22,10 +22,11 @@ class ProductManager {
     
     addProducts = async (product) => {
         let oldProducts = await this.readProducts();
-        product.id = Date.now();
+        //if (product.title && product.description && product.code && product.price && product.status && product.stock && product.category)
+        //product.id = Date.now();
         let allProducts = [...oldProducts, product];
         await this.writeProducts(allProducts);
-        return 'Producto Agregado'
+        return "Producto Agregado!";
     }
 
     getProducts = async () => {
@@ -33,22 +34,20 @@ class ProductManager {
     }
 
     getProductById = async (id) => {
-        let contenidoArray = await this.readProducts();
-        let filter = await contenidoArray.find(product => product.id === id);
-        /* if(filter){
-            return filter; 
+        let filterArray = await this.existProduct(id);
+        if(filterArray){
+            return filterArray; 
         } else {
             return "ERROR! Producto no encontrado";
-        } */
+        } 
     }
 
     deleteProductById = async (id) => {
         let content = await this.readProducts();
         let exist = content.some(prod => prod.id === id)
-        
         if(exist) {
             let productFilter = content.filter(prod => prod.id != id);
-            await fs.writeFile(this.path, JSON.stringify(productFilter));
+            await this.writeProducts(productFilter);
             return "Producto Eliminado!";
         } else {
             return "Producto Inexistente";
@@ -56,15 +55,20 @@ class ProductManager {
     }
 
     updateProductById = async (id, updateData) => {
-        let content = await this.readProducts();
-        let exist = content.some(prod => prod.id === id)
-        if(exist) {
+        let content = await this.existProduct(id);
+        if(!content) return "Producto no Encontrado!";
+        await this.deleteProductById(id);
+        let oldProducts = await this.readProducts();
+        let prodModif = [{...updateData, id: id}, ...oldProducts];
+        await this.writeProducts(prodModif);
+        return "Producto Actualizado"
+        
+        /* if(exist) {
             await this.deleteProductById(id);
             let oldProducts = await this.readProducts();
             let prodModif = [{...updateData, id}, ...oldProducts];
-            await this.writeProducts(prodModif);
             return "Producto Actualizado";
-        }
+        } */
     }
 }
 
