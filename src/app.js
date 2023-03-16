@@ -5,10 +5,18 @@ import cartsRouter from './routes/carts.routes.js';
 import { engine } from 'express-handlebars';
 import __dirname from './utils.js';
 import ProductManager from './components/ProductManager.js';
+import { Server } from 'socket.io';
 
 // Instanciar constantes
 const app = express();
 const product = new ProductManager;
+const PORT = 8080;
+const httpServer = app.listen(PORT, () => {
+    console.log("Running on", PORT)
+});  //Server Http
+
+// Creamos el servidor para sockets viviendo dentro de nuestro servidor principal
+const socketServer = new Server(httpServer);    //socketServer será un servidor para trabajar con sockets */
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -35,13 +43,23 @@ app.get("/", async (req, res) => {
     })
 })
 
+// Enviamos la lista de todos los productos usando WEBSOCKETS
+app.get('/realtimeproducts', async (req, res) => {
+    let products = await product.getProducts();
+    const scripts = { socket: '/socket.io/socket.io.js', index: '/js/index.js', products }
+    res.render('realTimeProducts', scripts);
+})
+
 // Vamos a crear las rutas de nuestros endpoints
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 
-// Configurar nuestro servidor
-const PORT = 8080;
-const server = app.listen(PORT, () => {
-    console.log(`Servidor escuchando en el puerto: ${server.address().port}`);
-})
-server.on('error', error => console.log('Error en el servidor: ', error));
+// Escuchar conexion de un nuevo cliente
+
+socketServer.on('connection', (socketClient) => {
+    console.log("Nuevo cliente conectado", socketClient.id);
+    socketClient.emit('inicio', "Hola desde Websockets!");
+    socketClient.on('disconnect', () => {
+        console.log("Usuario desconectado");
+    })
+});
