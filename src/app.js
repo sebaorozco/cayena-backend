@@ -41,7 +41,7 @@ app.get("/", async (req, res) => {
         title: "Cayena - Almacén Orgánico y Natural",
         products: allProducts
     })
-})
+}) 
 
 // Enviamos la lista de todos los productos usando WEBSOCKETS
 app.get('/realtimeproducts', async (req, res) => {
@@ -56,9 +56,10 @@ app.use('/api/carts', cartsRouter);
 
 // Escuchar conexion de un nuevo cliente
 
-socketServer.on('connection', (socketClient) => {
+socketServer.on('connection', async (socketClient) => {
     console.log("Nuevo cliente conectado", socketClient.id);
     socketClient.emit('inicio', "Hola desde Websockets!");
+
     socketClient.on('disconnect', () => {
         console.log("Usuario desconectado");
     })

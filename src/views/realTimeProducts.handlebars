@@ -1,14 +1,33 @@
 <h1>Listado de Productos desde WebSockets</h1>
-
-{{#each products}}
-    <h2>Producto: {{this.title}}</h2>
-    <p>id: {{this.id}}</p>
-    <p>Descripción: {{this.description}}</p>
-    <p>Código: {{this.code}}</p>
-    <p>Precio: ${{this.price}}</p>
-    <p>Stock: {{this.stock}}</p>
-    <p>Categoría: {{this.category}}</p>
-{{/each}}
+<div>
+    {{#each products}}
+        <h2>Producto: {{this.title}}</h2>
+        <p>id: {{this.id}}</p>
+        <p>Descripción: {{this.description}}</p>
+        <p>Código: {{this.code}}</p>
+        <p>Precio: ${{this.price}}</p>
+        <p>Stock: {{this.stock}}</p>
+        <p>Categoría: {{this.category}}</p>
+    {{/each}}
+</div>
+<hr>
+<div id="createProducts">
+    <form action="" method="post" id="formProducts">
+        <label for="title">Producto:</label> <br>
+        <input type="text" name="title" id="title"> <br>
+        <label for="description">Descripcion</label> <br>
+        <input type="text" name="description" id="description"> <br>
+        <label for="code">Código</label> <br>
+        <input type="text" name="code" id="code"> <br>
+        <label for="price">Precio</label> <br>
+        <input type="number" name="price" id="price"> <br>
+        <label for="stock">Stock</label> <br>
+        <input type="number" name="stock" id="stock"> <br>
+        <label for="title">Categoría:</label> <br>
+        <input type="text" name="category" id="category"> <br> </br>  
+        <button type="submit" id="addProduct">Agregar Producto</button>
+    </form>
+</div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/index.js"></script>
