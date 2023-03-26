@@ -6,6 +6,11 @@ import { engine } from 'express-handlebars';
 import __dirname from './utils.js';
 import ProductManager from './components/ProductManager.js';
 import { Server } from 'socket.io';
+import { init } from './db/mongodb.js';
+import routerIndex from './routes/products.router.js'
+
+
+init();
 
 // Instanciar constantes
 const app = express();
@@ -53,6 +58,7 @@ app.get('/realtimeproducts', async (req, res) => {
 // Vamos a crear las rutas de nuestros endpoints
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
+app.use('/', routerIndex)
 
 // Escuchar conexion de un nuevo cliente
 
