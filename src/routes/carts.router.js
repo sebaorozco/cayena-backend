@@ -1,14 +1,13 @@
 import { Router } from "express";
 import CartManagerDB from "../dao/mongoManagers/CartManagerDB.js";
-import ProductManagerDB from "../dao/mongoManagers/productManagerDB.js";
 
 const routerCarts = Router();
 
 //CREATE
-routerCarts.post('/carts', CartManagerDB.create);
+routerCarts.post('/carts', CartManagerDB.createCarts);
 
 // READ
-routerCarts.get('/carts', ProductManagerDB.get);
+routerCarts.get('/carts', CartManagerDB.getCarts);
 routerCarts.get('/carts/:pid', ProductManagerDB.getById);
 
 // UPDATE
