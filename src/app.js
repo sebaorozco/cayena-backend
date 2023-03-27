@@ -4,7 +4,7 @@ import productsRouter from './routes/products.routes.js';
 import cartsRouter from './routes/carts.routes.js';
 import { engine } from 'express-handlebars';
 import __dirname from './utils.js';
-import ProductManager from './components/ProductManager.js';
+import ProductManager from './dao/fsManagers/ProductManager.js';
 import { Server } from 'socket.io';
 import { init } from './db/mongodb.js';
 import routerIndex from './routes/products.router.js'
