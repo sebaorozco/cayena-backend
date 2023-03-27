@@ -8,12 +8,12 @@ routerCarts.post('/carts', CartManagerDB.createCarts);
 
 // READ
 routerCarts.get('/carts', CartManagerDB.getCarts);
-routerCarts.get('/carts/:pid', ProductManagerDB.getById);
+routerCarts.get('/carts/:cid', CartManagerDB.getCartById);
 
 // UPDATE
-routerCarts.put('/carts/:pid', ProductManagerDB.updateById);
+routerCarts.put('/carts/:cid/products/:pid', CartManagerDB.addProductToCart);
 
 // DELETE
-routerCarts.delete('/carts/:pid', ProductManagerDB.deleteById)
+routerCarts.delete('/carts/:cid', CartManagerDB.deleteCart)
 
 export default routerCarts;

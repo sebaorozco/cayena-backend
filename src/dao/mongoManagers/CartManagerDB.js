@@ -3,25 +3,25 @@ import { cartModel } from "../models/cart.model.js"
 class CartManagerDB {
     //CREO EL CARRITO
     static async createCarts(req, res) {
-        const { body } = req
-        const result = await cartModel.create(body)
-        res.status(201).json(result)
+        const { body } = req;
+        const result = await cartModel.create(body);
+        res.status(201).json(result);
     }
     
     //LLAMO A TODOS LOS CARRITOS
     static async getCarts(req, res) {
-        const result = await cartModel.find().populate('products.product')
-        res.status(200).json(result)
+        const result = await cartModel.find();
+        res.status(200).json(result);
     }
 
     //OBTENGO UN CARRITO POR SU ID
     static async getCartById(req, res) {
-        const { params: { cid } } = req
-        const result = await cartModel.findById(cid).populate('products.product')
+        const { params: { cid } } = req;
+        const result = await cartModel.findById(cid);
         if (!result) {
             return res.status(404).end()
         }
-        res.status(200).json(result)
+        res.status(200).json(result);
     }
 
     //AGREGO UN PRODUCTO EN UN CARRITO EN ESPECIFICO: PASA POR BODY SOLO EL PID Y CID
@@ -29,7 +29,7 @@ class CartManagerDB {
         const { pid, cid } = req.body;
   
         try {
-            const cart = await cartModel.findById(cid).populate("products.product");
+            const cart = await cartModel.findById(cid);
             if (!cart) {
                 return res.status(404).json({ message: "CART NOT FOUND" });
             }
@@ -53,7 +53,7 @@ class CartManagerDB {
         const { pid, cid } = req.body;
   
         try {
-            const cart = await cartModel.findById(cid).populate("products.product");
+            const cart = await cartModel.findById(cid);
             if (!cart) {
                 return res.status(404).json({ message: "CART NOT FOUND" });
             }

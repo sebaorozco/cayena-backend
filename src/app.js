@@ -8,6 +8,7 @@ import ProductManager from './dao/fsManagers/ProductManager.js';
 import { Server } from 'socket.io';
 import { init } from './db/mongodb.js';
 import routerIndex from './routes/products.router.js'
+import cartRouterIndex from './routes/carts.router.js'
 
 
 init();
@@ -58,7 +59,8 @@ app.get('/realtimeproducts', async (req, res) => {
 // Vamos a crear las rutas de nuestros endpoints
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
-app.use('/', routerIndex)
+app.use('/', routerIndex);
+app.use('/', cartRouterIndex);
 
 // Escuchar conexion de un nuevo cliente
 
