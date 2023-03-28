@@ -8,7 +8,7 @@ export const initChat = (httpServer) => {
     io = new Server(httpServer)
 
     io.on('connection', async (socketClient) => {
-        console.log('Nuevo cliente conectado', socketClient.id)
+        console.log('Nuevo cliente conectado al chat', socketClient.id)
 
         socketClient.on('new-message', async (data) => {
             const mensaje = await messageModel.create(data)

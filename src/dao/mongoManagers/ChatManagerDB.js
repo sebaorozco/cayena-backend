@@ -3,7 +3,7 @@ import { emit } from "../../public/js/chatSocket.js";
 
 class ChatManagerDB {
     //CREO MENSAJES
-    static async create(req, res) {
+    static async createChat(req, res) {
     const { body } = req;
     const mensaje = await messageModel.create(body);
     emit(mensaje);

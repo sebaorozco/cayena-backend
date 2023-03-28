@@ -4,12 +4,9 @@ import ChatManagerDB from "../dao/mongoManagers/ChatManagerDB.js";
 const routerMessage = Router();
 
 //CREATE
-routerMessage.post('/chat', ChatManagerDB.create);
+routerMessage.post('/chat', ChatManagerDB.createChat);
 
-routerMessage.get('/', async (req, res) => {
-    const mensajes = await routerMessage.find()
-    res.render('message', { mensajes })
-  })
+routerMessage.get('/chat', ChatManagerDB.get)
   
 
 export default routerMessage;
