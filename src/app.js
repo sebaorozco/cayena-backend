@@ -9,6 +9,7 @@ import { Server } from 'socket.io';
 import { init } from './db/mongodb.js';
 import routerIndex from './routes/products.router.js'
 import cartRouterIndex from './routes/carts.router.js'
+import chatRouterIndex from './routes/messages.router.js'
 
 
 init();
@@ -61,6 +62,7 @@ app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/', routerIndex);
 app.use('/', cartRouterIndex);
+app.use('/', chatRouterIndex);
 
 // Escuchar conexion de un nuevo cliente
 
