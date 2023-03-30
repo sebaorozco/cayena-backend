@@ -1,5 +1,5 @@
 import { messageModel } from "../models/message.model.js";
-import { emit } from "../../public/js/chatSocket.js";
+import { emit } from "../../chatSocket.js";
 
 class ChatManagerDB {
     //CREO MENSAJES

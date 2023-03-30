@@ -1,6 +1,6 @@
 // Importar las dependencias
 import { Router } from 'express';
-import ProductManager from '../dao/fsManagers/ProductManager.js';
+import ProductManager from '../../dao/fsManagers/ProductManager.js';
 // Instanciar las constantes de nuestras rutas
 const productsRouter = Router();
 

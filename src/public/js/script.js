@@ -1,4 +1,4 @@
-/* (function() {
+(function() {
     const socket = io();
   
     const formMessage = document.getElementById('form-message');
@@ -8,7 +8,7 @@
   
     function showMessage(data) {
       const li = document.createElement('li');
-      li.innerHTML = `<p><strong>${data.nombre}</strong>: ${data.mensaje}</p>`;
+      li.innerHTML = `<p><strong>${data.nombre}</strong>: ${data.mensaje} ${data.mail}</p>`;
       listMessages.appendChild(li);
     }
   
@@ -32,4 +32,4 @@
       showMessage(data);
     });
   
-  })(); */
+  })();

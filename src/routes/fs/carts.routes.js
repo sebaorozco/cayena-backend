@@ -1,6 +1,6 @@
 // Importar las dependencias
 import { Router } from 'express';
-import CartManager from '../dao/fsManagers/CartManager.js';
+import CartManager from '../../dao/fsManagers/CartManager.js';
 
 const cart = new CartManager;
 

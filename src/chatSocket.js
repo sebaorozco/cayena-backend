@@ -1,6 +1,5 @@
 import { Server } from 'socket.io';
-import { messageModel } from '../../dao/models/message.model.js';
-
+import { messageModel } from './dao/models/message.model.js';
 
 let io
 
@@ -9,7 +8,6 @@ export const initChat = (httpServer) => {
 
     io.on('connection', async (socketClient) => {
         console.log('Nuevo cliente conectado al chat', socketClient.id)
-
         socketClient.on('new-message', async (data) => {
             const mensaje = await messageModel.create(data)
             io.emit('notification', mensaje)
