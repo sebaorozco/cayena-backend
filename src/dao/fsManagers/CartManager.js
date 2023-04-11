@@ -6,7 +6,7 @@ const productos = new ProductManager;
 
 class CartManager {
     constructor() {
-        this.path = '../cayena-backend/src/dao/models/carts.json';
+        this.path = './src/files/carts.json';
     }
 
     existCart = async (cid) => {

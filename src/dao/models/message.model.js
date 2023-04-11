@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
     
 const messageCollection = 'messages' //Asi es como se llamará mi colección de mensajes del chat en mi BD
     
@@ -9,4 +9,4 @@ const messageSchema = new mongoose.Schema({
     message: { type: String, require: true }
 }, { timestamps: true })
               
-export const messageModel = mongoose.model(messageCollection, messageSchema);
+export const MessagesModel = mongoose.model(messageCollection, messageSchema);

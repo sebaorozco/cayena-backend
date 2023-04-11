@@ -1,19 +1,18 @@
-<h1>MENSAJES</h1>
+<h1>Chat de Cayena Almacén Orgánico y Natural</h1>
 
-<ul id="list-messages">
-  {{#each messages}}
-    <li>
-      <p><strong>{{this.name}}</strong>: {{this.mensaje}} {{this.mail}}</p>
-    </li>
-  {{/each}}
-</ul> 
-
-<form id="form-message">
-  <input type="text" name="fullname" id="input-fullname" placeholder="Ingresa tu nombre" required>
-  <input type="text" name="message" id="input-message" placeholder="Ingresa tu mensaje..." required>
-  <input type="text" name="mail" id="input-mail" placeholder="Ingresa tu correo..." required>
+<form id="formMessage">
+  <input type="text" name="mail" id="mailBox" placeholder="Ingresa tu correo."><br><br>
+  <input type="text" name="message" id="messageBox" placeholder="Deja un mensaje." required></br><br>
   <button type="submit">Enviar</button>
 </form>
 
+<br>
+<label for=""><h2>Mensajes:</h2></label>
+<ul id="messageLogs">
+ 
+</ul> 
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/script.js"></script>
+<script src="/js/index.js"></script>

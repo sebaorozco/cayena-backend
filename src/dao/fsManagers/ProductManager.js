@@ -3,7 +3,7 @@ import {promises as fs} from 'fs';
 
 class ProductManager {
     constructor() {
-        this.path = '../cayena-backend/src/dao/models/products.json';
+        this.path = './src/files/products.json';
     }
 
     existProduct = async (pid) => {

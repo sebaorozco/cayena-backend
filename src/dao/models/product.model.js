@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const prodCollection = 'products' //Asi es como se llamará mi colección de productos en mi BD
+const productsCollection = 'products' //Asi es como se llamará mi colección de productos en mi BD
 
 const prodSchema = new mongoose.Schema({
     //Aqui escribo todas las propiedades que tendrá un producto en mi BD
@@ -20,4 +20,4 @@ const prodSchema = new mongoose.Schema({
     thumbnails: String
 }, { timestamps: true })
 
-export const prodModel = mongoose.model(prodCollection, prodSchema);
+export const ProductsModel = mongoose.model(productsCollection, prodSchema);
