@@ -1,0 +1,33 @@
+<h1 class="prod__h1">Products by Category</h1>
+
+<table id="main" role="grid" class="table__products">
+  <tr class="table__header">
+    <th>Producto</th>
+    <th>Descripción</th>
+    <th><a href="{{sortLink2}}">Precio</a></th>
+    <th>Stock</th>
+    <th>Código</th>
+    <th>Categoría</th>
+  </tr>
+  {{#each payload}}
+    <tr>
+      <td>{{this.title}}</td>
+      <td>{{this.description}}</td>
+      <td>${{this.price}}</td>
+      <td>{{this.stock}}</td>
+      <td>{{this.code}}</td>
+      <td>{{this.category}}</td>
+    </tr>
+  {{/each}}
+</table>
+
+<p>Página actual: {{page}}</p>
+
+{{#if prevLink}}
+  <a href="{{prevLink}}" role="button">Anterior</a>
+{{/if}}
+{{#if nextLink}}
+  <a href="{{nextLink}}" role="button">Siguente</a>
+{{/if}}
+
+<link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">

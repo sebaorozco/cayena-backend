@@ -258,7 +258,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"products\":[{\"id\":\"6434b564158afdda0b860163\",\r\n    \"quantity\":1}\r\n    ]\r\n}",
+							"raw": "{\r\n    \"title\": \"Carrito dos\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -279,13 +279,13 @@
 					"response": []
 				},
 				{
-					"name": "update Product by ID",
+					"name": "agregar producto a un carrito",
 					"request": {
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"stock\": 15\r\n}",
+							"raw": "{\r\n    \"product_id\": \"6434b564158afdda0b860163\",\r\n    \"quantity\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -293,21 +293,21 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/products/6434d639804ccdf727e17f5e",
+							"raw": "localhost:8080/carts/64378074a3bc0e27ea6e1a66",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"products",
-								"6434d639804ccdf727e17f5e"
+								"carts",
+								"64378074a3bc0e27ea6e1a66"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "delete Product by ID",
+					"name": "delete Cart by id",
 					"request": {
 						"method": "DELETE",
 						"header": [],

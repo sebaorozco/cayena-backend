@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoosePaginate from 'mongoose-paginate-v2';
 
 const productsCollection = 'products' //Asi es como se llamará mi colección de productos en mi BD
 
@@ -16,8 +17,13 @@ const prodSchema = new mongoose.Schema({
         default: true
     },
     stock: Number,
-    category: String,
+    category: {
+        type: String,
+        enum: ['Diet', 'Salud_Belleza', 'Celíacos', 'Diabéticos']
+    } ,
     thumbnails: String
 }, { timestamps: true })
+
+prodSchema.plugin(mongoosePaginate);
 
 export const ProductsModel = mongoose.model(productsCollection, prodSchema);

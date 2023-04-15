@@ -1,5 +1,4 @@
 import { MessagesModel } from '../models/message.model.js';
-import { emit } from '../../app.js';
 
 class ChatManagerDAO {
     //CREO MENSAJES

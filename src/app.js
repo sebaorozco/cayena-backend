@@ -6,11 +6,12 @@ import { Server } from 'socket.io';
 import { dbConnect } from './db/mongodb.js';
 import router from './routes/index.js';
 import { MessagesModel } from './dao/models/message.model.js';
+//import ProductManager from './dao/fsManagers/ProductManager.js';
 
 // Instanciar constantes
-//const messages = [];
 const app = express();
 const PORT = 8080;
+//const product = new ProductManager;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -18,7 +19,11 @@ app.use(express.urlencoded({extended: true}));
 
 // ****** Configuración de Handlebars ********** //
 // Inicializamos el motor
-app.engine('handlebars', engine())
+app.engine('handlebars', engine({runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true
+  }})
+)
 
 // Luego indicamos que el motor ya inicializado arriba es el que queremos utilizar 
 app.set('view engine', 'handlebars');
@@ -56,10 +61,14 @@ io.on('connection', socket => {
 
     socket.on('message', async (data) => {
         const mensaje = await MessagesModel.create(data);
-        //console.log(data)
-        //messages.push(data);
         io.emit('messageLogs', mensaje)
-      })
+    })
+
+   /*  socket.on('newProduct', async (data) => {
+        await product.addProducts(data);
+        const allProducts = await product.getProducts();
+        socket.emit('productsLog', allProducts);
+    }) */
 })
 
 export const emit = (mensaje) => {

@@ -23,4 +23,8 @@ router.get('/realtimeproducts', async (req, res) => {
     });
 })
 
+router.post('/realtimeproducts', async (data) => {
+    await product.addProducts(data);
+})
+
 export default router;

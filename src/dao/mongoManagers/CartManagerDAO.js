@@ -27,22 +27,21 @@ class CartManagerDAO {
     //AGREGO UN PRODUCTO EN UN CARRITO EN ESPECIFICO: PASA POR PARAMS SOLO EL PID Y CID
     static async addProductToCart(req, res) {
         const { pid, cid } = req.params;
-  
         try {
-            const cart = await CartsModel.findById(cid);
+            let cart = await CartsModel.findById(cid).populate('products.product_id')
             if (!cart) {
-                return res.status(404).json({ message: "CART NOT FOUND" });
+                return res.status(404).json({ message: "Cart not Found" });
             }
-            const productIndex = cart.products.findIndex((p) => p.product_id.toString() === pid);
+            const productIndex = cart.products.findIndex((p) => p.product_id._id.toString() === pid);
+            console.log(productIndex)
             if (productIndex >= 0) {
                 cart.products[productIndex].quantity += 1;
             } else {
-                cart.products.push({ product: pid });
+                cart.products.push({ product_id: pid });
             }
             await cart.save();
             return res.status(200).json(cart);
-        }
-        catch (error) {
+        } catch (error) {
             console.log(error);
             return res.status(500).json({ message: "SERVER ERROR" });
         }

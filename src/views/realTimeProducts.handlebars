@@ -8,9 +8,16 @@
         <p>Precio: ${{this.price}}</p>
         <p>Stock: {{this.stock}}</p>
         <p>Categoría: {{this.category}}</p>
+        <br>
+        <hr>
     {{/each}}
 </div>
-<hr>
+<br>
+<ul id="productList" >
+
+</ul>
+
+<br>
 <div id="createProducts">
     <form action="" method="post" id="formProducts">
         <label for="title">Producto:</label> <br>
@@ -24,10 +31,11 @@
         <label for="stock">Stock</label> <br>
         <input type="number" name="stock" id="stock"> <br>
         <label for="title">Categoría:</label> <br>
-        <input type="text" name="category" id="category"> <br> </br>  
-        <button type="submit" id="addProduct">Agregar Producto</button>
+        <input type="text" name="category" id="category"> <br></br>   
+        <button type="submit" id="addProduct">Agregar Producto</button></br>
     </form>
 </div>
+<br>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/index.js"></script>

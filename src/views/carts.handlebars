@@ -1,0 +1,27 @@
+<div>
+  <h2 class="cart__h1">You are gonna take this!</h2>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Stock</th>
+      <th>Category</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each cart.products}}
+      <tr>
+        <td>{{this.product_id.title}}</td>
+        <td>{{this.product_id.description}}</td>
+        <td>{{this.product_id.price}}</td>
+        <td>{{this.product_id.stock}}</td>
+        <td>{{this.product_id.category}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+<button class="buy__button">Buy Now!</button>

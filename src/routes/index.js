@@ -1,23 +1,19 @@
-import productsController from '../controllers/controller.products.js';
 import chatController from '../controllers/controller.chat.js';
-import cartsController from '../controllers/controller.carts.js';
 import homeController from '../controllers/controller.home.js';
-import productsRouter from './fs/products.routes.js';
-import cartsRouter from './fs/carts.routes.js';
+import productsViewRoutes from './viewsRoutes/viewProducts.js';
+import cartsViewRoutes from './viewsRoutes/viewCarts.js';
+import productsApiRoutes from './apiRoutes/apiProducts.js';
+import cartsApiRoutes from './apiRoutes/apiCarts.js';
 
 const router = app => {
-    // Vamos a crear las rutas de nuestros endpoints usando FS
-    app.use('/api/products', productsRouter);
-    app.use('/api/carts', cartsRouter);
-
-    // Creo las rutas a nuestras vistas por HBS
+    // Rutas o endpoints
     app.use('/', homeController);
     app.use('/chat', chatController); 
-    
-    // Creo las rutas a nuestras API's
-    app.use('/products', productsController);
-    app.use('/carts', cartsController)
-}
+    app.use('/api/carts', cartsApiRoutes);
+    app.use('/api/products', productsApiRoutes);
+    app.use('/products', productsViewRoutes);
+    app.use('/carts', cartsViewRoutes);
 
+}
 
 export default router;

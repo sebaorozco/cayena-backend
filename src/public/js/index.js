@@ -51,24 +51,52 @@ const swal = async () => {
     }    
 }
 
-/* messageBox.addEventListener('keyup', (e) => {
-    e.preventDefault();
-    if(e.key === 'Enter) {
-        if(mailBox.value.trim().lenght > 0){
-            socket.emit('message', {user, mail: mailBox.value, message: messageBox.value});
-            messageBox.value = "";
-        } 
-    }
-}) */
-
 socket.on('messageLogs', (data) => {
-    /* let messages = "";
-    
-    data.forEach(message => {
-        messages = messages + `<b>${message.user}:</b> ${message.message} by ${message.mail}</br>`
-    });  
-    messageLogs.innerHTML = messages; */
     showMessages(data);
 })
 
 swal();
+
+//**************************************************//************************************************/
+/*
+const formProducts = document.getElementById('formProducts');
+const title = document.getElementById('title');
+const description = document.getElementById('description');
+const code = document.getElementById('code');
+const price = document.getElementById('price');
+const stock = document.getElementById('stock');
+const category = document.getElementById('category');
+const productList = document.getElementById('productList');
+
+
+function showProducts(data){
+    const li = document.createElement('li');
+    li.innerHTML = `<p><strong>${data.title}</strong>: ${data.description}, ${data.code} </p>`;
+    productList.appendChild(li);
+}  
+
+formProducts.addEventListener('submit', (e) => {
+    e.preventDefault();
+        if(title.value.trim().length > 0){
+            socket.emit('newProduct', {
+                title: title.value, 
+                description: description.value, 
+                code: code.value,
+                price: price.value,
+                stock: stock.value,
+                category: category.value
+            });
+            title.value = "";
+            description.value = "";
+            code.value = "";
+            price.value = "";
+            stock.value = "";
+            category.value = "";
+            title.focus();
+       } 
+})
+
+socket.on('productsLog', (data) => {
+    showProducts(data);
+})
+*/
