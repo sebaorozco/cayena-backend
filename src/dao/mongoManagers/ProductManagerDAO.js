@@ -29,6 +29,15 @@ class ProductManagerDAO {
         return result;
     }
 
+    //OBTENGO UN PRODUCTO POR CATEGORY
+    static async getProducstByCategory(options, cat) {
+        const result = await ProductsModel.paginate({ category: cat }, options)
+        if (!result) {
+          return "Producto no encontrado.";
+        }
+        return result;
+    }
+
     //MODIFICO UN PRODUCTO POR ID
     static async updateProductById(pid, updateProductInfo) {
         try {

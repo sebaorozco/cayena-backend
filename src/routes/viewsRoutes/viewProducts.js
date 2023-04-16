@@ -37,7 +37,7 @@ router.get('/category/:cat', async (req, res) => {
         if(sort){
             options.sort = { price: sort }
         }
-        const result = await ProductManagerDAO.getProductsByCategory(options, cat)
+        const result = await ProductManagerDAO.getProducstByCategory(options, cat)
         res.status(201).render('productsByCategory', commonsUtils.buildResponse({...result, sort, cat}));
     } catch (error) {
         res.json({ error: error.message });

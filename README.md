@@ -32,7 +32,7 @@ El proyecto fue desarrollado utilizando lo siguiente:
 - /chat se abre el chat en tiempo real utilizando websockets. Los mensajes se almacenan en la BD de MOngo de nombre ecommerce. Colección "messages"
 
 ## Postman Collection
-En la raíz del proyecto encontrarán el archivo primeraPracticaIntegradora.json que les permitirá probar desde postman los endpoint del servicio.
+En la raíz del proyecto encontrarán el archivo segunaPreEntregaProyecto.json que les permitirá probar desde postman los endpoint del servicio.
 
 ## Ejecutar el proyecto en Producción
 Para ejecutar el proyecto de manera local se puede hacer con:
