@@ -9,44 +9,77 @@
 html {
     font-size: 62.5%; 
 } 
-
-@font-face {
-    font-family: "Roboto";
-    src: url("../../utils/fonts/RobotoFlex-Regular.ttf"); 
-}
-
+    
 body {
     background-color: greenyellow;
-    font-family: "Roboto";
 } 
 
 h1 {
-    font-size: 3rem;
+    margin: 2rem;
+    font-size: 4rem;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-align: center;
 }
 
 h2,p {
     font-size: 1.5rem;
 }
 
-#formProducts {
+/*** Formulario Login ***/
+.form__login {
+   text-align: center;
+}
+
+#correo, #password {
+    font-size: 2rem;
+    margin: 0.5rem;
+}
+
+.link__password, .link__register {
+    font-size: 2rem;
+    margin: 2rem;
+    display: inline-block;
+}
+
+.login__button {
+    margin: 1rem;
     font-size: 2rem;
 }
 
-.prod__h1, .cart__h1 {
-    font-size: 3rem;
+/*** Formulario Registro ***/
+.form__register {
     text-align: center;
-    font-family: "Roboto";
+}
+ 
+.form__register input {
+    font-size: 2rem;
+    margin: 0.5rem;
+    display: block; 
+    margin: 1rem auto;
+}
+ 
+.link__login {
+     font-size: 2rem;
+     margin: 2rem;
+     display: inline-block;
+}
+ 
+.register__button {
+    margin: 1rem;
+    font-size: 2rem;
 }
 
-.table__products {
+/*** Profile ***/
+.profile p {
     text-align: center;
-    font-size: 2rem;
-    font-family: "Roboto";
-}
-
-.table__header {
-    text-align: center;
-    font-size: 2rem;
-    font-family: "Roboto";
     font-weight: bold;
-} 
+    font-size: 2rem;
+    margin: 1rem;
+}
+
+
+.logout__button, .products__button{
+    margin: 1rem;
+    font-size: 2rem;
+    text-align: center;
+}

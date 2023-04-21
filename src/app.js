@@ -7,6 +7,8 @@ import { dbConnect } from './db/mongodb.js';
 import router from './routes/index.js';
 import { MessagesModel } from './dao/models/message.model.js';
 //import ProductManager from './dao/fsManagers/ProductManager.js';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 // Instanciar constantes
 const app = express();
@@ -16,6 +18,17 @@ const PORT = 8080;
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+// Configuro Session como middleware para nuestro servidor express
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl: "mongodb+srv://sebaorozco:nilito21@clustercayena.r7yll3r.mongodb.net/ecommerce",
+        mongoOptions: {},
+        ttl: 120
+    }),
+    secret: 'secretCayena',
+    resave: false,
+    saveUninitialized: false
+}))
 
 // ****** Configuración de Handlebars ********** //
 // Inicializamos el motor

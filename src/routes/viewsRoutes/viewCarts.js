@@ -7,7 +7,7 @@ router.get('/:cid', async (req, res) => {
   try {
     const { cid } = req.params;
 
-    const cart = await CartsModel.findById(cid).populate('products.product_id'); //.lean();
+    const cart = await CartsModel.findById(cid).populate('products.product_id');
 
     if (!cart) {
       throw new Error(`CART ${id} NOT FOUND`);
