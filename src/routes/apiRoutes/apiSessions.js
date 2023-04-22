@@ -31,38 +31,37 @@ router.post('/register', async (req, res) => {
 
 // LOGIN DE USUARIO
 router.post('/login', async (req, res) => {
-    try {
-        const {email, password} = req.body;
-        const userInfo = {
-            email,
-            password
-        }
-        
-        if(!email || !password){
-            return res.render('login', { error: 'Debe completar todos los campos!'})
-        }
-        const newUser = await UsersModel.findOne( email );
-        
-        if(!newUser){
-            res.render('login', { message: 'Email o password inválido', metadata: error });
-        }
+  
+    const {email, password} = req.body;
 
-        if(newUser.password !== password){
-            res.render('login', { message: 'Email o password inválido', metadata: error });
-        }
-        
-        req.session.user = newUser;
-        
-        if (newUser.email === 'adminCoder@coder.com' && newUser.password === 'adminCod3r123') {
-            newUser.role = 'admin'
-            await newUser.save()
-        }
-        
-        res.status(200).redirect('/profile');
-        
-    } catch (error) {
-        res.status(400).json({ message: 'Email o password inválido', metadata: error });
+    if(!email || !password){
+        return res.render('login', { error: 'Debe completar todos los campos!'})
     }
+    
+    const newUser = await UsersModel.findOne({ email });
+    
+    if(!newUser){
+        return res.render('login', { error: 'Email no registrado' });
+    }
+
+    if(newUser.password !== password){
+        return res.render('login', { error: 'Password inválido' });
+    }
+    
+    req.session.user = newUser;
+
+    /* if(!req.session.user){
+        req.session.user = newUser;
+    } else if(req.session.user.email = newUser.email) {
+        return res.render('login', { error: 'Usuario ya logueado.' });
+    } */
+
+    if (newUser.email === 'adminCoder@coder.com' && newUser.password === 'adminCod3r123') {
+        newUser.role = 'admin'
+        await newUser.save()
+    }
+    
+    res.status(200).redirect('/profile');
 })
 
 // LOGOUT DE USUARIO
