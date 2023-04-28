@@ -1,67 +1,20 @@
 import { Router } from "express";
 import UserManagerDAO from "../../dao/mongoManagers/UserManagerDAO.js";
 import { UsersModel } from "../../dao/models/user.model.js";
+import passport from "passport";
+import { createHash, validatePassword } from "../../utils/index.js";
 
 const router = Router();
 
 // REGISTRO DE USUARIO
-router.post('/register', async (req, res) => {
-
-    const {first_name, last_name, email, age, password} = req.body;
-      
-    if(!first_name || !last_name || !email || !age || !password){
-        return res.status(400).render('register', { message: 'Debe completar todos los campos!'})
-    }
-
-    try {
-        const userInfo = {
-            first_name,
-            last_name,
-            email,
-            age,
-            password
-        }
-        const newUser = await UserManagerDAO.createUser(userInfo);
-        res.status(201).redirect('/login');   
-    } catch (error) {
-        res.status(400).render('register', { message: 'El correo ya existe.', metadata: error });
-    }
- 
+router.post('/register', passport.authenticate('register', { failureRedirect: '/register'}), (req, res) => {
+    res.redirect('/login');
 })
 
 // LOGIN DE USUARIO
-router.post('/login', async (req, res) => {
-  
-    const {email, password} = req.body;
-
-    if(!email || !password){
-        return res.render('login', { error: 'Debe completar todos los campos!'})
-    }
-    
-    const newUser = await UsersModel.findOne({ email });
-    
-    if(!newUser){
-        return res.render('login', { error: 'Email no registrado' });
-    }
-
-    if(newUser.password !== password){
-        return res.render('login', { error: 'Password inválido' });
-    }
-    
-    req.session.user = newUser;
-
-    /* if(!req.session.user){
-        req.session.user = newUser;
-    } else if(req.session.user.email = newUser.email) {
-        return res.render('login', { error: 'Usuario ya logueado.' });
-    } */
-
-    if (newUser.email === 'adminCoder@coder.com' && newUser.password === 'adminCod3r123') {
-        newUser.role = 'admin'
-        await newUser.save()
-    }
-    
-    res.status(200).redirect('/profile');
+router.post('/login', passport.authenticate('login', { failureRedirect: '/login'}), (req, res) => {
+    req.session.user = req.user;
+    res.redirect('/profile');
 })
 
 // LOGOUT DE USUARIO
@@ -74,5 +27,36 @@ router.get('/logout', (req, res) => {
         }
     })
 })
+
+// RESET PASSWORD
+router.post('/reset-password', async (req, res) => {
+    const {email, password} = req.body;
+
+    if(!email || !password){
+        return res.render('reset-password', { error: 'Debe completar todos los campos!'})
+    }
+    
+    const newUser = await UsersModel.findOne({ email });
+    
+    if(!newUser){
+        return res.render('reset-password', { error: 'Email o password inválido' });
+    }
+
+    newUser.password = createHash(password);
+
+    await UsersModel.updateOne({ email }, newUser);
+    
+    res.redirect('/login');
+})
+
+
+// LOGIN POR GITHUB
+router.get('/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
+    // Successful authentication, redirect profile.
+    console.log('req.user', req.user);
+    req.session.user = req.user;
+    res.redirect('/profile');
+  });
+
 
 export default router;

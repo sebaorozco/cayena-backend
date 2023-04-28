@@ -4,14 +4,12 @@ class UserManagerDAO {
     
     //CREO UN USER 
     static async createUser(userInfo) {
-        try {
-             return await UsersModel.create(userInfo)
-        } catch (error) {
-            return error.message;
-        }
+    
+        return await UsersModel.create(userInfo);
+        
     }
-
-  /*   //BUSCO UN USUARIO EN LA DB
+/*
+    //BUSCO UN USUARIO EN LA DB
     static async getAnUser(email) {
         try {
             return await UsersModel.findOne({ email });
@@ -70,13 +68,14 @@ class UserManagerDAO {
         }
     }
 
-    //ELIMINO UN PRODUCTO POR ID
-    static async deleteProductById(pid) {
-        const result = await ProductsModel.findById(pid);
+    //ELIMINO UN USUARIO POR MAIL
+    static async deleteUserByEmail({email}) {
+        const result = await UsersModel.findOne({email});
         if(!result){
-            return res.status(404).json("No se puede eliminar un Producto inexistente.")
+            return "Usuario inexistente.";
         }
-        return await ProductsModel.deleteOne({ _id: pid });
+        return await UsersModel.deleteOne({ email });
+        
     }
 
     //ELIMINO TODOS LOS PRODUCTOS

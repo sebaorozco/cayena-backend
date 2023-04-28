@@ -9,6 +9,8 @@ import { MessagesModel } from './dao/models/message.model.js';
 //import ProductManager from './dao/fsManagers/ProductManager.js';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import initPassport from './config/passport.config.js';
+import passport from 'passport';
 
 // Instanciar constantes
 const app = express();
@@ -29,6 +31,13 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
+
+// Inicializo Passport - Estrategia de Autenticación
+initPassport();
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // ****** Configuración de Handlebars ********** //
 // Inicializamos el motor

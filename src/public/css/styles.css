@@ -25,6 +25,11 @@ h2,p {
     font-size: 1.5rem;
 }
 
+.error__message{
+    text-align: center;
+    font-weight: bold;
+}
+
 /*** Formulario Login ***/
 .form__login {
    text-align: center;
@@ -44,6 +49,46 @@ h2,p {
 .login__button {
     margin: 1rem;
     font-size: 2rem;
+}
+
+/* Login por Terceros */
+
+.login__span {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.registerExternal {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 1rem;
+}
+
+.registerExternal, .iconsRegister {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.registerExternal .iconsRegister .iconRegister {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.registerExternal .iconsRegister .iconRegister svg {
+    transition: 0.2s ease-in-out;
+    filter: grayscale(100%);
+}
+
+.registerExternal .iconsRegister .iconRegister svg:hover {
+    transform: scale(1.05);
+    filter: grayscale(0%);
 }
 
 /*** Formulario Registro ***/
@@ -80,5 +125,11 @@ h2,p {
 .logout__button, .products__button{
     margin: 1rem;
     font-size: 2rem;
+    text-align: center;
+}
+
+
+/*** Formulario Reset password ***/
+.form__reset__password {
     text-align: center;
 }
