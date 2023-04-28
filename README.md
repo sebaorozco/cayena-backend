@@ -14,6 +14,8 @@ El proyecto fue desarrollado utilizando lo siguiente:
 - ExpressJS.
 - Handlebars.
 - Mongoose.
+- bcrypt
+- Passport
 
 ## Módulos
 
@@ -22,6 +24,8 @@ El proyecto fue desarrollado utilizando lo siguiente:
 - Modelos.
 - DAO's.
 - Controladores.
+- Hasheo de contraseñas
+- Autenticación y Autorización
 
 ## Rutas
 
