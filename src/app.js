@@ -11,6 +11,7 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import initPassport from './config/passport.config.js';
 import passport from 'passport';
+import cookieParser from 'cookie-parser';
 
 // Instanciar constantes
 const app = express();
@@ -19,6 +20,8 @@ const PORT = 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(cookieParser());
+/*
 
 // Configuro Session como middleware para nuestro servidor express
 app.use(session({
@@ -31,12 +34,13 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
+*/
 
 // Inicializo Passport - Estrategia de Autenticación
 initPassport();
 
 app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.session());
 
 
 // ****** Configuración de Handlebars ********** //

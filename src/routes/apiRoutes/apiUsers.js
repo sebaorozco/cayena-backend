@@ -23,5 +23,21 @@ router.delete('/delete', async (req, res) => {
     }
 });
 
+// AGREGA UN CARRITO A UN USER ESPECÍFICO, TOMANDO EL EMAIL DEL USUARIO DESDE EL BODY
+router.put('/:email', async (req, res) => {
+    try {
+        const { email } = req.params;
+        const { cid } = req.body;
+
+        const user = await UsersModel.findOne({ email: email })
+        user.cart = cid;
+        
+        const response = await UsersModel.updateOne({ email: email }, user);
+        res.json({response});
+    } catch (error) {
+        res.json({ error });
+    }
+}) 
+
 
 export default router;
