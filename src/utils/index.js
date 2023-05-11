@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import jsonwebtoken from 'jsonwebtoken';
 import passport from 'passport';
+import Exception from './exception.js';
 
 const JWT_SECRET = "sshhhhhhh"
 
@@ -47,10 +48,13 @@ export const isValidToken = (token) => {
 export const authMiddleware = (strategy) => (req, res, next) => {
     passport.authenticate(strategy, function (error, user, info){
         if (error) {
-            return next(error)
+            return next(error);
         }
         if (!user) {
-            return res.status(401).json({ success: false, message: info.message ? info.message : info.toString() })
+            return next(new Exception('Unauthorized', 401));
+        }
+        if (user.role === 'user' && req.params.id !== user.id){
+            return next(new Exception('Forbidden', 403));
         }
         req.user = user;
         next();

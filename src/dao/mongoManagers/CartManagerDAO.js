@@ -24,7 +24,7 @@ class CartManagerDAO {
         res.status(200).json(result);
     }
 
-    //AGREGO UN PRODUCTO EN UN CARRITO EN ESPECIFICO: PASA POR PARAMS SOLO EL PID Y CID
+    //AGREGO UN PRODUCTO EN UN CARRITO EN ESPECIFICO: PASA POR PARAMS EL PID Y CID
     static async addProductToCart(req, res) {
         const { pid, cid } = req.params;
         try {
@@ -44,6 +44,22 @@ class CartManagerDAO {
         } catch (error) {
             console.log(error);
             return res.status(500).json({ message: "SERVER ERROR" });
+        }
+    }
+
+    //AGREGO UN PRODUCTO EN UN CARRITO EN ESPECIFICO: PASA POR PARAMS EL PID Y CID
+    static async addProductToCartFromBody(req, res) {
+        try {
+            const { cid } = req.params;
+            const { product_id } = req.body;
+            
+            const cart = await CartsModel.findOne({ _id: cid });
+            cart.products.push({ product_id });
+            
+            const response = await CartsModel.updateOne({ _id: cid }, cart);
+            res.json({response});
+        } catch (error) {
+            res.json({ error });
         }
     }
 

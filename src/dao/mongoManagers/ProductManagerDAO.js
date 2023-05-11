@@ -3,16 +3,27 @@ import { ProductsModel } from "../models/product.model.js";
 class ProductManagerDAO {
     
     //CREO UN PRODUCTO 
-    static async createProduct(productInfo) {
+    static async createProduct(req, res) {
         try {
-             return await ProductsModel.create(productInfo)
+            const {title, description, code, price, stock, category} = req.body;
+            const productInfo = {
+                title,
+                description,
+                code,
+                price,
+                stock,
+                category,
+                thumbnails: req.file.filename
+            }
+            const newProduct = await ProductsModel.create(productInfo);
+            res.status(201).json({message: newProduct});   
         } catch (error) {
-            return error.message;
+            res.json({ error: error.message });
         }
     }
 
-    //OBTENGO LOS PRODUCTOS CON FILTROS EN PARAMS
-    static async getAllProducts(options) {
+    //OBTENGO TODOS LOS PRODUCTOS CON FILTROS EN PARAMS
+    static async getAllProducts(req, res, options) {
         try {
             return await ProductsModel.paginate({}, options);
         } catch (error) {

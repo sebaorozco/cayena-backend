@@ -23,7 +23,7 @@ router.delete('/delete', async (req, res) => {
     }
 });
 
-// AGREGA UN CARRITO A UN USER ESPECÍFICO, TOMANDO EL EMAIL DEL USUARIO DESDE EL BODY
+// AGREGA UN CARRITO A UN USER ESPECÍFICO, TOMANDO EL EMAIL DEL USUARIO 
 router.put('/:email', async (req, res) => {
     try {
         const { email } = req.params;

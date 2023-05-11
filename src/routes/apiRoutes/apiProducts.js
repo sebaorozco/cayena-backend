@@ -9,28 +9,9 @@ import { ProductsModel } from "../../dao/models/product.model.js";
 const router = Router();
 
 //CREATE
-
-router.post('/', uploader.single('image'),async (req, res) => {
-    try {
-        const {title, description, code, price, stock, category} = req.body;
-        const productInfo = {
-            title,
-            description,
-            code,
-            price,
-            stock,
-            category,
-            thumbnails: req.file.filename
-        }
-        const newProduct = await ProductManagerDAO.createProduct(productInfo);
-        res.status(201).json({message: newProduct});   
-    } catch (error) {
-        res.json({ error: error.message });
-    }
-})
+router.post('/',  uploader.single('image'), (req, res) => {ProductManagerDAO.createProduct(req, res)});
 
 // READ
-
 router.get('/', async (req, res) => {
     try {
         const {query: {limit= 10, page= 1, sort}} = req;

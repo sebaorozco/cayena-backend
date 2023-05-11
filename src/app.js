@@ -1,4 +1,5 @@
 // Importar nuestras dependencias
+import config from './config/index.js';
 import express from 'express';
 import { engine } from 'express-handlebars';
 import __dirname from './utils.js';
@@ -14,27 +15,13 @@ import passport from 'passport';
 import cookieParser from 'cookie-parser';
 
 // Instanciar constantes
+const PORT = config.port;
 const app = express();
-const PORT = 8080;
 //const product = new ProductManager;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
-/*
-
-// Configuro Session como middleware para nuestro servidor express
-app.use(session({
-    store: MongoStore.create({
-        mongoUrl: "mongodb+srv://sebaorozco:nilito21@clustercayena.r7yll3r.mongodb.net/ecommerce",
-        mongoOptions: {},
-        ttl: 120
-    }),
-    secret: 'secretCayena',
-    resave: false,
-    saveUninitialized: false
-}))
-*/
 
 // Inicializo Passport - Estrategia de Autenticación
 initPassport();
@@ -68,7 +55,7 @@ dbConnect();
 
 // Creo el servidor HTTP
 const httpServer = app.listen(PORT, () => {
-    console.log(`Server running at port: ${PORT}`);
+    console.log(`Server running in: http://localhost:${PORT}/`);
 });  //Server Http
 
 // Creamos el servidor para sockets viviendo dentro de nuestro servidor principal
@@ -99,7 +86,17 @@ io.on('connection', socket => {
 
 export const emit = (mensaje) => {
     io.emit('messageLogs', mensaje)
-  }
+}
+
+app.use((err, req, res, next) => {
+    /* console.error(err) */
+    res 
+      .status(err.statusCode || 500)
+      .json({ success: false, message: err.message })
+})
+
+
+
 /*
 *************** Para saber: ***************
 express     =>  http        => API's
