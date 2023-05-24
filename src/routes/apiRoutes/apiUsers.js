@@ -1,43 +1,35 @@
 import { Router } from "express";
-import UserManagerDAO from "../../dao/mongoManagers/UserManagerDAO.js";
-import { UsersModel } from "../../dao/models/user.model.js";
+import { addCartToUser, createUser, deleteUserByEmail, getUsers, loginUser, logoutUser, resetPassword } from "../../controllers/controller.users.js";
+import passport from "passport";
+import { authMiddleware, authorizationMiddleware } from "../../utils/index.js";
+
 
 const router = Router();
 
+// REGISTRO DE USARIO
+router.post('/register', createUser)
 
 // OBTENER USUARIOS
-router.get('/', UserManagerDAO.getUsers);
+router.get('/', getUsers);
 
 // ELIMINAR USUARIOS
-router.delete('/delete', async (req, res) => {
-    try {
-        const { email } = req.body;
-        const result = await UsersModel.findOne({ email })
-        if(!result){
-            res.status(404).json({ message: "USER NOT FOUND" });
-        }
-        await UsersModel.deleteOne({email});
-        return res.status(200).json({ message: "USER DELETED" });
-    } catch (error) {
-        return error;
-    }
-});
+router.delete('/delete', deleteUserByEmail);
 
-// AGREGA UN CARRITO A UN USER ESPECÍFICO, TOMANDO EL EMAIL DEL USUARIO 
-router.put('/:email', async (req, res) => {
-    try {
-        const { email } = req.params;
-        const { cid } = req.body;
+// AGREGA UN CARRITO A UN USER ESPECÍFICO 
+router.put('/:email', addCartToUser); 
 
-        const user = await UsersModel.findOne({ email: email })
-        user.cart = cid;
-        
-        const response = await UsersModel.updateOne({ email: email }, user);
-        res.json({response});
-    } catch (error) {
-        res.json({ error });
-    }
-}) 
+// LOGIN USER
+router.post('/login', loginUser);
 
+// LOGOUT USER
+router.post('/logout', logoutUser);
+
+//RESET PASSWORD
+router.post('reset-password', resetPassword);
+
+// RUTA PRIVADA
+router.get('/current', authMiddleware('jwt'), authorizationMiddleware('user'), (req, res) => {
+    res.json({ success: true, message: 'This is the current user:', user: req.user })
+})
 
 export default router;

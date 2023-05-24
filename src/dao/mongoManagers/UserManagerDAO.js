@@ -1,70 +1,26 @@
 import { UsersModel } from "../models/user.model.js";
+import UserDTO from "../../dto/UsersDTO.js";
 
 class UserManagerDAO {
     
     //CREO UN USER 
     static async createUser(userInfo) {
-    
         return await UsersModel.create(userInfo);
-        
     }
-/*
-    //BUSCO UN USUARIO EN LA DB
-    static async getAnUser(email) {
-        try {
-            return await UsersModel.findOne({ email });
-        } catch (error) {
-            return error;
-        }
-    } */
 
     //OBTENGO TODOS LOS USUARIOS
     static async getUsers(req, res) {
         const result = await UsersModel.find();
-        res.status(200).json(result);
-    }
-
-    
-    
-  /*  
-    //OBTENGO USUARIOS CON FILTROS EN PARAMS
-    static async getAllProducts(options) {
-        try {
-            return await ProductsModel.paginate({}, options);
-        } catch (error) {
-            console.log("Cannot get products with mongoose: "+ error);
-        }
-    }
-
-    //OBTENGO UN PRODUCTO POR ID
-    static async getProductById(pid) {
-        const result = await ProductsModel.findById(pid)
-        if (!result) {
-          return "Producto no encontrado.";
-        }
         return result;
     }
 
-    //OBTENGO UN PRODUCTO POR CATEGORY
-    static async getProducstByCategory(options, cat) {
-        const result = await ProductsModel.paginate({ category: cat }, options)
-        if (!result) {
-          return "Producto no encontrado.";
-        }
-        return result;
-    }
-
-    //MODIFICO UN PRODUCTO POR ID
-    static async updateProductById(pid, updateProductInfo) {
+    //OBTENGO UN USUARIO POR EMAIL
+    static async getUserByEmail ({email}) {
         try {
-            const result = await ProductsModel.findById(pid);
-            if(result){
-                await ProductsModel.updateOne({ _id: pid }, updateProductInfo);
-                const data = await ProductsModel.findById(pid);    
-                return data;
-            }
+            const user = await UsersModel.findOne({ email: email })
+            return user;
         } catch (error) {
-            return error
+            return "Usuario inexistente.";;
         }
     }
 
@@ -74,18 +30,48 @@ class UserManagerDAO {
         if(!result){
             return "Usuario inexistente.";
         }
-        return await UsersModel.deleteOne({ email });
-        
+        return await UsersModel.deleteOne({ email });  
     }
 
-    //ELIMINO TODOS LOS PRODUCTOS
-    static async deleteAllProducts() {
+    //AGREGO CARRITO A UN USUARIO
+    static async addCartToUser (req, res) {
         try {
-            await ProductsModel.deleteMany();
+            const { email } = req.params;
+            const { cid } = req.body;
+    
+            const user = await UsersModel.findOne({ email: email })
+            user.cart = cid;
+            
+            const response = await UsersModel.updateOne({ email: email }, user);
+            return response;
         } catch (error) {
-            console.log(error);
+            return 'Error';
         }
-    }*/
+    }
+
+    // LOGIN DE USARIO
+    static async loginUser (req, res) {
+        const { body: { email, password } } = req
+        const user = await UsersModel.findOne({ email })
+        if(!user) {
+            return res.status(401).json({ success: false, message: 'Email or password is incorrect.' })
+        }
+        if(!validatePassword(password, user)) {
+            return res.status(401).json({ success: false, message: 'Email or password is incorrect.' })
+        }
+        const token = tokenGenerator(user)
+        
+        res.cookie('token', token, {
+            maxAge: 60 * 60 * 1000,
+            httpOnly: true
+        }).status(200).json({ success: true})
+    }
+
+
+    // LOGOUT DE USARIO
+    static async logoutUser (req, res) {
+        res.clearCookie('token').status(200).json({ success: true })
+    }
 }
     
 export default UserManagerDAO;

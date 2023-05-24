@@ -89,7 +89,7 @@ export const emit = (mensaje) => {
 }
 
 app.use((err, req, res, next) => {
-    /* console.error(err) */
+    console.error('Error Middleware', err)
     res 
       .status(err.statusCode || 500)
       .json({ success: false, message: err.message })

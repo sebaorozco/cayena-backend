@@ -12,15 +12,15 @@ import jwtApiRoutes from './apiRoutes/apiJWT.js';
 const router = app => {
     // Rutas o endpoints
     app.use('/home', homeController);
+    app.use('/chat', chatController); 
     app.use('/api/carts', cartsApiRoutes);
     app.use('/api/products', productsApiRoutes);
-    app.use('/api/sessions', sessionsApiRoutes)
     app.use('/api/users', usersApiRoutes)
-    app.use('/api', jwtApiRoutes);
+    //app.use('/api', jwtApiRoutes);
+    //app.use('/api/sessions', sessionsApiRoutes)
+    //app.use('/', sessionsViewRoutes)
     app.use('/carts', cartsViewRoutes);
     app.use('/products', productsViewRoutes);
-    app.use('/', sessionsViewRoutes)
-    app.use('/chat', chatController); 
     //app.use('/private', jwtApiRoutes);
 }
 

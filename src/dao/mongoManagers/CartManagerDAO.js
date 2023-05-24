@@ -25,7 +25,7 @@ class CartManagerDAO {
     }
 
     //AGREGO UN PRODUCTO EN UN CARRITO EN ESPECIFICO: PASA POR PARAMS EL PID Y CID
-    static async addProductToCart(req, res) {
+    static async addProductToCartFromParams(req, res) {
         const { pid, cid } = req.params;
         try {
             let cart = await CartsModel.findById(cid).populate('products.product_id')

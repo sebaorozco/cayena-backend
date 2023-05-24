@@ -13,11 +13,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['admin', 'user'],
         default: 'user',
-      },
+    },
     cart: {
         type: mongoose.Schema.Types.ObjectId, 
         ref: "carts",
         require: true
+    },
+    ticket: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "tickets"
     } 
 }, { timestamps: true })
 

@@ -3,22 +3,11 @@ import { ProductsModel } from "../models/product.model.js";
 class ProductManagerDAO {
     
     //CREO UN PRODUCTO 
-    static async createProduct(req, res) {
+    static async createProduct(prod) {
         try {
-            const {title, description, code, price, stock, category} = req.body;
-            const productInfo = {
-                title,
-                description,
-                code,
-                price,
-                stock,
-                category,
-                thumbnails: req.file.filename
-            }
-            const newProduct = await ProductsModel.create(productInfo);
-            res.status(201).json({message: newProduct});   
+            return await ProductsModel.create(prod);    
         } catch (error) {
-            res.json({ error: error.message });
+            return({ error: error.message });
         }
     }
 
@@ -41,8 +30,9 @@ class ProductManagerDAO {
     }
 
     //OBTENGO UN PRODUCTO POR CATEGORY
-    static async getProducstByCategory(options, cat) {
-        const result = await ProductsModel.paginate({ category: cat }, options)
+    static async getProducstByCategory({ category: cat }) {
+        const result = await ProductsModel.find({ category: cat })
+        
         if (!result) {
           return "Producto no encontrado.";
         }
@@ -67,7 +57,7 @@ class ProductManagerDAO {
     static async deleteProductById(pid) {
         const result = await ProductsModel.findById(pid);
         if(!result){
-            return res.status(404).json("No se puede eliminar un Producto inexistente.")
+            return "No se puede eliminar un Producto inexistente.";
         }
         return await ProductsModel.deleteOne({ _id: pid });
     }

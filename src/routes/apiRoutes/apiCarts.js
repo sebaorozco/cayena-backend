@@ -1,25 +1,30 @@
 import { Router } from "express";
-import CartManagerDAO from "../../dao/mongoManagers/CartManagerDAO.js";
+import { addProductToCartFromBody, addProductToCartFromParams, createCart, deleteCartById, getCartById, getCarts, purchase, removeProductFromCart } from "../../controllers/controller.carts.js";
 
 const router = Router();
 
 //CREATE
-router.post('/', CartManagerDAO.createCart);
+router.post('/', createCart);
 
-// READ
-router.get('/', CartManagerDAO.getCarts);
-router.get('/:cid', CartManagerDAO.getCartById);
+// OBTENGO CARRITOS
+router.get('/', getCarts);
+
+// OBTENGO CARRITO POR ID
+router.get('/:cid', getCartById);
+
+// FINALIZAR LA COMPRA
+router.put('/:cid/purchase', purchase);
 
 // AGREGO UN PRODUCTO EN UN CARRITO EN ESPECIFICO: PASA POR PARAMS SOLO EL PID Y CID
-router.put('/:cid/products/:pid', CartManagerDAO.addProductToCart);
+router.put('/:cid/products/:pid', addProductToCartFromParams);
 
 // AGREGA UN PRODUCTO A UN CARRITO ESPECÍFICO, TOMANDO EL id DEL PRODUCTO DESDE EL BODY
-router.put('/:cid', CartManagerDAO.addProductToCartFromBody);
+router.put('/:cid', addProductToCartFromBody);
 
 // ELIMINA UN PRODUCTO ESPECÍCO DE UN CARRITO
-router.delete('/:cid/products/:pid', CartManagerDAO.removeProductFromCart);
+router.delete('/:cid/products/:pid', removeProductFromCart);
 
 // ELIMINA UN CARRITO POR ID
-router.delete('/:cid', CartManagerDAO.deleteCartById)
+router.delete('/:cid', deleteCartById);
 
 export default router;

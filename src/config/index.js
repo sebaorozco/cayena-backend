@@ -16,5 +16,6 @@ export default {
         github_clientSecret: process.env.GITHUB_CLIENT_SECRET,
         github_callbackURL: process.env.GITHUB_CALLBACK,
         JWT_secretOrKey: process.env.JWT_SECRET
-    }
+    },
+    persistenceType: process.env.PERSISTENCE_TYPE || 'memory'
 }

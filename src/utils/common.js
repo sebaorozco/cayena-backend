@@ -24,4 +24,4 @@ class commonsUtils {
 }
 //
 
-export default commonsUtils
+export default commonsUtils;
