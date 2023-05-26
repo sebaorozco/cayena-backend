@@ -28,9 +28,9 @@ export const getProductById = async (req, res) => {
 
 export const getProductsByCategory = async (req, res) => {
     try {
-        const { cat } = req.params;
-        const result = await ProductManagerDAO.getProducstByCategory({category: cat});
-        res.status(201).json({payload: result});
+        const { params: { cat } } = req;
+        const category = await ProductManagerDAO.getProducstByCategory({category: cat});
+        res.json({ category });
     } catch (error) {
         res.json({ error: error.message });
     }

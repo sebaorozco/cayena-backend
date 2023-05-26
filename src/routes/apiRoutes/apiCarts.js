@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addProductToCartFromBody, addProductToCartFromParams, createCart, deleteCartById, getCartById, getCarts, purchase, removeProductFromCart } from "../../controllers/controller.carts.js";
+import { addProductToCartFromParams, createCart, deleteCartById, getCartById, getCarts, purchase, removeProductFromCart } from "../../controllers/controller.carts.js";
 
 const router = Router();
 
@@ -19,7 +19,7 @@ router.put('/:cid/purchase', purchase);
 router.put('/:cid/products/:pid', addProductToCartFromParams);
 
 // AGREGA UN PRODUCTO A UN CARRITO ESPECÍFICO, TOMANDO EL id DEL PRODUCTO DESDE EL BODY
-router.put('/:cid', addProductToCartFromBody);
+//router.put('/:cid', addProductToCartFromBody);
 
 // ELIMINA UN PRODUCTO ESPECÍCO DE UN CARRITO
 router.delete('/:cid/products/:pid', removeProductFromCart);

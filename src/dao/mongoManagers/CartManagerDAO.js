@@ -2,35 +2,32 @@ import { CartsModel } from "../models/cart.model.js"
 
 class CartManagerDAO {
     //CREO EL CARRITO
-    static async createCart(req, res) {
-        const { body } = req;
-        const result = await CartsModel.create(body);
-        res.status(201).json(result);
+    static async createCart(body) {
+        return await CartsModel.create(body);
     }
     
     //LLAMO A TODOS LOS CARRITOS
-    static async getCarts(req, res) {
+    static async getCarts() {
         const result = await CartsModel.find();
-        res.status(200).json(result);
+        return result;
     }
 
     //OBTENGO UN CARRITO POR SU ID
-    static async getCartById(req, res) {
-        const { params: { cid } } = req;
+    static async getCartById(cid) {
         const result = await CartsModel.findById(cid);
         if (!result) {
-            return res.status(404).end()
+            return "Cart not found."
         }
-        res.status(200).json(result);
+        return result;
     }
 
     //AGREGO UN PRODUCTO EN UN CARRITO EN ESPECIFICO: PASA POR PARAMS EL PID Y CID
-    static async addProductToCartFromParams(req, res) {
-        const { pid, cid } = req.params;
+    static async addProductToCartFromParams(pid, cid) {
+        
         try {
             let cart = await CartsModel.findById(cid).populate('products.product_id')
             if (!cart) {
-                return res.status(404).json({ message: "Cart not Found" });
+                return "Cart not Found";
             }
             const productIndex = cart.products.findIndex((p) => p.product_id._id.toString() === pid);
             console.log(productIndex)
@@ -39,38 +36,31 @@ class CartManagerDAO {
             } else {
                 cart.products.push({ product_id: pid });
             }
-            await cart.save();
-            return res.status(200).json(cart);
+            return await cart.save();
+            
         } catch (error) {
             console.log(error);
-            return res.status(500).json({ message: "SERVER ERROR" });
+            return { message: "SERVER ERROR" };
         }
     }
 
-    //AGREGO UN PRODUCTO EN UN CARRITO EN ESPECIFICO: PASA POR PARAMS EL PID Y CID
-    static async addProductToCartFromBody(req, res) {
+    //AGREGO UN PRODUCTO EN UN CARRITO EN ESPECIFICO: PASA POR PARAMS EL CID Y POR BODY EL PID
+  /*   static async addProductToCartFromBody(cid, cart) {
         try {
-            const { cid } = req.params;
-            const { product_id } = req.body;
-            
-            const cart = await CartsModel.findOne({ _id: cid });
-            cart.products.push({ product_id });
-            
             const response = await CartsModel.updateOne({ _id: cid }, cart);
-            res.json({response});
+            return response;
         } catch (error) {
-            res.json({ error });
+            return { message: "ERROR" };
         }
-    }
+    } */
 
     //ELIMINO UN PRODUCTO EN UN CARRITO EN ESPECIFICO: PASA POR PARAMS SOLO EL PID Y CID
-    static async removeProductFromCart(req, res) {
-        const { pid, cid } = req.params;
-  
+    static async removeProductFromCart(pid, cid) {
+    
         try {
             const cart = await CartsModel.findById(cid);
             if (!cart) {
-                return res.status(404).json({ message: "CART NOT FOUND" });
+                return { message: "CART NOT FOUND" };
             }
             const productIndex = cart.products.findIndex((p) => p.product_id.toString() === pid);
             if (productIndex >= 0) {
@@ -78,30 +68,29 @@ class CartManagerDAO {
             if (cart.products[productIndex].quantity === 0) {
                 cart.products.splice(productIndex, 1);
             }
-            await cart.save();
-            return res.status(200).json(cart);
+            return await cart.save();
+            
             } else {
-                return res.status(404).json({ message: "PRODUCT NOT FOUND" });
+                return { message: "PRODUCT NOT FOUND" };
             }
         } catch (error) {
             console.log(error);
-            return res.status(500).json({ message: "SERVER ERROR" });
+            return { message: "SERVER ERROR" };
         }
     }
     
     //ELIMINO UN CARRITO POR ID: PASA POR PARAMS CID
-    static async deleteCartById(req, res) {
-        const { cid } = req.params;
+    static async deleteCartById(cid) {
   
         try {
             const result = await CartsModel.findByIdAndDelete(cid);
             if (!result) {
-                return res.status(404).json({ message: "CART NOT FOUND" });
+                return { message: "CART NOT FOUND" };
             }
-            return res.status(200).json({ message: "CART DELETED" });
+            return { message: "CART DELETED" };
         } catch (error) {
             console.log(error);
-            return res.status(500).json({ message: "SERVER ERROR" });
+            return { message: "SERVER ERROR" };
         }
     }
   

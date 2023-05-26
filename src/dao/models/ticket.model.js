@@ -4,8 +4,14 @@ const ticketCollection = 'tickets' //Asi es como se llamará mi colección de ti
 
 const ticketSchema = new mongoose.Schema({
     //Aqui escribo todas las propiedades que tendrá un usuario en mi BD
-    code: String,
-    purchase_datetime: {timestamps: true},
+    code: {
+      type: String,
+      unique: true
+    },
+    purchase_datetime: {
+      type: Date,
+      default: Date.now
+    },
     amount: Number,
     purchaser: { 
         type: String, 

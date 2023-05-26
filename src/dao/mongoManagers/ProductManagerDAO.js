@@ -24,19 +24,19 @@ class ProductManagerDAO {
     static async getProductById(pid) {
         const result = await ProductsModel.findById(pid)
         if (!result) {
-          return "Producto no encontrado.";
+          return "Product not found.";
         }
         return result;
     }
 
     //OBTENGO UN PRODUCTO POR CATEGORY
-    static async getProducstByCategory({ category: cat }) {
-        const result = await ProductsModel.find({ category: cat })
+    static async getProducstByCategory(cat) {
+        const result = await ProductsModel.find(cat)
         
-        if (!result) {
-          return "Producto no encontrado.";
-        }
-        return result;
+        if (result.length == 0) {
+            return "Category not found.";
+          }
+          return result;
     }
 
     //MODIFICO UN PRODUCTO POR ID

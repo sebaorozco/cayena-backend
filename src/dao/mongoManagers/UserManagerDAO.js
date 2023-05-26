@@ -34,14 +34,8 @@ class UserManagerDAO {
     }
 
     //AGREGO CARRITO A UN USUARIO
-    static async addCartToUser (req, res) {
+    static async addCartToUser (email, user) {
         try {
-            const { email } = req.params;
-            const { cid } = req.body;
-    
-            const user = await UsersModel.findOne({ email: email })
-            user.cart = cid;
-            
             const response = await UsersModel.updateOne({ email: email }, user);
             return response;
         } catch (error) {

@@ -32,4 +32,7 @@ router.get('/current', authMiddleware('jwt'), authorizationMiddleware('user'), (
     res.json({ success: true, message: 'This is the current user:', user: req.user })
 })
 
+// LOGIN POR GITHUB
+router.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
+
 export default router;
