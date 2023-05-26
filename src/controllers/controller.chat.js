@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { MessagesModel } from "../dao/models/message.model.js";
-import ChatManagerDAO from "../dao/mongoManagers/ChatManagerDAO.js";
+import { ChatManagerDAO } from "../dao/factory.js";
 
 const router = Router();
 

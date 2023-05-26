@@ -7,59 +7,54 @@ class ProductManagerDAO {
         try {
             return await ProductsModel.create(prod);    
         } catch (error) {
-            return({ error: error.message });
+            return null;
         }
     }
 
     //OBTENGO TODOS LOS PRODUCTOS CON FILTROS EN PARAMS
-    static async getAllProducts(req, res, options) {
+    static async getAllProducts(options) {
         try {
             return await ProductsModel.paginate({}, options);
         } catch (error) {
-            console.log("Cannot get products with mongoose: "+ error);
+            return null;
         }
     }
 
     //OBTENGO UN PRODUCTO POR ID
     static async getProductById(pid) {
-        const result = await ProductsModel.findById(pid)
-        if (!result) {
-          return "Product not found.";
+        try {
+            return await ProductsModel.findById(pid)
+        } catch (error) {
+            return null;
         }
-        return result;
     }
 
     //OBTENGO UN PRODUCTO POR CATEGORY
     static async getProducstByCategory(cat) {
-        const result = await ProductsModel.find(cat)
-        
-        if (result.length == 0) {
-            return "Category not found.";
-          }
-          return result;
+        try {
+            console.log(cat);
+            return await ProductsModel.find({category: cat})
+        } catch (error) {
+            return null;    
+        }  
     }
 
     //MODIFICO UN PRODUCTO POR ID
     static async updateProductById(pid, updateProductInfo) {
         try {
-            const result = await ProductsModel.findById(pid);
-            if(result){
-                await ProductsModel.updateOne({ _id: pid }, updateProductInfo);
-                const data = await ProductsModel.findById(pid);    
-                return data;
-            }
+            return await ProductsModel.updateOne({ _id: pid }, updateProductInfo);
         } catch (error) {
-            return error
+            return null;
         }
     }
 
     //ELIMINO UN PRODUCTO POR ID
     static async deleteProductById(pid) {
-        const result = await ProductsModel.findById(pid);
-        if(!result){
-            return "No se puede eliminar un Producto inexistente.";
+        try {
+            return await ProductsModel.deleteOne({ _id: pid });
+        } catch (error) {
+            return null;
         }
-        return await ProductsModel.deleteOne({ _id: pid });
     }
 
     //ELIMINO TODOS LOS PRODUCTOS

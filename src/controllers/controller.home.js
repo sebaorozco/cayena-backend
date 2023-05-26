@@ -1,8 +1,8 @@
 import { Router } from "express";
-import ProductManager from "../dao/fsManagers/ProductManager.js";
+import { ProductManagerDAO } from "../dao/factory.js";
 
 const router = Router();
-const product = new ProductManager;
+const product = new ProductManagerDAO;
 
 // Enviamos la lista de todos los productos usando Handlebars y FS
 router.get('/', async (req, res) => {

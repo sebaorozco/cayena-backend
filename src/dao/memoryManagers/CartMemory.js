@@ -1,37 +1,37 @@
 // Importo dependencias
 class CartMemory {
     
-    existProduct = async (pid) => {
+    existCart = async (pid) => {
         throw new Error('Not implemented')
     }
 
-    readProducts = async () => {
+    readCarts = async () => {
         throw new Error('Not implemented')
 
     }
 
-    writeProducts = async (product) => {
+    writeCarts = async (product) => {
         throw new Error('Not implemented')
 
     }
     
-    addProducts = async (product) => {
+    addCarts = async (product) => {
         throw new Error('Not implemented')
     }
 
-    getProducts = async () => {
+    getCarts = async () => {
         throw new Error('Not implemented')
     }
 
-    getProductById = async (id) => {
+    getCartById = async (id) => {
         throw new Error('Not implemented')
     }
 
-    deleteProductById = async (id) => {
+    deleteCartById = async (id) => {
         throw new Error('Not implemented')
     }
 
-    updateProductById = async (id, updateData) => {
+    updateCartById = async (id, updateData) => {
         throw new Error('Not implemented')
     }
 }

@@ -1,21 +1,25 @@
-import CartManagerDAO from "../dao/mongoManagers/CartManagerDAO.js"
+import { ProductManagerDAO, CartManagerDAO } from "../dao/factory.js"
+import Exception from "../utils/exception.js";
 
-export const getCarts = async (req, res) => {
+export const getCarts = async (req, res, next) => {
     try {
         const carts = await CartManagerDAO.getCarts();
-        res.send({ status: 'success', carts })
+        res.status(201).json({ status: 'success', carts })
     } catch (error) {
-        res.json({ error: error.message });
+        next(error);
     }
 }
 
-export const getCartById = async (req, res) => {
+export const getCartById = async (req, res, next) => {
     try {
         const { params: { cid } } = req;
         const expectedCart = await CartManagerDAO.getCartById(cid);
+        if (!expectedCart) {
+            throw new Exception('Cart not found', 404);
+        }
         res.json({ expectedCart });
     } catch (error) {
-        res.json({ error: error.message });
+        next(error);
     }
 }
 
@@ -29,33 +33,71 @@ export const createCart = async (req, res) => {
     }
 }
 
-export const addProductToCartFromParams = async (req, res) => {
+export const addProductToCartFromParams = async (req, res, next) => {
     try {
         const { pid, cid } = req.params;
-        await CartManagerDAO.addProductToCartFromParams(pid, cid)
+        const cart = await CartManagerDAO.getCartById(cid);
+        if(!cart){
+            throw new Exception('Cart not found', 404);
+        }
+        const prod = await ProductManagerDAO.getProductById(pid);
+        if(!prod){
+            throw new Exception('Product not found.', 404);
+        }
+        const productIndex = cart.products.findIndex((p) => p.product_id._id.toString() === pid);
+        //console.log(productIndex)
+        if (productIndex >= 0) {
+            cart.products[productIndex].quantity += 1;
+        } else {
+            cart.products.push({ product_id: pid });
+        }
+        await cart.save();
         res.json({success: true, message: "Product added."});
     } catch (error) {
-        res.json({ error: error.message });
+        next(error);
     }
 }
 
-export const removeProductFromCart = async (req, res) => {
+export const removeProductFromCart = async (req, res, next) => {
     try {
         const { pid, cid } = req.params;
-        await CartManagerDAO.removeProductFromCart(pid, cid)
-        res.json({ success: true, message: "Product removed."})
+        const cart = await CartManagerDAO.getCartById(cid);
+        console.log(cart)
+        if(!cart){
+            throw new Exception('Cart not found', 404);
+        }
+        /* const prod = await ProductManagerDAO.getProductById(pid);
+        if(!prod){
+            throw new Exception('Product not found', 404);
+        } */
+        const productIndex = cart.products.findIndex((p) => p.product_id._id.toString() === pid);
+        console.log(productIndex)
+        if (productIndex >= 0) {
+            cart.products[productIndex].quantity -= 1;
+            if (cart.products[productIndex].quantity === 0) {
+                cart.products.splice(productIndex, 1);
+            }
+            await cart.save();
+            res.json({ success: true, message: "Product removed."})
+            } else {
+                throw new Exception('Product not found', 404);
+        }
     } catch (error) {
-        res.json({ error: error.message });
+        next(error);
     }
 }
 
-export const deleteCartById = async (req, res) => {
+export const deleteCartById = async (req, res, next) => {
     try {
         const { cid } = req.params;
+        const expectedCart = await CartManagerDAO.getCartById(cid);
+        if(!expectedCart){
+            throw new Exception('Cart not found', 404);
+        }
         await CartManagerDAO.deleteCartById(cid)
         res.json({ success: true, message: "Cart deleted."})
     } catch (error) {
-        res.json({ error: error.message });
+        next(error);
     }   
 }
 

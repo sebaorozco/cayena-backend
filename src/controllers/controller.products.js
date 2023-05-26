@@ -1,7 +1,8 @@
-import ProductManagerDAO from "../dao/mongoManagers/ProductManagerDAO.js";
+import { ProductManagerDAO } from "../dao/factory.js";
 import commonsUtils from "../utils/common.js";
+import Exception from "../utils/exception.js";
 
-export const getAllProducts = async (req, res) => {
+export const getAllProducts = async (req, res, next) => {
     try {
         const {query: {limit= 10, page= 1, sort}} = req;
         const options = {
@@ -15,28 +16,35 @@ export const getAllProducts = async (req, res) => {
     }
 }
 
-export const getProductById = async (req, res) => {
+export const getProductById = async (req, res, next) => {
     try {
         const { params: { pid } } = req;
         const expectedProduct = await ProductManagerDAO.getProductById({ _id: pid });
+        if(!expectedProduct){
+            throw new Exception('Product not found', 404);
+        }
         res.json({ expectedProduct });
        
     } catch (error) {
-        res.json({ error: error.message });
+        next(error);
     }
 }
 
-export const getProductsByCategory = async (req, res) => {
+export const getProductsByCategory = async (req, res, next) => {
     try {
         const { params: { cat } } = req;
-        const category = await ProductManagerDAO.getProducstByCategory({category: cat});
-        res.json({ category });
+        const expectedProducts = await ProductManagerDAO.getProducstByCategory(cat);
+        console.log(expectedProducts);
+        if(!expectedProducts || expectedProducts.length == 0){
+            throw new Exception('Category not found', 404);
+        }
+        res.json({ expectedProducts });
     } catch (error) {
-        res.json({ error: error.message });
+        next(error);
     }
 }
 
-export const createProduct = async (req, res) => {
+export const createProduct = async (req, res, next) => {
     try {
         const {title, description, code, price, stock, category} = req.body;
         const productInfo = {
@@ -51,11 +59,11 @@ export const createProduct = async (req, res) => {
         const newProduct = await ProductManagerDAO.createProduct(productInfo);
         res.status(201).json({message: newProduct});   
     } catch (error) {
-        res.json({ error: error.message });
+        next(error);
     }
 }
 
-export const updateProductById = async (req, res) => {
+export const updateProductById = async (req, res, next) => {
     try {
         const { pid } = req.params;
         const { title, description, code, price, stock, category } = req.body;
@@ -67,21 +75,29 @@ export const updateProductById = async (req, res) => {
             stock,
             category
         } 
+        const expectedProduct = await ProductManagerDAO.getProductById({ _id: pid });
+        if(!expectedProduct){
+            throw new Exception('Product not found', 404);
+        }
         await ProductManagerDAO.updateProductById({ _id: pid }, updateProductInfo);
         const data = await ProductManagerDAO.getProductById(pid);
         res.json({ message: data });
     } catch (error) {
-        res.status(400).json("No se puede actualizar un Producto inexistente.")
+        next(error)
     }
 }
 
-export const deleteProductById = async (req, res) => {
+export const deleteProductById = async (req, res, next) => {
     try {
         const { pid } = req.params;
-        await ProductManagerDAO.deleteProductById({ _id: pid });
-        res.status(204).json({ message: 'Producto Eliminado!'})
+        const expectedProduct = await ProductManagerDAO.getProductById({ _id: pid });
+        if(!expectedProduct){
+            throw new Exception('Product not found', 404);
+        }
+        const result = await ProductManagerDAO.deleteProductById({ _id: pid });
+        res.json({ message: 'Deleted product!'})
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        next(error);
     }
 }
 
@@ -90,6 +106,6 @@ export const deleteAllProducts = async (req, res) => {
         await ProductManagerDAO.deleteAllProducts();
         res.status(204).json({message: 'Productos Eliminados'});
     } catch (error) {
-        res.status(400).json({ error: error.message});
+        next(error);
     }
 }

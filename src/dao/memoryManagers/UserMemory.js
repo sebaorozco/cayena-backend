@@ -1,36 +1,36 @@
 class UserMemory {
     
-    existProduct = async (pid) => {
+    existUser = async (pid) => {
         throw new Error('Not implemented')
     }
 
-    readProducts = async () => {
+    readUser = async () => {
         throw new Error('Not implemented')
 
     }
 
-    writeProducts = async (product) => {
+    writeUser = async (product) => {
         throw new Error('Not implemented')
 
     }
     
-    addProducts = async (product) => {
+    addUser = async (product) => {
         throw new Error('Not implemented')
     }
 
-    getProducts = async () => {
+    getUser = async () => {
         throw new Error('Not implemented')
     }
 
-    getProductById = async (id) => {
+    getUserById = async (id) => {
         throw new Error('Not implemented')
     }
 
-    deleteProductById = async (id) => {
+    deleteUserById = async (id) => {
         throw new Error('Not implemented')
     }
 
-    updateProductById = async (id, updateData) => {
+    updateUserById = async (id, updateData) => {
         throw new Error('Not implemented')
     }
 }

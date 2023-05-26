@@ -1,4 +1,5 @@
 import config from "../config/index.js";
+import { dbConnect } from '../db/mongodb.js';
 
 export let CartManagerDAO;
 export let ChatManagerDAO;
@@ -7,6 +8,8 @@ export let UserManagerDAO;
 
 switch (config.persistenceType) {
     case 'mongodb':
+        // Me conecto a la BD
+        dbConnect();
         CartManagerDAO = (await import('./mongoManagers/CartManagerDAO.js')).default;
         ChatManagerDAO = (await import('./mongoManagers/ChatManagerDAO.js')).default;    
         ProductManagerDAO = (await import('./mongoManagers/ProductManagerDAO.js')).default;

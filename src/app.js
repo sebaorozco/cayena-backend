@@ -4,7 +4,7 @@ import express from 'express';
 import { engine } from 'express-handlebars';
 import __dirname from './utils.js';
 import { Server } from 'socket.io';
-import { dbConnect } from './db/mongodb.js';
+//import { dbConnect } from './db/mongodb.js';
 import router from './routes/index.js';
 import { MessagesModel } from './dao/models/message.model.js';
 //import ProductManager from './dao/fsManagers/ProductManager.js';
@@ -50,8 +50,8 @@ app.use("/", express.static(__dirname + '/public'));
 // *******Llamo al enrutador*******************//
 router(app);
 
-// Me conecto a la BD
-dbConnect();
+/* // Me conecto a la BD
+dbConnect(); */
 
 // Creo el servidor HTTP
 const httpServer = app.listen(PORT, () => {
@@ -91,7 +91,7 @@ export const emit = (mensaje) => {
 app.use((err, req, res, next) => {
     console.error('Error Middleware', err)
     res 
-      .status(err.status || 500)
+      .status(err.statusCode || 500)
       .json({ success: false, message: err.message })
 })
 
