@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { addProductToCartFromParams, createCart, deleteCartById, getCartById, getCarts, purchase, removeProductFromCart } from "../../controllers/controller.carts.js";
+import { authJWTMiddleware } from "../../utils/index.js";
 
 const router = Router();
 
@@ -14,7 +15,7 @@ router.get('/:cid', getCartById);
 
 
 // AGREGO UN PRODUCTO EN UN CARRITO EN ESPECIFICO: PASA POR PARAMS SOLO EL PID Y CID
-router.put('/:cid/products/:pid', addProductToCartFromParams);
+router.put('/:cid/products/:pid', authJWTMiddleware(['user']), addProductToCartFromParams);
 
 // ELIMINA UN PRODUCTO ESPECÍCO DE UN CARRITO
 router.delete('/:cid/products/:pid', removeProductFromCart);

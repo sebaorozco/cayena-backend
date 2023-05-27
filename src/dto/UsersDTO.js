@@ -7,6 +7,5 @@ export default class UserDTO {
         this.age = user.age;
         this.password = createHash(user.password);
         this.role = user.role;
-
     }
 }

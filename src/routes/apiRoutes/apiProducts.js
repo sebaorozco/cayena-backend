@@ -1,12 +1,13 @@
 import { Router } from "express";
 import uploader from "../../utils/multer.utils.js"
 import { createProduct, deleteAllProducts, deleteProductById, getAllProducts, getProductById, getProductsByCategory, updateProductById } from "../../controllers/controller.products.js";
+import { authJWTMiddleware } from "../../utils/index.js";
 
 
 const router = Router();
 
 //CREATE
-router.post('/', uploader.single('image'), createProduct);
+router.post('/', authJWTMiddleware(['admin']), uploader.single('image'), createProduct);
 
 // READ
 router.get('/', getAllProducts)
@@ -18,12 +19,12 @@ router.get('/:pid', getProductById)
 router.get('/category/:cat', getProductsByCategory) 
 
 // UPDATE
-router.put('/:pid', updateProductById)
+router.put('/:pid', authJWTMiddleware(['admin']), updateProductById)
 
 // DELETE -elimino un producto por su id
-router.delete('/:pid', deleteProductById)
+router.delete('/:pid', authJWTMiddleware(['admin']), deleteProductById)
 
 // DELETE all Products
-router.delete('/', deleteAllProducts)
+router.delete('/', authJWTMiddleware(['admin']), deleteAllProducts)
 
 export default router; 

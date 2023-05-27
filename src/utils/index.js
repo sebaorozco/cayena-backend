@@ -61,6 +61,25 @@ export const authMiddleware = (strategy) => (req, res, next) => {
     })(req, res, next)
 }
 
+export const authJWTMiddleware = (roles) => (req, res, next) => {
+    passport.authenticate('jwt', function (error, user, info){
+        if (error) {
+            return next(error);
+        }
+        if (!user) {
+            return next(new Exception('Unauthorized', 401));
+        }
+        if (!roles.includes(user.role)) {
+            return next(new Exception('Forbidden', 403))
+          }
+        if (user.role === 'user' && req.params.id && req.params.id !== user.id){
+            return next(new Exception('Forbidden', 403));
+        }
+        req.user = user;
+        next();
+    })(req, res, next)
+}
+
 // Middleware controlador de roles - Autorizaciones
 export const authorizationMiddleware = (role) => (req, res, next) => {
     // ya el middleware de autenticación cubre esto pero para prevenir:

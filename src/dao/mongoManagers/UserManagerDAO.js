@@ -1,5 +1,4 @@
 import { UsersModel } from "../models/user.model.js";
-import UserDTO from "../../dto/UsersDTO.js";
 
 class UserManagerDAO {
     
