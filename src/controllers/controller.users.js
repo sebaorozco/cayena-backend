@@ -1,4 +1,5 @@
 import { UserManagerDAO } from "../dao/factory.js"
+import UserDTO from "../dto/UsersDTO.js";
 import Exception from "../utils/exception.js";
 import { createHash, tokenGenerator, validatePassword, authMiddleware, authorizationMiddleware } from "../utils/index.js";
 
@@ -24,7 +25,8 @@ export const createUser = async (req, res, next) => {
             throw new Exception('User already exists.', 400)
             //return res.status(400).json({ success: false, message: 'User already exists.' })
         }
-        user = await UserManagerDAO.createUser({ first_name, last_name, email, age, password: createHash(password) })
+        let newUser = new UserDTO( { first_name, last_name, email, age, password });
+        user = await UserManagerDAO.createUser(newUser)
         res.status(201).json({ success: true })
     } catch (error) {
         next(error);

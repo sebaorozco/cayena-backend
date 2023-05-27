@@ -4,8 +4,7 @@ const userCollection = 'users' //Asi es como se llamará mi colección de usuari
 
 const userSchema = new mongoose.Schema({
     //Aqui escribo todas las propiedades que tendrá un usuario en mi BD
-    first_name: String,
-    last_name: String,
+    name: String,
     email: { type: String, unique: true, validate: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/  },
     age: Number,
     password: String,

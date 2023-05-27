@@ -18,11 +18,13 @@ switch (config.persistenceType) {
 
     case 'file':
         CartManagerDAO = (await import('./fsManagers/CartManager.js')).default;
+        ChatManagerDAO = (await import('./mongoManagers/ChatManagerDAO.js')).default;    
         ProductManagerDAO = (await import('./fsManagers/ProductManager.js')).default;
         break;
 
     default:
         CartManagerDAO = (await import('./memoryManagers/CartMemory.js')).default;
+        ChatManagerDAO = (await import('./mongoManagers/ChatManagerDAO.js')).default;    
         ProductManagerDAO = (await import('./memoryManagers/ProductMemory.js')).default;
         UserManagerDAO = (await import('./memoryManagers/UserMemory.js')).default;
 }
