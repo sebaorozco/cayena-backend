@@ -1,5 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
+import { MessagesModel } from "../../dao/models/message.model.js";
 
 const router = Router();
 
@@ -34,6 +35,15 @@ router.get('/reset-password', (req, res) => {
 
 // LOGIN POR GITHUB
 router.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
+
+router.get('/chat', async (req, res) => {
+    try {
+        const mensajes = await MessagesModel.find();
+        res.status(201).render('chat', mensajes);   
+    } catch (error) {
+        res.json({ error: error.message });
+    }
+})
 
 
 export default router;

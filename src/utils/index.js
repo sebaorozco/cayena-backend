@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import jsonwebtoken from 'jsonwebtoken';
 import passport from 'passport';
 import Exception from './exception.js';
+import { customAlphabet } from 'nanoid';
 
 const JWT_SECRET = "sshhhhhhh"
 
@@ -91,5 +92,20 @@ export const authorizationMiddleware = (role) => (req, res, next) => {
     next()
 }
 
+// Middleware Generador de código aleatorio
+export const generateCode = () => {
+    const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const length = 8;
+    const nanoid = customAlphabet(alphabet, length);
+    return nanoid();
+}
 
+// Middleware para calcular el total de la compra
+export const calculateTotal = (products) => {
+    let total = 0;
+    for (const item of products) {
+        total += item.product_id.price * item.quantity;
+    }
+    return total;
+}
 

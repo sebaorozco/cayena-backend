@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addCartToUser, createUser, deleteUserByEmail, getUsers, loginUser, logoutUser, resetPassword } from "../../controllers/controller.users.js";
+import { addCartToUser, createUser, deleteUserByEmail, getCurrentUser, getUsers, loginUser, logoutUser, resetPassword } from "../../controllers/controller.users.js";
 import passport from "passport";
 import { authMiddleware, authorizationMiddleware } from "../../utils/index.js";
 
@@ -28,9 +28,10 @@ router.post('/logout', logoutUser);
 router.post('reset-password', resetPassword);
 
 // RUTA PRIVADA
-router.get('/current', authMiddleware('jwt'), authorizationMiddleware('user'), (req, res) => {
+router.get('/current', authMiddleware('jwt'), authorizationMiddleware('user'), getCurrentUser)
+/* router.get('/current', authMiddleware('jwt'), authorizationMiddleware('user'), (req, res) => {
     res.json({ success: true, message: 'This is the current user:', user: req.user })
-})
+}) */
 
 // LOGIN POR GITHUB
 router.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));

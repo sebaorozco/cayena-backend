@@ -133,3 +133,8 @@ h2,p {
 .form__reset__password {
     text-align: center;
 }
+
+/*** Formulario CHAT ***/
+#formMessage {
+    margin-left: 2rem;
+}

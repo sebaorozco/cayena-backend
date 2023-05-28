@@ -100,3 +100,11 @@ export const logoutUser = async (req, res, next) => {
 export const resetPassword = async (req, res) => {
     res.send({ status: 'success', result: 'resetPassword' })
 }
+
+export const getCurrentUser = (req, res, next) => {
+    try {
+        res.json({ success: true, message: 'This is the current user:', user: req.user }) 
+    } catch (error) {   
+        next(error);
+    }
+}

@@ -1,5 +1,7 @@
-import { ProductManagerDAO, CartManagerDAO } from "../dao/factory.js"
+import { ProductManagerDAO, CartManagerDAO, TicketManagerDAO } from "../dao/factory.js"
 import Exception from "../utils/exception.js";
+import { calculateTotal, generateCode } from "../utils/index.js";
+import { getCurrentUser } from "./controller.users.js";
 
 export const getCarts = async (req, res, next) => {
     try {
@@ -71,7 +73,6 @@ export const removeProductFromCart = async (req, res, next) => {
             throw new Exception('Product not found', 404);
         } */
         const productIndex = cart.products.findIndex((p) => p.product_id._id.toString() === pid);
-        console.log(productIndex)
         if (productIndex >= 0) {
             cart.products[productIndex].quantity -= 1;
             if (cart.products[productIndex].quantity === 0) {
@@ -101,6 +102,49 @@ export const deleteCartById = async (req, res, next) => {
     }   
 }
 
-export const purchase = async (req, res) => {
-    res.send({ status: 'success', result: 'purchase' })
+export const purchase = async (req, res, next) => {
+    try {
+        const { cid } = req.params;
+        const cart = await CartManagerDAO.getCartById(cid);
+        if(!cart){
+            throw new Exception('Cart not found', 404);
+        }
+       
+        if(cart.products.length <= 0){
+            throw new Exception('Empty cart', 404);
+        } else {
+
+            const purchasedProducts = [];
+            const returnedProducts = [];
+            
+            for (const item of cart.products) {
+                const product = item.product_id;
+                const quantity = item.quantity;
+                
+                if (product.stock >= quantity) {
+                  product.stock -= quantity;
+                  await product.save();
+                  purchasedProducts.push(item);
+                } else {
+                    returnedProducts.push(item);
+                }
+            }
+            // Creo el ticket de compra
+
+            const code = generateCode(); // Genera un código único
+            const amount = calculateTotal(purchasedProducts); // Calcula el total de la compra
+            const purchaser = 'email a definir';
+            console.log(code, amount, purchaser)
+            await TicketManagerDAO.createTicket(code, amount, purchaser);
+    
+            // Actualizar el carrito con los productos no comprados
+            cart.products = returnedProducts;
+            await cart.save();
+    
+            return res.json({ purchasedProducts, returnedProducts });
+        }
+
+    } catch (error) {
+        next(error);
+    }
 }

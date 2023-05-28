@@ -5,6 +5,7 @@ export let CartManagerDAO;
 export let ChatManagerDAO;
 export let ProductManagerDAO;
 export let UserManagerDAO;
+export let TicketManagerDAO;
 
 switch (config.persistenceType) {
     case 'mongodb':
@@ -14,6 +15,7 @@ switch (config.persistenceType) {
         ChatManagerDAO = (await import('./mongoManagers/ChatManagerDAO.js')).default;    
         ProductManagerDAO = (await import('./mongoManagers/ProductManagerDAO.js')).default;
         UserManagerDAO = (await import('./mongoManagers/UserManagerDAO.js')).default;
+        TicketManagerDAO = (await import('./mongoManagers/TicketManagerDAO.js')).default;
         break;
 
     case 'file':

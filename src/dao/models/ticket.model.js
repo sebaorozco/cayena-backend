@@ -16,9 +16,10 @@ const ticketSchema = new mongoose.Schema({
     purchaser: { 
         type: String, 
         unique: true, 
-        validate: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/  },
+        validate: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/, 
         ref: "users",
         require: true
+    }
 }, { timestamps: true })
 
 ticketSchema.pre('find', function(){
