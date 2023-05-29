@@ -1,4 +1,4 @@
-import { Router } from "express";
+/* import { Router } from "express";
 import passport from "passport";
 import { UsersModel } from "../../dao/models/user.model.js";
 import { createHash, tokenGenerator, validatePassword, authMiddleware, authorizationMiddleware } from "../../utils/index.js";
@@ -49,4 +49,4 @@ router.post('/sign-out', (req, res) => {
 router.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
 
 
-export default router;
+export default router; */

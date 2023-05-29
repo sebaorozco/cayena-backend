@@ -19,13 +19,13 @@ export const getUsers = async (req, res, next) => {
 
 export const createUser = async (req, res, next) => {
     try {
-        const { body: { first_name, last_name, email, age, password } } = req
+        const { body: { first_name, last_name, email, age, password, role } } = req
         let user = await UserManagerDAO.getUserByEmail({ email })
         if (user) {
             throw new Exception('User already exists.', 400)
             //return res.status(400).json({ success: false, message: 'User already exists.' })
         }
-        let newUser = new UserDTO( { first_name, last_name, email, age, password });
+        let newUser = new UserDTO( { first_name, last_name, email, age, password, role });
         user = await UserManagerDAO.createUser(newUser)
         res.status(201).json({ success: true })
     } catch (error) {

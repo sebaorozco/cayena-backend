@@ -36,6 +36,7 @@ router.get('/reset-password', (req, res) => {
 // LOGIN POR GITHUB
 router.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
 
+// CHAT CAYENA
 router.get('/chat', async (req, res) => {
     try {
         const mensajes = await MessagesModel.find();
@@ -44,6 +45,5 @@ router.get('/chat', async (req, res) => {
         res.json({ error: error.message });
     }
 })
-
 
 export default router;

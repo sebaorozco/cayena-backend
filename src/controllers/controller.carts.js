@@ -1,7 +1,6 @@
 import { ProductManagerDAO, CartManagerDAO, TicketManagerDAO } from "../dao/factory.js"
 import Exception from "../utils/exception.js";
 import { calculateTotal, generateCode } from "../utils/index.js";
-import { getCurrentUser } from "./controller.users.js";
 
 export const getCarts = async (req, res, next) => {
     try {
@@ -133,8 +132,9 @@ export const purchase = async (req, res, next) => {
 
             const code = generateCode(); // Genera un código único
             const amount = calculateTotal(purchasedProducts); // Calcula el total de la compra
-            const purchaser = 'email a definir';
+            const purchaser = 'email@email.com';
             console.log(code, amount, purchaser)
+            
             await TicketManagerDAO.createTicket(code, amount, purchaser);
     
             // Actualizar el carrito con los productos no comprados

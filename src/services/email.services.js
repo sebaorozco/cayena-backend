@@ -11,12 +11,13 @@ class EmailService {
         })
     }
 
-    sendEmail() {
-        this.transporter.sendMail({
+    sendEmail(to, subject, html, attachments = []) {
+        return this.transporter.sendMail({
             from: process.env.EMAIL_USER,
             to,
             subject,
-
+            html,
+            attachments
         })
     }
 }

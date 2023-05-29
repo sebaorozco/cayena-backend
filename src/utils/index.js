@@ -108,4 +108,3 @@ export const calculateTotal = (products) => {
     }
     return total;
 }
-

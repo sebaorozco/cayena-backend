@@ -138,3 +138,14 @@ h2,p {
 #formMessage {
     margin-left: 2rem;
 }
+
+.contactForm ul li {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    margin-left: 4rem;
+}
+
+.contactForm button {
+    font-size: 2rem;
+    margin-left: 4rem;
+}
