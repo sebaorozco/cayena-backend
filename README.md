@@ -45,8 +45,10 @@ El trabajo se ejecuta de manera local en el puerto 8080.
 - /api/users trae el listado de usuarios registrados en la BD.
 - /api/current muestra el usuario activo. Si no tiene el token muestra error.
 
+- /api/mockingproducts muestra productos (100 por defecto) mockeados a través del uso de faker-js. Se puede seleccionar la cantidad de productos a mostrar modificando el query "?count="
+
 ## Postman Collection
-En la raíz del proyecto encontrarán el archivo Tercera Pre Entrega-postman_collection que les permitirá probar desde postman los endpoint del servicio.
+En la raíz del proyecto encontrarán el archivo Mocking y Manejo de Errores.postman_collection.json que les permitirá probar desde postman los endpoint del servicio.
 
 ## Ejecutar el proyecto
 Para ejecutar el proyecto de manera local se puede hacer con:

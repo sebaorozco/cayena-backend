@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "dfa3e517-a9b8-4c90-9e2b-17ef7ad4f8a8",
-		"name": "Tercera Pre Entrega",
+		"_postman_id": "e745c1dd-dcb0-45bf-b22a-a8fd2dc17806",
+		"name": "Mocking y Manejo de Errores",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "26834707"
 	},
@@ -832,6 +832,49 @@
 								"api",
 								"chat",
 								"6472c488d559289f6067ebde"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "mocking",
+			"item": [
+				{
+					"name": "get mocking Products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/mockingproducts?count=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"mockingproducts"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "3"
+								}
 							]
 						}
 					},
