@@ -1,14 +1,14 @@
 import { Router } from "express";
 import emailServices from "../../services/email.services.js";
 import __dirname from "../../utils.js";
+import twilioServices from "../../services/twilio.services.js";
 
 const router = Router();
 
-// PaAGINA DE MAILING AND SMS
+// PAGINA DE MAILING AND SMS
 router.get('/', async (req, res) => {
     res.render('contact');
 })
-
 
 // ENVÍO DE MAIL
 router.get('/mail', async (req, res) => {
@@ -38,6 +38,8 @@ router.get('/mail', async (req, res) => {
 
 // ENVÍO DE SMS
 router.get('/sms', async (req, res) => {
+    const result = await twilioServices.sendSMS('+543854160596', 'Hola. Prueba de SMS. Gracias por unirte a nuestro ecommerce.')
+    console.log(result);
     res.render('sms');
 })
 

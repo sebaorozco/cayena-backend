@@ -146,6 +146,15 @@ h2,p {
 }
 
 .contactForm button {
+    display: flex;  
     font-size: 2rem;
-    margin-left: 4rem;
+    margin: 1rem auto;
+    text-align: center;
+    padding: 1rem 1rem;
+    border-radius: .5rem;
+}
+
+.contactForm p {
+    font-size: 2rem;
+    text-align: center;
 }

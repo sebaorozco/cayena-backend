@@ -1,6 +1,8 @@
 import { Router } from "express";
 import passport from "passport";
 import { MessagesModel } from "../../dao/models/message.model.js";
+import __dirname from "../../utils.js";
+import emailServices from "../../services/email.services.js";
 
 const router = Router();
 
@@ -29,7 +31,44 @@ router.get('/profile', auth, (req, res) => {
 
 // RESET CONTRASEÑA DE USUARIO
 router.get('/reset-password', (req, res) => {
-    res.render('reset-password')
+    console.log('token', req.query.token);
+    if(req.query.token){
+        res.render('reset-password')
+    } else {
+        res.send(
+            `
+            <div>
+                <h1>No puedes estar en este sitio. </h1>
+            </div>
+            `
+        )
+    }
+})
+
+// ENVÍO DE MAIL
+router.get('/password', async (req, res) => {
+    const attachments = [
+        {
+            filename: 'logoCayena.jpg',
+            path: (__dirname + '/public/images/logoCayena/logoCayena.jpg'),
+            cid: 'logoCayena'
+        }
+    ]
+    const result = await emailServices.sendEmail(
+        'seba_orozco@hotmail.com',
+        'Reset Password',
+        `
+        <div>
+            <h1>Reestablecer Contraseña. 🔑</h1>'
+            <p>Haz clic en el siguiente enlace para reestablecer tu contraseña</p>
+            <a href="http://localhost:8080/reset-password?token=${Date.now()}">Reestablecer Contraseña </a>
+            <p>Saludos! 👋</p>
+        </div>
+        `,
+        attachments
+    )
+    console.log(result);
+    res.render('mail');
 })
 
 

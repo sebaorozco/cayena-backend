@@ -1,4 +1,5 @@
 import { ProductManagerDAO, CartManagerDAO, TicketManagerDAO } from "../dao/factory.js"
+import twilioServices from "../services/twilio.services.js";
 import Exception from "../utils/exception.js";
 import { calculateTotal, generateCode } from "../utils/index.js";
 
@@ -63,7 +64,7 @@ export const removeProductFromCart = async (req, res, next) => {
     try {
         const { pid, cid } = req.params;
         const cart = await CartManagerDAO.getCartById(cid);
-        console.log(cart)
+        //console.log(cart)
         if(!cart){
             throw new Exception('Cart not found', 404);
         }
@@ -133,9 +134,16 @@ export const purchase = async (req, res, next) => {
             const code = generateCode(); // Genera un código único
             const amount = calculateTotal(purchasedProducts); // Calcula el total de la compra
             const purchaser = 'email@email.com';
-            console.log(code, amount, purchaser)
+            console.log('Ticket de compra: ', code, amount, purchaser)
             
             await TicketManagerDAO.createTicket(code, amount, purchaser);
+            
+            // Envío sms al cliente
+            const nombre = purchaser;
+            const clientPhone = '+543854160596'
+            const body = `Gracias ${nombre}, tu solicitud de compra ha sido aprobada. `
+            const result2 = await twilioServices.sendSMS(clientPhone, body)
+            console.log('SMS enviado al cliente:',result2);
     
             // Actualizar el carrito con los productos no comprados
             cart.products = returnedProducts;
