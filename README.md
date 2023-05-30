@@ -19,6 +19,7 @@ El proyecto fue desarrollado utilizando lo siguiente:
 - JWT
 - nodemailer
 - Twilio
+- Faker-js
 
 ## Módulos
 
@@ -32,6 +33,7 @@ El proyecto fue desarrollado utilizando lo siguiente:
 - Diseño por Capas
 - Patrón Factory, Patrón DTO
 - Mailing y SMS
+- Mocking
 
 ## Rutas
 
