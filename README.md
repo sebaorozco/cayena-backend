@@ -17,6 +17,8 @@ El proyecto fue desarrollado utilizando lo siguiente:
 - bcrypt
 - Passport
 - JWT
+- nodemailer
+- Twilio
 
 ## Módulos
 
@@ -27,6 +29,9 @@ El proyecto fue desarrollado utilizando lo siguiente:
 - Controladores.
 - Hasheo de contraseñas
 - Autenticación y Autorización por JWT
+- Diseño por Capas
+- Patrón Factory, Patrón DTO
+- Mailing y SMS
 
 ## Rutas
 
@@ -35,15 +40,15 @@ El trabajo se ejecuta de manera local en el puerto 8080.
 - /register muestra la vista de formulario de registro de usuario. Permite completar los campos para registrarse y almacena esos datos en la BD de nombre ecommerce (MongoDB).
 - /profile muestra en el navegador los datos no sensibles del usuario logueado.
 - /products muestra los productos cargados en la base de datos (Mongo DB) de nombre ecommerce. Colección "products"
-- /carts muestra los carritos cargado en la base de datos (Mongo DB) de nombre ecommerce. Colección "carts".
-- /chat se abre el chat en tiempo real utilizando websockets. Los mensajes se almacenan en la BD de MOngo de nombre ecommerce. Colección "messages"
+- /carts muestra los carritos cargados en la base de datos (Mongo DB) de nombre ecommerce. Colección "carts".
+- /chat se abre el chat en tiempo real utilizando websockets. Los mensajes se almacenan en la BD de Mongo de nombre ecommerce. Colección "messages"
 - /api/users trae el listado de usuarios registrados en la BD.
 - /api/current muestra el usuario activo. Si no tiene el token muestra error.
 
 ## Postman Collection
-En la raíz del proyecto encontrarán el archivo segundaPracticaIntegradora.json que les permitirá probar desde postman los endpoint del servicio.
+En la raíz del proyecto encontrarán el archivo Tercera Pre Entrega-postman_collection que les permitirá probar desde postman los endpoint del servicio.
 
-## Ejecutar el proyecto en Producción
+## Ejecutar el proyecto
 Para ejecutar el proyecto de manera local se puede hacer con:
 
 ```
