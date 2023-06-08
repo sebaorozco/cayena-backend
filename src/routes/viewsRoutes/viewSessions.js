@@ -38,7 +38,7 @@ router.get('/reset-password', (req, res) => {
         res.send(
             `
             <div>
-                <h1>No puedes estar en este sitio. </h1>
+                <h1>No puedes estar en este sitio. 😥</h1>
             </div>
             `
         )

@@ -1,5 +1,8 @@
 import { Router } from "express";
 import { generateMockProduct } from "../../utils/mock.js";
+import CustomError from "../../utils/errors/CustomError.js";
+import { generateProductErrorInfo } from "../../utils/errors/MessagesError.js";
+import EnumsError from "../../utils/errors/EnumsError.js";
 
 const router = Router();
 

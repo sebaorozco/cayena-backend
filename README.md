@@ -20,6 +20,8 @@ El proyecto fue desarrollado utilizando lo siguiente:
 - nodemailer
 - Twilio
 - Faker-js
+- dotenv
+- winston
 
 ## Módulos
 

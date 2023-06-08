@@ -8,17 +8,20 @@ import { Server } from 'socket.io';
 import router from './routes/index.js';
 import { MessagesModel } from './dao/models/message.model.js';
 //import ProductManager from './dao/fsManagers/ProductManager.js';
-import session from 'express-session';
-import MongoStore from 'connect-mongo';
+//import session from 'express-session';
+//import MongoStore from 'connect-mongo';
 import initPassport from './config/passport.config.js';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
+import MiddlewareError from './utils/errors/MiddlewareError.js';
+import { addLogger } from './utils/logger.js';
 
 // Instanciar constantes
 const PORT = config.port;
 const app = express();
 //const product = new ProductManager;
 
+app.use(addLogger)
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
@@ -49,6 +52,9 @@ app.use("/", express.static(__dirname + '/public'));
 
 // *******Llamo al enrutador*******************//
 router(app);
+
+// ****** middleware de errores ***************//
+app.use(MiddlewareError);
 
 /* // Me conecto a la BD
 dbConnect(); */

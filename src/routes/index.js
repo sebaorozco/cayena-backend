@@ -8,6 +8,7 @@ import productsApiRoutes from './apiRoutes/apiProducts.js';
 import cartsApiRoutes from './apiRoutes/apiCarts.js';
 import usersApiRoutes from './apiRoutes/apiUsers.js';
 import mockingProducts from '../mocking/mockingRoutes/apiMockingProducts.js';
+import loggerApiRoutes from './apiRoutes/apiLoggerTest.js'
 
 const router = app => {
     // Rutas o endpoints
@@ -23,6 +24,9 @@ const router = app => {
     
     // Mocking Endpoint
     app.use('/api/mockingproducts', mockingProducts);
+    // Winston Test Logs
+    app.use('/api/loggerTest', loggerApiRoutes)
+
 }
 
 export default router;
