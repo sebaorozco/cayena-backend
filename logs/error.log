@@ -1,0 +1,8 @@
+{"level":"error","message":" GET en /api/loggerTest - Esto fue un error"}
+{"level":"error","message":" GET en / - Esto fue un error"}
+{"level":"error","message":" GET en /api/loggerTest - Esto fue un error"}
+{"level":"error","message":" GET en /api/loggerTest/current - Esto fue un error"}
+fatal:  GET en /current - Esto fue una prueba de logger fatal
+fatal:  GET en /current - Esto fue una prueba de logger fatal
+fatal:  GET en /current - Esto fue una prueba de logger fatal
+fatal:  GET en /current - Esto fue una prueba de logger fatal

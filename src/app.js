@@ -21,7 +21,7 @@ const PORT = config.port;
 const app = express();
 //const product = new ProductManager;
 
-app.use(addLogger)
+app.use(addLogger);
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
