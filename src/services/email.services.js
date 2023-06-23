@@ -1,19 +1,20 @@
 import nodemailer from 'nodemailer';
+import config from '../config/index.js';
 
 class EmailService {
     constructor() {
         this.transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
+                user: config.email.user,
+                pass: config.email.password
             }
         })
     }
 
     sendEmail(to, subject, html, attachments = []) {
         return this.transporter.sendMail({
-            from: process.env.EMAIL_USER,
+            from: config.email.user,
             to,
             subject,
             html,

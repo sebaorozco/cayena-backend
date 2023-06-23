@@ -47,6 +47,13 @@ export const getProductsByCategory = async (req, res, next) => {
 export const createProduct = async (req, res, next) => {
     try {
         const {title, description, code, price, stock, category} = req.body;
+        
+        if (req.user.role === 'premium'){
+            let owner = req.user.email;
+        } else {
+            let owner = 'admin';
+        }
+        
         const productInfo = {
             title,
             description,
@@ -54,8 +61,9 @@ export const createProduct = async (req, res, next) => {
             price,
             stock,
             category,
-            thumbnails: req.file.filename
+            thumbnails: req.file.filename,
         }
+        
         const newProduct = await ProductManagerDAO.createProduct(productInfo);
         res.status(201).json({message: newProduct});   
     } catch (error) {

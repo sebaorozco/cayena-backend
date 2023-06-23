@@ -108,7 +108,23 @@ export const logoutUser = async (req, res, next) => {
 }
 
 export const resetPassword = async (req, res) => {
-    res.send({ status: 'success', result: 'resetPassword' })
+    const {email, password} = req.body;
+
+    if(!email || !password){
+        return res.render('reset-password', { error: 'Debe completar todos los campos!'})
+    }
+    
+    const newUser = await UsersModel.findOne({ email });
+    
+    if(!newUser){
+        return res.render('reset-password', { error: 'Email o password inválido' });
+    }
+
+    newUser.password = createHash(password);
+
+    await UsersModel.updateOne({ email }, newUser);
+    
+    res.redirect('/login');
 }
 
 export const getCurrentUser = (req, res, next) => {

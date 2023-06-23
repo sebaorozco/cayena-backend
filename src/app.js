@@ -15,11 +15,11 @@ import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import MiddlewareError from './utils/errors/MiddlewareError.js';
 import { addLogger } from './utils/logger.js';
+import { cpus } from 'os'
 
 // Instanciar constantes
 const PORT = config.port;
 const app = express();
-//const product = new ProductManager;
 
 app.use(addLogger);
 app.use(express.json());
@@ -32,6 +32,9 @@ initPassport();
 app.use(passport.initialize());
 //app.use(passport.session());
 
+// *** Para saber número de procesarores de mi computador *** //
+const numDeProcesadores = cpus().length;
+console.log('Nro de Procesadores = ', numDeProcesadores)
 
 // ****** Configuración de Handlebars ********** //
 // Inicializamos el motor
@@ -61,7 +64,7 @@ dbConnect(); */
 
 // Creo el servidor HTTP
 const httpServer = app.listen(PORT, () => {
-    console.log(`Server running in: http://localhost:${PORT}/`);
+    console.log(`Server running in: http://localhost:${PORT}/login`);
 });  //Server Http
 
 // Creamos el servidor para sockets viviendo dentro de nuestro servidor principal

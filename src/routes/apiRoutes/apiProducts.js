@@ -7,7 +7,7 @@ import { authJWTMiddleware } from "../../utils/index.js";
 const router = Router();
 
 //CREATE
-router.post('/', authJWTMiddleware(['admin']), uploader.single('image'), createProduct);
+router.post('/', authJWTMiddleware(['admin', 'premium']), uploader.single('image'), createProduct);
 
 // READ
 router.get('/', getAllProducts)
@@ -19,10 +19,10 @@ router.get('/:pid', getProductById)
 router.get('/category/:cat', getProductsByCategory) 
 
 // UPDATE
-router.put('/:pid', authJWTMiddleware(['admin']), updateProductById)
+router.put('/:pid', authJWTMiddleware(['admin', 'premium']), updateProductById)
 
 // DELETE -elimino un producto por su id
-router.delete('/:pid', authJWTMiddleware(['admin']), deleteProductById)
+router.delete('/:pid', authJWTMiddleware(['admin', 'premium']), deleteProductById)
 
 // DELETE all Products
 router.delete('/', authJWTMiddleware(['admin']), deleteAllProducts)

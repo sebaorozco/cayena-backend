@@ -1,0 +1,20 @@
+# Primero definimos una imagen base: node
+FROM node
+
+# Despues creamos una carpeta interna donde vamos a guardar nuestro proyecto (usualmente es app)
+WORKDIR /app
+
+# Luego copiamos el package.json de nuestra carpeta actual
+COPY package*.json ./
+
+# Una vez copiado el package.json, procedemos a ejecutar un npm install interno en esa carpeta
+RUN npm install
+
+# Despues procedemos a copiar todo el código del aplicativo
+COPY . .
+
+# Exponemos un puerto para que éste escuche a partir de un puerto de nuestra computadora
+EXPOSE 8080
+
+# Una vez realizado se debería ejecutar "npm start" para iniciar la aplicación
+CMD [ "npm", "start" ]

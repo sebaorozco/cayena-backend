@@ -17,5 +17,9 @@ export default {
         github_callbackURL: process.env.GITHUB_CALLBACK,
         JWT_secretOrKey: process.env.JWT_SECRET
     },
-    persistenceType: process.env.PERSISTENCE_TYPE || 'memory'
+    persistenceType: process.env.PERSISTENCE_TYPE || 'memory',
+    email: {
+        user: process.env.EMAIL_USER,
+        password: process.env.EMAIL_PASS
+    }
 }

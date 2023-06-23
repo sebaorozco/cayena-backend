@@ -64,6 +64,7 @@ export const authMiddleware = (strategy) => (req, res, next) => {
 
 export const authJWTMiddleware = (roles) => (req, res, next) => {
     passport.authenticate('jwt', function (error, user, info){
+        console.log(user)
         if (error) {
             return next(error);
         }
@@ -77,6 +78,7 @@ export const authJWTMiddleware = (roles) => (req, res, next) => {
             return next(new Exception('Forbidden', 403));
         }
         req.user = user;
+        console.log("He pasado por aqui, el user es: ", req.user)
         next();
     })(req, res, next)
 }

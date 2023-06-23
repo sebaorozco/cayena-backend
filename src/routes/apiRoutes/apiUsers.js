@@ -25,7 +25,7 @@ router.post('/login', loginUser);
 router.post('/logout', logoutUser);
 
 //RESET PASSWORD
-router.post('reset-password', resetPassword);
+router.post('reset-password', authMiddleware('jwt'), authorizationMiddleware('user'), resetPassword);
 
 // RUTA PRIVADA
 router.get('/current', authMiddleware('jwt'), authorizationMiddleware('user'), getCurrentUser)

@@ -20,8 +20,12 @@ const prodSchema = new mongoose.Schema({
     category: {
         type: String,
         enum: ['Diet', 'Salud_Belleza', 'Celíacos', 'Diabéticos']
-    } ,
-    thumbnails: String
+    },
+    thumbnails: String,
+    owner: { 
+        type: String, 
+        default: 'admin' 
+    },
 }, { timestamps: true })
 
 prodSchema.plugin(mongoosePaginate);
