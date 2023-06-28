@@ -48,12 +48,8 @@ export const createProduct = async (req, res, next) => {
     try {
         const {title, description, code, price, stock, category} = req.body;
         
-        if (req.user.role === 'premium'){
-            let owner = req.user.email;
-        } else {
-            let owner = 'admin';
-        }
-        
+        const ownerData = req.user.role === 'premium' ? req.user.email : 'admin'
+    
         const productInfo = {
             title,
             description,
@@ -62,6 +58,7 @@ export const createProduct = async (req, res, next) => {
             stock,
             category,
             thumbnails: req.file.filename,
+            owner: ownerData
         }
         
         const newProduct = await ProductManagerDAO.createProduct(productInfo);
@@ -83,13 +80,29 @@ export const updateProductById = async (req, res, next) => {
             stock,
             category
         } 
+        // Chequeo que rol tiene el usuario
+        if(req.user.role === 'admin'){
+            isAdminUser = req.user.role;
+        } else if (req.user.role === 'premium'){
+            isPremiumUser = req.user.role;
+            } else {
+                    isUser = req.user.role;
+        }
+
+        // Obtengo el producto actual
         const expectedProduct = await ProductManagerDAO.getProductById({ _id: pid });
         if(!expectedProduct){
             throw new Exception('Product not found', 404);
         }
+
+        // Verifico permisos de modificación de producto 
+        if (!(isAdmin || (isPremiumUser && expectedProduct.owner === req.user.email))) {
+            return res.status(403).json({ message: 'No tienes permiso para actualizar este producto' });
+        }
+
         await ProductManagerDAO.updateProductById({ _id: pid }, updateProductInfo);
         const data = await ProductManagerDAO.getProductById(pid);
-        res.json({ message: data });
+        res.status(200).json({ message: 'Producto actualizado exitosamente: ', data });
     } catch (error) {
         next(error)
     }
@@ -98,12 +111,29 @@ export const updateProductById = async (req, res, next) => {
 export const deleteProductById = async (req, res, next) => {
     try {
         const { pid } = req.params;
+
+        // Chequeo que rol tiene el usuario
+         if(req.user.role === 'admin'){
+            isAdminUser = req.user.role;
+        } else if (req.user.role === 'premium'){
+            isPremiumUser = req.user.role;
+            } else {
+                    isUser = req.user.role;
+        }
+
+        // Obtengo el producto actual
         const expectedProduct = await ProductManagerDAO.getProductById({ _id: pid });
         if(!expectedProduct){
             throw new Exception('Product not found', 404);
         }
+
+        // Verifico permisos de eliminación del producto 
+        if (!(isAdmin || product.owner === req.user.email)) {
+            return res.status(403).json({ message: 'No tienes permiso para eliminar este producto' });
+        }
+
         const result = await ProductManagerDAO.deleteProductById({ _id: pid });
-        res.json({ message: 'Deleted product!'})
+        res.json({ message: 'Deleted product!:', result})
     } catch (error) {
         next(error);
     }

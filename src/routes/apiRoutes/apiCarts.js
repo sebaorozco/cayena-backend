@@ -8,20 +8,19 @@ const router = Router();
 router.post('/', createCart);
 
 // OBTENGO CARRITOS
-router.get('/', getCarts);
+router.get('/', authJWTMiddleware(['admin']), getCarts);
 
 // OBTENGO CARRITO POR ID
-router.get('/:cid', getCartById);
-
+router.get('/:cid', authJWTMiddleware(['admin', 'user', 'premium']), getCartById);
 
 // AGREGO UN PRODUCTO EN UN CARRITO EN ESPECIFICO: PASA POR PARAMS SOLO EL PID Y CID
-router.put('/:cid/products/:pid', authJWTMiddleware(['user']), addProductToCartFromParams);
+router.put('/:cid/products/:pid', authJWTMiddleware(['admin', 'user', 'premium']), addProductToCartFromParams);
 
 // ELIMINA UN PRODUCTO ESPECÍCO DE UN CARRITO
-router.delete('/:cid/products/:pid', removeProductFromCart);
+router.delete('/:cid/products/:pid', authJWTMiddleware(['admin']), removeProductFromCart);
 
 // ELIMINA UN CARRITO POR ID
-router.delete('/:cid', deleteCartById);
+router.delete('/:cid', authJWTMiddleware(['admin']), deleteCartById);
 
 // FINALIZAR LA COMPRA
 router.post('/:cid/purchase', purchase);

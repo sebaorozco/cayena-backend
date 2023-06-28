@@ -1,11 +1,243 @@
 {
 	"info": {
-		"_postman_id": "e745c1dd-dcb0-45bf-b22a-a8fd2dc17806",
-		"name": "Mocking y Manejo de Errores",
+		"_postman_id": "f167a684-a0b8-46b3-9003-1da4c9fa0440",
+		"name": "terceraPracticaIntegradora",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "26834707"
 	},
 	"item": [
+		{
+			"name": "usersLoggerTest",
+			"item": [
+				{
+					"name": "Logger Test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/loggerTest",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"loggerTest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"nil@orozco.com\",\r\n    \"password\": \"cocomelon\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/users/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"Sebastián\",\r\n    \"last_name\" : \"Orozco\",\r\n    \"email\": \"seba@orozco.com\",\r\n    \"age\": 43,\r\n    \"password\": \"qwerty\",\r\n    \"role\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/users/register",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/users/current",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"current"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/users/logout",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User by Email",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"josefina@orozco.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/loggerTest/delete",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"loggerTest",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add Cart to User (Tomando el CART_ID DESDE EL BODY)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cid\": \"643afc2adfea5d2bcaad9990\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/users/seba@orozco.com",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"seba@orozco.com"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "users",
 			"item": [
@@ -45,7 +277,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"first_name\": \"Sebastián\",\r\n    \"last_name\" : \"Orozco\",\r\n    \"email\": \"seba@orozco.com\",\r\n    \"age\": 43,\r\n    \"password\": \"qwerty\",\r\n    \"role\": \"admin\"\r\n}",
+							"raw": "{\r\n    \"first_name\": \"Victor Sebastian\",\r\n    \"last_name\" : \"Orozco\",\r\n    \"email\": \"sebaorozco1979@gmail.com\",\r\n    \"age\": 43,\r\n    \"password\": \"contraseña\",\r\n    \"role\": \"premium\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -370,17 +602,17 @@
 							"formdata": [
 								{
 									"key": "title",
-									"value": "Prueba",
+									"value": "Prueba owner555",
 									"type": "text"
 								},
 								{
 									"key": "description",
-									"value": "Prueba",
+									"value": "Prueba owner555",
 									"type": "text"
 								},
 								{
 									"key": "code",
-									"value": "PRU123",
+									"value": "PTE565",
 									"type": "text"
 								},
 								{
@@ -390,7 +622,7 @@
 								},
 								{
 									"key": "stock",
-									"value": "15",
+									"value": "151",
 									"type": "text"
 								},
 								{
@@ -401,19 +633,20 @@
 								{
 									"key": "image",
 									"type": "file",
-									"src": "/C:/Users/Seba Orozco/Pictures/CayenaImgs/Celiacos/pasta_almendras_vrink.jpg"
+									"src": "/C:/Users/Seba Orozco/Pictures/Saved Pictures/VSO.jpg"
 								}
 							]
 						},
 						"url": {
-							"raw": "localhost:8080/api/products",
+							"raw": "localhost:8080/api/products/",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"api",
-								"products"
+								"products",
+								""
 							]
 						}
 					},

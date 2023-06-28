@@ -46,7 +46,7 @@ El trabajo se ejecuta de manera local en el puerto 8080.
 
 
 ## Postman Collection
-En la raíz del proyecto encontrarán el archivo Mocking y Manejo de Errores.postman_collection.json que les permitirá probar desde postman los endpoint del servicio.
+En la raíz del proyecto encontrarán el archivo terceraPracticaIntegradora.postman_collection.json que les permitirá probar desde postman los endpoint del servicio.
 
 ## Ejecutar el proyecto
 Para ejecutar el proyecto de manera local se puede hacer con:

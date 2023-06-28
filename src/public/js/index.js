@@ -57,6 +57,7 @@ socket.on('messageLogs', (data) => {
 
 swal();
 
+
 //**************************************************//************************************************/
 /*
 const formProducts = document.getElementById('formProducts');

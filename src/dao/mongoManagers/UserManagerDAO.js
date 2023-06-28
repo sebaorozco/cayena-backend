@@ -29,6 +29,15 @@ class UserManagerDAO {
         }
     }
 
+    //OBTENGO UN USUARIO POR ID
+    static async getUserById (id) {
+        try {
+            return await UsersModel.findById({ _id: id });
+        } catch (error) {
+            return null;
+        }
+    }
+
     //ELIMINO UN USUARIO POR MAIL
     static async deleteUserByEmail({email}) {
         try {

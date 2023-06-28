@@ -38,14 +38,35 @@ export const createCart = async (req, res) => {
 export const addProductToCartFromParams = async (req, res, next) => {
     try {
         const { pid, cid } = req.params;
+        const currentUser = req.user; // Obtengo el usuario actual
+
+        // Obtengo el carrito en cuestión
         const cart = await CartManagerDAO.getCartById(cid);
         if(!cart){
             throw new Exception('Cart not found', 404);
         }
+        
+        // Obtengo el producto en cuestión
         const prod = await ProductManagerDAO.getProductById(pid);
         if(!prod){
             throw new Exception('Product not found.', 404);
         }
+
+        // Verifico el rol del usuario actual
+        const rol = ["admin", "premium", "user"];
+        if (!rol.includes(currentUser.role)) {
+            return res.status(403).json({ message: "Invalid user role." });
+        }
+
+        // Verifico si el usuario actual es "premium" y si el producto le pertenece
+        if (
+            currentUser.role === "premium" &&
+            product.owner &&
+            product.owner === currentUser.email
+        ) {
+            return res.status(403).json({ message: "Premium users cannot add their own products to the cart."});
+        }
+
         const productIndex = cart.products.findIndex((p) => p.product_id._id.toString() === pid);
         //console.log(productIndex)
         if (productIndex >= 0) {

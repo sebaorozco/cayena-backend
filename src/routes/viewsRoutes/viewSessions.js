@@ -3,6 +3,8 @@ import passport from "passport";
 import { MessagesModel } from "../../dao/models/message.model.js";
 import __dirname from "../../utils.js";
 import emailServices from "../../services/email.services.js";
+import { isValidToken } from "../../utils/index.js";
+import { UserManagerDAO } from "../../dao/factory.js";
 
 const router = Router();
 
@@ -10,7 +12,7 @@ const auth = (req, res, next) => {
     if(req.session.user){
         return next();
     }
-    res.status(401).json({ message: 'Acceso no autorizado' });
+    res.redirect('/login');
 }
 
 // REGISTRO DE USUARIO
@@ -25,25 +27,39 @@ router.get('/login', (req, res) => {
 })
 
 // PERFIL DE USUARIO
-router.get('/profile', auth, (req, res) => {
-    res.render('profile', req.session.user)
+router.get('/profile', async (req, res) => {
+    const { query: { token } } = req;
+
+    if (!token){
+        return res.render('login', { error: 'Token inexistente' });
+    }
+
+    const payload = await isValidToken(token);
+
+    if (!payload){
+        return res.render('login', { error: 'Token no es válido' });
+    }
+
+    const { email } = payload
+    
+    const user = await UserManagerDAO.getUserByEmail({ email })
+    req.logger.info(`El user es: , ${user}`);
+    res.render('profile', user);
+
 })
 
 // RESET CONTRASEÑA DE USUARIO
-router.get('/reset-password', (req, res) => {
-    console.log('token', req.query.token);
-    if(req.query.token){
-        res.render('reset-password')
-    } else {
-        res.send(
-            `
-            <div>
-                <h1>No puedes estar en este sitio. 😥</h1>
-            </div>
-            `
-        )
-    }
+
+router.get('/reset-password', async (req, res) => {
+    res.render('reset-password')
 })
+
+router.get('/change-password', async (req, res) => {
+    const { query: { token } } = req;
+    res.render('change-password', { token })
+})
+    
+
 
 // ENVÍO DE MAIL
 router.get('/password', async (req, res) => {
@@ -67,7 +83,6 @@ router.get('/password', async (req, res) => {
         `,
         attachments
     )
-    console.log(result);
     res.render('mail');
 })
 

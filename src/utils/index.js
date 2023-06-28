@@ -3,8 +3,9 @@ import jsonwebtoken from 'jsonwebtoken';
 import passport from 'passport';
 import Exception from './exception.js';
 import { customAlphabet } from 'nanoid';
+import config from '../config/index.js';
 
-const JWT_SECRET = "sshhhhhhh"
+const JWT_SECRET = config.auth.JWT_secretOrKey;
 
 // Aplico el proceso de hasheo con hashSync
 export const createHash = (password) => {
@@ -19,15 +20,16 @@ export const validatePassword = (password, newUser) => {
 
 
 // generador de token usando JWT Strategy
-export const tokenGenerator = (user) => {
+export const tokenGenerator = (user, exp = '24h') => {
     const payload = {
-      name: user.first_name,
-      last_name: user.last_name,
+      //name: user.first_name,
+      //last_name: user.last_name,
       email: user.email,
-      age: user.age,
+      id: user._id,
+      //age: user.age,
       role: user.role
     }
-    const token = jsonwebtoken.sign(payload, JWT_SECRET, { expiresIn: '24h' });
+    const token = jsonwebtoken.sign(payload, JWT_SECRET, { expiresIn: exp });
     return token;
   }
   
@@ -38,8 +40,8 @@ export const isValidToken = (token) => {
                 console.log('err', error)
                 return resolve(false)
             }
-            console.log('payload', payload)
-            return resolve(true);
+            //console.log('payload', payload)
+            return resolve(payload);
         })
         return token
     })
@@ -64,7 +66,6 @@ export const authMiddleware = (strategy) => (req, res, next) => {
 
 export const authJWTMiddleware = (roles) => (req, res, next) => {
     passport.authenticate('jwt', function (error, user, info){
-        console.log(user)
         if (error) {
             return next(error);
         }
@@ -78,7 +79,6 @@ export const authJWTMiddleware = (roles) => (req, res, next) => {
             return next(new Exception('Forbidden', 403));
         }
         req.user = user;
-        console.log("He pasado por aqui, el user es: ", req.user)
         next();
     })(req, res, next)
 }

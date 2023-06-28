@@ -7,8 +7,9 @@ import chatApiRoutes from './apiRoutes/apiChat.js';
 import productsApiRoutes from './apiRoutes/apiProducts.js';
 import cartsApiRoutes from './apiRoutes/apiCarts.js';
 import usersApiRoutes from './apiRoutes/apiUsers.js';
+import sessionsApiRoutes from './apiRoutes/apiSessions.js';
 import mockingProducts from '../mocking/mockingRoutes/apiMockingProducts.js';
-import loggerApiRoutes from './apiRoutes/apiLoggerTest.js'
+import loggerApiRoutes from './apiRoutes/apiLoggerTest.js';
 
 const router = app => {
     // Rutas o endpoints
@@ -17,6 +18,7 @@ const router = app => {
     app.use('/api/carts', cartsApiRoutes);
     app.use('/api/products', productsApiRoutes);
     app.use('/api/users', usersApiRoutes);
+    app.use('/api/sessions', sessionsApiRoutes)
     app.use('/', sessionsViewRoutes);
     app.use('/carts', cartsViewRoutes);
     app.use('/products', productsViewRoutes);

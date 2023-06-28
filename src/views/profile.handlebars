@@ -1,11 +1,15 @@
-<h1>Bienvenido a Cayena Almacén Orgánico y Natural</h1>
+<article>
+    <h1>Bienvenido a Cayena Almacén Orgánico y Natural, {{this.name}}</h1><br>
+    <div class="profile">
+        <h2>Sus datos de usuario son:</h2>
+        <ul>
+            <li><p>Nombre: {{name}}</p></li>
+            <li><p>Correo: {{email}}</p></li>
+            <li><p>Edad: {{age}}</p></li>
+            <li><p>Perfil de usuario: {{role}}</p></li>
+        </ul> 
+    </div><br>
 
-<article class="profile">
-    <p>Nombre: {{first_name}}</p>
-    <p>Apellido: {{last_name}}</p>
-    <p>Correo: {{email}}</p>
-    <p>Edad: {{age}}</p> 
+    <p class="logout__button"><a href="/api/sessions/logout" role="button">Logout</a></p>
+    <p class="products__button"><a href="/products" role="button">Ver nuestros productos</a></p>
 </article>
-
-<p class="logout__button"><a href="/api/sessions/logout" role="button">Logout</a></p>
-<p class="products__button"><a href="/products" role="button">Ver nuestros productos</a></p>

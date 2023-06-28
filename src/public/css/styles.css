@@ -12,6 +12,9 @@ html {
     
 body {
     background-color: greenyellow;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
 } 
 
 h1 {
@@ -22,7 +25,7 @@ h1 {
 }
 
 h2,p {
-    font-size: 1.5rem;
+    font-size: 2rem;
 }
 
 .error__message{
@@ -33,22 +36,48 @@ h2,p {
 /*** Formulario Login ***/
 .form__login {
    text-align: center;
-}
-
-#correo, #password {
-    font-size: 2rem;
-    margin: 0.5rem;
+   max-width: 40rem;
+   width: 95%;
 }
 
 .link__password, .link__register {
     font-size: 2rem;
-    margin: 2rem;
+    margin: 1rem;
     display: inline-block;
 }
 
 .login__button {
     margin: 1rem;
     font-size: 2rem;
+}
+
+.wrapp-input {
+    position: relative;
+    width: 100%;
+    min-height: 5rem;
+    margin-bottom: 1rem;
+}
+
+.wrapp-input input {
+    font-size: 2rem;
+    width: 100%;
+    height: 5rem;
+    padding: 1rem 3rem 1rem 2rem;
+    border-radius: .5rem;
+}
+
+.icon-eye {
+    font-size: 1.5rem;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    transition: .4s ease all;
+}
+
+.icon-eye:hover {
+    color: blue;
 }
 
 /* Login por Terceros */
@@ -94,13 +123,8 @@ h2,p {
 /*** Formulario Registro ***/
 .form__register {
     text-align: center;
-}
- 
-.form__register input {
-    font-size: 2rem;
-    margin: 0.5rem;
-    display: block; 
-    margin: 1rem auto;
+    max-width: 40rem;
+    width: 95%;
 }
  
 .link__login {
@@ -115,17 +139,21 @@ h2,p {
 }
 
 /*** Profile ***/
+.profile {
+    max-width: 40rem;
+    width: 95%;
+}
+
 .profile p {
-    text-align: center;
     font-weight: bold;
     font-size: 2rem;
     margin: 1rem;
 }
 
 .logout__button, .products__button{
-    margin: 1rem;
     font-size: 2rem;
-    text-align: center;
+    margin: 1rem;
+    display: inline-block;
 }
 
 
@@ -133,6 +161,16 @@ h2,p {
 .form__reset__password {
     text-align: center;
 }
+
+.form__reset__password p {
+    font-size: 2rem;
+}
+
+.reset__button {
+    margin: 1rem;
+    font-size: 2rem;
+}
+
 
 /*** Formulario CHAT ***/
 #formMessage {

@@ -57,7 +57,7 @@ app.use("/", express.static(__dirname + '/public'));
 router(app);
 
 // ****** middleware de errores ***************//
-app.use(MiddlewareError);
+//app.use(MiddlewareError);
 
 /* // Me conecto a la BD
 dbConnect(); */
