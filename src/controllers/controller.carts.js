@@ -61,8 +61,8 @@ export const addProductToCartFromParams = async (req, res, next) => {
         // Verifico si el usuario actual es "premium" y si el producto le pertenece
         if (
             currentUser.role === "premium" &&
-            product.owner &&
-            product.owner === currentUser.email
+            prod.owner &&
+            prod.owner === currentUser.email
         ) {
             return res.status(403).json({ message: "Premium users cannot add their own products to the cart."});
         }

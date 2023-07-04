@@ -141,7 +141,7 @@ export const changeUserRole = async (req, res, next) => {
     try {
         const { uid } = req.params;
   
-        const user = await UserManagerDAO.getUserById(id);
+        const user = await UserManagerDAO.getUserById(uid);
 
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });

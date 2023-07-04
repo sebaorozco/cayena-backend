@@ -51,7 +51,8 @@ class ProductManagerDAO {
     //ELIMINO UN PRODUCTO POR ID
     static async deleteProductById(pid) {
         try {
-            return await ProductsModel.deleteOne({ _id: pid });
+            const result = await ProductsModel.deleteOne({ _id: pid });
+            return result;
         } catch (error) {
             return null;
         }

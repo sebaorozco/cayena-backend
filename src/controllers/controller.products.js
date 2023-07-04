@@ -81,13 +81,8 @@ export const updateProductById = async (req, res, next) => {
             category
         } 
         // Chequeo que rol tiene el usuario
-        if(req.user.role === 'admin'){
-            isAdminUser = req.user.role;
-        } else if (req.user.role === 'premium'){
-            isPremiumUser = req.user.role;
-            } else {
-                    isUser = req.user.role;
-        }
+        const isAdmin = req.user.role === 'admin';
+        const isPremiumUser = req.user.role === 'premium';
 
         // Obtengo el producto actual
         const expectedProduct = await ProductManagerDAO.getProductById({ _id: pid });
@@ -96,13 +91,18 @@ export const updateProductById = async (req, res, next) => {
         }
 
         // Verifico permisos de modificación de producto 
-        if (!(isAdmin || (isPremiumUser && expectedProduct.owner === req.user.email))) {
-            return res.status(403).json({ message: 'No tienes permiso para actualizar este producto' });
+        if ((isPremiumUser & expectedProduct.owner === req.user.email)) {
+            console.log("Es premium user? ", isPremiumUser)
+            await ProductManagerDAO.updateProductById({ _id: pid }, updateProductInfo);
+            const data = await ProductManagerDAO.getProductById(pid);
+            return res.status(200).json({ message: 'Producto actualizado exitosamente: ', data });
+        } else if (isAdmin){
+            console.log("Es admin user: ", isAdmin)
+            await ProductManagerDAO.updateProductById({ _id: pid }, updateProductInfo);
+            const data = await ProductManagerDAO.getProductById(pid);
+            return res.status(200).json({ message: 'Producto actualizado exitosamente: ', data });
         }
-
-        await ProductManagerDAO.updateProductById({ _id: pid }, updateProductInfo);
-        const data = await ProductManagerDAO.getProductById(pid);
-        res.status(200).json({ message: 'Producto actualizado exitosamente: ', data });
+        return res.status(403).json({ message: 'Forbidden, you do not have permission to update this product.' });
     } catch (error) {
         next(error)
     }
@@ -113,13 +113,8 @@ export const deleteProductById = async (req, res, next) => {
         const { pid } = req.params;
 
         // Chequeo que rol tiene el usuario
-         if(req.user.role === 'admin'){
-            isAdminUser = req.user.role;
-        } else if (req.user.role === 'premium'){
-            isPremiumUser = req.user.role;
-            } else {
-                    isUser = req.user.role;
-        }
+        const isAdmin = req.user.role === 'admin';
+        const isPremiumUser = req.user.role === 'premium';
 
         // Obtengo el producto actual
         const expectedProduct = await ProductManagerDAO.getProductById({ _id: pid });
@@ -128,12 +123,18 @@ export const deleteProductById = async (req, res, next) => {
         }
 
         // Verifico permisos de eliminación del producto 
-        if (!(isAdmin || product.owner === req.user.email)) {
-            return res.status(403).json({ message: 'No tienes permiso para eliminar este producto' });
+        if ((isPremiumUser & expectedProduct.owner === req.user.email)) {
+            console.log("Es premium user? ", isPremiumUser)
+            const result = await ProductManagerDAO.deleteProductById({ _id: pid });
+            const deletedProduct = expectedProduct;
+            return res.json({ message: 'Deleted product!:', deletedProduct, result})
+        } else if (isAdmin){
+            console.log("Es admin user: ", isAdmin)
+            const deletedProduct = expectedProduct;
+            const result = await ProductManagerDAO.deleteProductById({ _id: pid });
+            return res.json({ message: 'Deleted product!:', deletedProduct, result})
         }
-
-        const result = await ProductManagerDAO.deleteProductById({ _id: pid });
-        res.json({ message: 'Deleted product!:', result})
+        return res.status(403).json({ message: 'Forbidden, you do not have permission to delete this product.' });
     } catch (error) {
         next(error);
     }
@@ -142,7 +143,7 @@ export const deleteProductById = async (req, res, next) => {
 export const deleteAllProducts = async (req, res) => {
     try {
         await ProductManagerDAO.deleteAllProducts();
-        res.status(204).json({message: 'Productos Eliminados'});
+        res.status(204).json({message: 'All products deleted'});
     } catch (error) {
         next(error);
     }

@@ -31,7 +31,7 @@ router.post('reset-password', authMiddleware('jwt'), authorizationMiddleware('us
 router.get('/current', authMiddleware('jwt'), authorizationMiddleware('user'), getCurrentUser)
 
 // MODIFICAR ROL DE USUARIO
-router.get('/premium/:id', authorizationMiddleware('admin'), changeUserRole);
+router.get('/premium/:uid', authMiddleware('jwt'), authorizationMiddleware('admin'), changeUserRole);
 
 // LOGIN POR GITHUB
 router.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
