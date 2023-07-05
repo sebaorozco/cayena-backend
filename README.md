@@ -36,6 +36,7 @@ El proyecto fue desarrollado utilizando lo siguiente:
 - Patrón Factory, Patrón DTO
 - Mailing y SMS
 - Mocking
+- Swagger
 
 ## Rutas
 
@@ -43,6 +44,8 @@ El trabajo se ejecuta de manera local en el puerto 8080.
 - /login muestra la vista de formulario de login de usuario. Si el usuario esta registrado podrá loguearse, caso contrario se muestra error de email no registrado.
 - Para enviar un correo para reestablecer contraseña se debe hacer clic en el botón "Olvidé mi contraseña" que figura en esta ruta de login. Automáticamente se envía un mail a la casilla de correo del usuario, con un enlace a la ruta para reestablecer contraseña (/reset-password)
 - /register muestra la vista de formulario de registro de usuario. Permite completar los campos para registrarse y almacena esos datos en la BD de nombre ecommerce (MongoDB).
+
+- http://localhost:8080/api-docs/#/ es la ruta para ver la documentación de las API a través de Swagger.
 
 
 ## Postman Collection

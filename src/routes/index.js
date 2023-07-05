@@ -26,6 +26,7 @@ const router = app => {
     
     // Mocking Endpoint
     app.use('/api/mockingproducts', mockingProducts);
+    
     // Winston Test Logs
     app.use('/api/loggerTest', loggerApiRoutes)
 

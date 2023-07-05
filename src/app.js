@@ -3,8 +3,8 @@ import config from './config/index.js';
 import express from 'express';
 import { engine } from 'express-handlebars';
 import __dirname from './utils.js';
+import path from 'path';
 import { Server } from 'socket.io';
-//import { dbConnect } from './db/mongodb.js';
 import router from './routes/index.js';
 import { MessagesModel } from './dao/models/message.model.js';
 //import ProductManager from './dao/fsManagers/ProductManager.js';
@@ -13,9 +13,11 @@ import { MessagesModel } from './dao/models/message.model.js';
 import initPassport from './config/passport.config.js';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
-import MiddlewareError from './utils/errors/MiddlewareError.js';
+//import MiddlewareError from './utils/errors/MiddlewareError.js';
 import { addLogger } from './utils/logger.js';
-import { cpus } from 'os'
+import { cpus } from 'os';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
 // Instanciar constantes
 const PORT = config.port;
@@ -61,6 +63,24 @@ router(app);
 
 /* // Me conecto a la BD
 dbConnect(); */
+
+// ******** Swagger configuration ************** //
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: 'Cayena Ecommerce API',
+            description: 'Esta es la documentación de la API de Cayena Dietética & Nutrición. Un ecommerce de productos naturales y orgánicos.'
+        }
+    },
+    apis:[path.join(__dirname,'.', 'docs','**','*.yaml')],
+};
+ 
+const specs = swaggerJSDoc(swaggerOptions);
+  
+console.log('El path de swagger es:', path.join(__dirname,'.', 'docs','**','*.yaml'));
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // Creo el servidor HTTP
 const httpServer = app.listen(PORT, () => {
