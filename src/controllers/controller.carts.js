@@ -19,7 +19,7 @@ export const getCartById = async (req, res, next) => {
         if (!expectedCart) {
             throw new Exception('Cart not found', 404);
         }
-        res.json({ expectedCart });
+        res.status(200).json({ expectedCart });
     } catch (error) {
         next(error);
     }

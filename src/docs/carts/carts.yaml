@@ -12,7 +12,7 @@ paths:
             schema:
               $ref: '#/components/requestBodies/createCart'
       responses:
-        200:
+        201:
           description: El carrito fue creado satisfactoriamente.
           content:
             application/json:
@@ -29,7 +29,7 @@ paths:
       tags:
         - Carts
       responses:
-        200:
+        201:
           description: Los carritos fueron obtenidos satisfactoriamente de la base de datos.
           content:
             application/json:
