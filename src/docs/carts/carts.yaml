@@ -140,17 +140,39 @@ components:
     Carts:
       type: object
       properties:
-        product_id: 
+        _id:
           type: string
-          description: ID del producto
-        quantity:
-          type: number
-          description: cantidad de ese producto en el carrito
-  
+          description: ID del Carrito
+        products:
+          type: array
+          items:
+            product_id: 
+              type: string
+              description: ID del producto
+            quantity:
+              type: number
+              description: cantidad de ese producto en el carrito
+      example:
+        _id: 643afc2adfea5d2bcaad9990
+        products:
+          products_id: 64a3ab2007150d554af7a738
+          quantity: 1
+          
   requestBodies:
     createCart:
       type: object
-      properties:
+      properties: 
         products:
-          type: object
-          description: Array de Productos   
+          type: array
+          items:
+            product_id: 
+              type: string
+              description: ID del producto
+            quantity:
+              type: number
+              description: cantidad de ese producto en el carrito
+      example:
+        _id: 643afc2adfea5d2bcaad9990
+        products:
+          products_id: 64a3ab2007150d554af7a738
+          quantity: 1

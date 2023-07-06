@@ -77,8 +77,6 @@ const swaggerOptions = {
 };
  
 const specs = swaggerJSDoc(swaggerOptions);
-  
-console.log('El path de swagger es:', path.join(__dirname,'.', 'docs','**','*.yaml'));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
