@@ -37,6 +37,8 @@ El proyecto fue desarrollado utilizando lo siguiente:
 - Mailing y SMS
 - Mocking
 - Swagger
+- Mocha
+- Chai
 
 ## Rutas
 
@@ -56,4 +58,11 @@ Para ejecutar el proyecto de manera local se puede hacer con:
 
 ```
 $ npm run start
+```
+
+## Ejecutar test
+Para ejecutar las pruebas de los modulos Products, Carts y Users se puede hacer con:
+
+```
+$ npm test
 ```

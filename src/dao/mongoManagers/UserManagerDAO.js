@@ -57,5 +57,6 @@ class UserManagerDAO {
         }
     }
 }
-    
+
+
 export default UserManagerDAO;
