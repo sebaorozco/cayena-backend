@@ -22,6 +22,9 @@ El proyecto fue desarrollado utilizando lo siguiente:
 - Faker-js
 - dotenv
 - winston
+- Swagger
+- Mocha
+- Chai
 
 ## Módulos
 
@@ -36,9 +39,8 @@ El proyecto fue desarrollado utilizando lo siguiente:
 - Patrón Factory, Patrón DTO
 - Mailing y SMS
 - Mocking
-- Swagger
-- Mocha
-- Chai
+- Documentación API
+- Testing
 
 ## Rutas
 
