@@ -33,7 +33,11 @@ router.get('/current', authMiddleware('jwt'), authorizationMiddleware('user'), g
 // MODIFICAR ROL DE USUARIO
 router.get('/premium/:uid', authMiddleware('jwt'), authorizationMiddleware('admin'), changeUserRole);
 
+// RUTA PARA SUBIR DOCUMENTOS
+router.post('/uid/documents', authMiddleware('jwt'), authorizationMiddleware('admin', 'user', 'premium'), uploadDocuments);
+
 // LOGIN POR GITHUB
 router.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
+
 
 export default router;
