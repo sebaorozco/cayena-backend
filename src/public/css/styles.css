@@ -196,3 +196,8 @@ h2,p {
     font-size: 2rem;
     text-align: center;
 }
+
+/*** Tabla de Productos ***/
+.body__products {
+    display: inline-block;
+}

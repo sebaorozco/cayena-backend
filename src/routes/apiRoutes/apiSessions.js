@@ -27,7 +27,16 @@ router.post('/login', async (req, res, next) => {
             req.logger.error(` ${req.method} en ${req.url} - Email o password incorrect`);
             return res.render('login', { error: 'Email o password incorrect!'})  
         }
-        
+        /* if(user.status === 'active') {
+            req.logger.error(` ${req.method} en ${req.url} - User already logged!`);
+            return res.render('login', { error: 'User already logged!'});
+        } 
+
+        // Si se loguea se actualiza el campo "last_connection" y seteo al user como activo para no volver a permitir que se loguee de nuevo
+        user.status = 'active';
+        user.last_connection = new Date(); 
+        await user.save(); */
+
         const token = tokenGenerator(user)
         req.logger.info(` ${req.method} en ${req.url} - ${user} `)
         
@@ -44,14 +53,31 @@ router.post('/login', async (req, res, next) => {
 
 
 // LOGOUT DE USUARIO
-router.get('/logout', (req, res) => {
-    req.session.destroy(error => {
-        if (!error) {
-            res.redirect('/login')
-        } else {
-            res.send({status: 'Logout Error', body: error })
-        }
-    })
+router.get('/logout', async (req, res) => {
+    /* const { query: { token } } = req;
+
+    if (!token){
+        return res.render('login', { error: 'Token inexistente' });
+    }
+
+    const payload = await isValidToken(token);
+
+    if (!payload){
+        return res.render('login', { error: 'Token no es válido' });
+    }
+
+    const { email } = payload
+    const user = await UserManagerDAO.getUserByEmail({ email })
+    if(user.status === 'inactive'){
+        req.logger.error(` ${req.method} en ${req.url} - User not logged!`);
+        return res.render('login', { error: 'User NOT logged!'});
+    }
+    // Si se desloguea se actualiza el campo "last_connection" y el campo status
+    user.last_connection = new Date(); 
+    user.status = 'inactive';
+    await user.save(); */
+    res.clearCookie('token').status(200).render('login');
+  
 })
 
 // RESET PASSWORD
@@ -95,34 +121,39 @@ router.post('/reset-password', async (req, res) => {
     res.render('mail');
 })
 
+// CHANGE PASSWORD
 router.post('/change-password', async (req, res) =>{
     const { 
         query: { token },
         body: {newPassword, repeatNewPassword} 
     } = req;
 
+    if (!newPassword || !repeatNewPassword){
+        return res.render('change-password', { token, error: 'Debe ingresar las contraseñas!' });
+    }
+
     if (newPassword !== repeatNewPassword){
-        return res.render('change-password', { error: 'Las contraseñas no coiniciden!' });
+        return res.render('change-password', { token, error: 'Las contraseñas no coiniciden!' });
     }
 
     if (!token){
-        return res.render('change-password', { error: 'Token inexistente' });
+        return res.render('change-password', { token, error: 'Token inexistente' });
     }
 
     const payload = await isValidToken(token);
     if (!payload){
-        return res.render('change-password', { error: 'Token no es válido' });
+        return res.render('change-password', { token, error: 'Token no es válido' });
     }
     const { id } = payload;
 
     const user = await UsersModel.findById(id);
 
     if (!user){
-        return res.render('change-password', { error: 'Usuario inexistente' });
+        return res.render('change-password', { token, error: 'Usuario inexistente' });
     }
 
     if (validatePassword(newPassword, user)){
-        return res.render('change-password', { error: 'No puede utilizar una contraseña anterior' })
+        return res.render('change-password', { token, error: 'No puede utilizar una contraseña anterior' })
     }
 
     user.password = createHash(newPassword);

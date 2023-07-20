@@ -22,10 +22,10 @@ router.put('/:email', addCartToUser);
 router.post('/login', loginUser);
 
 // LOGOUT USER
-router.post('/logout', logoutUser);
+router.post('/logout', authMiddleware('jwt'), logoutUser);
 
 //RESET PASSWORD
-router.post('reset-password', authMiddleware('jwt'), authorizationMiddleware('user'), resetPassword);
+router.post('/reset-password', authMiddleware('jwt'), authorizationMiddleware('user'), resetPassword);
 
 // RUTA PRIVADA
 router.get('/current', authMiddleware('jwt'), authorizationMiddleware('user'), getCurrentUser)

@@ -29,7 +29,8 @@ export const createUser = async (req, res, next) => {
         }
         let newUser = new UserDTO( { first_name, last_name, email, age, password, role });
         user = await UserManagerDAO.createUser(newUser)
-        res.status(201).json({ success: true })
+        console.log('user: ', user)
+        res.status(201).json({ success: true, payload: user })
     } catch (error) {
         next(error);
     }
@@ -82,6 +83,16 @@ export const loginUser = async (req, res, next) => {
             throw new Exception('Email or password is incorrect.', 401)
             //return res.status(401).json({ success: false, message: 'Email or password is incorrect.' })
         }
+        if(user.status === 'active') {
+            req.logger.error(` ${req.method} en ${req.url} - User already logged!`);
+            throw new Exception('User already logged!', 401)
+        }
+
+        // Si se loguea se actualiza el campo "last_connection" y seteo al user como activo para no volver a permitir que se loguee de nuevo
+        user.status = 'active';
+        user.last_connection = new Date(); 
+        await user.save();
+        
         const token = tokenGenerator(user)
         req.logger.info(` ${req.method} en ${req.url} - ${user} `)
         
@@ -90,7 +101,8 @@ export const loginUser = async (req, res, next) => {
             httpOnly: true
         }).status(200).json({ 
             success: true, 
-            message: 'User Logged in!'
+            message: 'User Logged in!',
+            payload: user
         });
         
         
@@ -101,8 +113,19 @@ export const loginUser = async (req, res, next) => {
 
 export const logoutUser = async (req, res, next) => {
     try {
-        res.clearCookie('token').status(200).json({ success: true, message: 'User Logout!' });
-        req.logger.info(` ${req.method} en ${req.url} - User logout!`);
+        const email = req.user.email;
+        const user = await UserManagerDAO.getUserByEmail({ email })
+        if(user.status === 'inactive'){
+            req.logger.error(` ${req.method} en ${req.url} - User not logged!`);
+            throw new Exception('User not logged!', 401)
+        }
+        // Si se desloguea se actualiza el campo "last_connection" y el campo status
+        user.last_connection = new Date(); 
+        user.status = 'inactive';
+        await user.save();
+
+        req.logger.info(` ${req.method} en ${req.url} - User logout!: - ${user}`);
+        res.clearCookie('token').status(200).json({ success: true, message: 'User Logout!', payload: user });
     } catch (error) {
         req.logger.info(` ${req.method} en ${req.url} - User not logged!`);
         next(error);

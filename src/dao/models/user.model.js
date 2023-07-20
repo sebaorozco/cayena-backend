@@ -11,7 +11,12 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['admin', 'user', 'premium'],
-        default: 'user',
+        default: 'user'
+    },
+    status: {
+      type: String,
+      enum: ['active', 'inactive'],
+      default: 'inactive'
     },
     cart: {
         type: mongoose.Schema.Types.ObjectId, 
@@ -21,7 +26,20 @@ const userSchema = new mongoose.Schema({
     ticket: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "tickets"
-    } 
+    }, 
+    documents: {
+      type: [
+        {
+          name: String,
+          reference: String
+        }
+      ]
+    },
+    last_connection: {
+      type: Date,
+      default: new Date(),
+      
+    },
 }, { timestamps: true })
 
 userSchema.pre('find', function(){

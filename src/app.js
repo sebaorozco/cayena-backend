@@ -18,6 +18,8 @@ import { addLogger } from './utils/logger.js';
 import { cpus } from 'os';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import logger from './utils/logger.js'
+
 
 // Instanciar constantes
 const PORT = config.port;
@@ -36,7 +38,7 @@ app.use(passport.initialize());
 
 // *** Para saber número de procesarores de mi computador *** //
 const numDeProcesadores = cpus().length;
-console.log('Nro de Procesadores = ', numDeProcesadores)
+logger.info(`Nro de Procesadores = ${numDeProcesadores}`)
 
 // ****** Configuración de Handlebars ********** //
 // Inicializamos el motor
@@ -82,7 +84,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // Creo el servidor HTTP
 const httpServer = app.listen(PORT, () => {
-    console.log(`Server running in: http://localhost:${PORT}/login`);
+    logger.info(`Server running in: http://localhost:${PORT}/login`);
 });  //Server Http
 
 // Creamos el servidor para sockets viviendo dentro de nuestro servidor principal
