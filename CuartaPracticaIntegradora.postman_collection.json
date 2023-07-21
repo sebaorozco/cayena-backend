@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "f167a684-a0b8-46b3-9003-1da4c9fa0440",
-		"name": "terceraPracticaIntegradora",
+		"_postman_id": "908d5712-272d-453c-9ddd-3fde4ef21723",
+		"name": "CuartaPracticaIntegradora",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "26834707"
 	},
@@ -317,14 +317,15 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/users",
+							"raw": "localhost:8080/api/users/",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"api",
-								"users"
+								"users",
+								""
 							]
 						}
 					},
@@ -444,6 +445,39 @@
 								"api",
 								"users",
 								"seba@orozco.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change user role",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/users/premium/64725f7c1d593462aa322554",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"premium",
+								"64725f7c1d593462aa322554"
 							]
 						}
 					},
@@ -659,7 +693,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"price\": 54704483\r\n}",
+							"raw": "{\r\n    \"price\": 1500\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -667,7 +701,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/products/646d07234eeacbb736e2fef5",
+							"raw": "localhost:8080/api/products/64a3ab2007150d554af7a738",
 							"host": [
 								"localhost"
 							],
@@ -675,7 +709,7 @@
 							"path": [
 								"api",
 								"products",
-								"646d07234eeacbb736e2fef5"
+								"64a3ab2007150d554af7a738"
 							]
 						}
 					},
@@ -696,7 +730,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/products/646d0a5ec568d82c21711822",
+							"raw": "localhost:8080/api/products/64a3af6e194170d77d732919",
 							"host": [
 								"localhost"
 							],
@@ -704,7 +738,7 @@
 							"path": [
 								"api",
 								"products",
-								"646d0a5ec568d82c21711822"
+								"64a3af6e194170d77d732919"
 							]
 						}
 					},
@@ -764,7 +798,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/carts/643afc2adfea5d2bcaad9990",
+							"raw": "localhost:8080/api/carts/643ae8d3ce2ae28062a36bc4",
 							"host": [
 								"localhost"
 							],
@@ -772,7 +806,7 @@
 							"path": [
 								"api",
 								"carts",
-								"643afc2adfea5d2bcaad9990"
+								"643ae8d3ce2ae28062a36bc4"
 							]
 						}
 					},
@@ -821,7 +855,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/carts/643ae8d3ce2ae28062a36bc4/products/6438d5a80f6828e0a140468a",
+							"raw": "localhost:8080/api/carts/643ae8d3ce2ae28062a36bc4/products/64a3b030194170d77d732921",
 							"host": [
 								"localhost"
 							],
@@ -831,7 +865,7 @@
 								"carts",
 								"643ae8d3ce2ae28062a36bc4",
 								"products",
-								"6438d5a80f6828e0a140468a"
+								"64a3b030194170d77d732921"
 							]
 						}
 					},

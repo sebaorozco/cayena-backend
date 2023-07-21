@@ -6,7 +6,8 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon src/app.js",
-    "test": "mocha --timeout 6000 test/*.test.js"
+    "test": "mocha --timeout 6000 test/unit/*.test.js",
+    "functional-test": "mocha --timeout 6000 test/functional/*.test.js"
   },
   "author": "Sebastian Orozco",
   "license": "ISC",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "chai": "^4.3.7",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3"
   }
 }
