@@ -198,8 +198,17 @@ export const uploadDocuments = async (req, res, next) => {
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
-
-       
+        /* uploader(req, res, async (err) => {
+            if (err) {
+              return res.status(400).json({ message: 'Error al subir el archivo' });
+            } */
+            // Obtener los archivos subidos
+            const profileImage = req.files['profile'] ? req.files['profile'][0] : null;
+            const productImage = req.files['product'] ? req.files['product'][0] : null;
+            const document = req.files['document'] ? req.files['document'][0] : null;
+        
+            res.status(200).json({ message: 'Archivo subido exitosamente' });
+   //     });
     } catch (error) {
         next(error);
     }

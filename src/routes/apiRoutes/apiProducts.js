@@ -7,7 +7,11 @@ import { authJWTMiddleware } from "../../utils/index.js";
 const router = Router();
 
 //CREATE
-router.post('/', authJWTMiddleware(['admin', 'premium']), uploader.single('image'), createProduct);
+router.post('/', authJWTMiddleware(['admin', 'premium']), uploader.fields([
+    { name: 'profile', maxCount: 1 },
+    { name: 'product', maxCount: 1 },
+    { name: 'document', maxCount: 1 }
+  ]), createProduct);
 
 // READ
 router.get('/', getAllProducts)

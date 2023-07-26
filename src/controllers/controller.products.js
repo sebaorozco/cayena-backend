@@ -47,6 +47,8 @@ export const getProductsByCategory = async (req, res, next) => {
 export const createProduct = async (req, res, next) => {
     try {
         const {title, description, code, price, stock, category} = req.body;
+
+        const productImage = req.files['product'] ? req.files['product'][0] : null;
         
         const ownerData = req.user.role === 'premium' ? req.user.email : 'admin'
     
@@ -57,7 +59,7 @@ export const createProduct = async (req, res, next) => {
             price,
             stock,
             category,
-            thumbnails: req.file.filename,
+            thumbnails: productImage.filename,
             owner: ownerData
         }
         

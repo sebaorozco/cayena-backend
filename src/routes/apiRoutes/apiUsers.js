@@ -1,7 +1,9 @@
 import { Router } from "express";
-import { addCartToUser, changeUserRole, createUser, deleteUserByEmail, getCurrentUser, getUsers, loginUser, logoutUser, resetPassword } from "../../controllers/controller.users.js";
+import { addCartToUser, changeUserRole, createUser, deleteUserByEmail, getCurrentUser, getUsers, loginUser, logoutUser, resetPassword, uploadDocuments } from "../../controllers/controller.users.js";
 import passport from "passport";
-import { authMiddleware, authorizationMiddleware } from "../../utils/index.js";
+import { authJWTMiddleware, authMiddleware, authorizationMiddleware } from "../../utils/index.js";
+import uploader from "../../utils/multer.utils.js"
+
 
 
 const router = Router();
@@ -34,7 +36,11 @@ router.get('/current', authMiddleware('jwt'), authorizationMiddleware('user'), g
 router.get('/premium/:uid', authMiddleware('jwt'), authorizationMiddleware('admin'), changeUserRole);
 
 // RUTA PARA SUBIR DOCUMENTOS
-router.post('/uid/documents', authMiddleware('jwt'), authorizationMiddleware('admin', 'user', 'premium'), uploadDocuments);
+router.post('/:uid/documents', authJWTMiddleware(['admin', 'premium', 'user']), uploader.fields([
+    { name: 'profile', maxCount: 1 },
+    { name: 'product', maxCount: 1 },
+    { name: 'document', maxCount: 1 }
+  ]), uploadDocuments);
 
 // LOGIN POR GITHUB
 router.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
