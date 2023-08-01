@@ -32,7 +32,7 @@ class UserManagerDAO {
     //OBTENGO UN USUARIO POR ID
     static async getUserById (id) {
         try {
-            return await UsersModel.findById({ _id: id }) //populate('documents');
+            return await UsersModel.findById({ _id: id }); 
         } catch (error) {
             return null;
         }

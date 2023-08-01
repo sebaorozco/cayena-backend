@@ -5,7 +5,7 @@ const userCollection = 'users' //Asi es como se llamará mi colección de usuari
 const docs = new mongoose.Schema({
     title: { 
         type: String,
-        enum: ['profile', 'product', 'doc'],
+        enum: ['profile', 'product', 'document'],
     },
     name: { type: String },
     reference: { type: String }

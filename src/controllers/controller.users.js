@@ -213,7 +213,8 @@ export const uploadDocuments = async (req, res, next) => {
         }
         
         // Verificar si ya hay un archivo de perfil subido.
-        if (req.files['profile'] && user.documents.some((doc) => doc.title === 'profile')) {
+        const profileAlreadyExists = user.documents.some((doc) => doc.title === 'profile');
+        if (req.files['profile'] && profileAlreadyExists) {
             return res.status(400).send('Archivo profile ya subido.');
         }
 
@@ -223,7 +224,8 @@ export const uploadDocuments = async (req, res, next) => {
         // Verificar si hay archivos de productos subidos.
         if (req.files['product']) {
             req.files['product'].forEach((file) => {
-            documents.push({title: file.fieldname, name: file.filename, reference: file.path });
+            documents.push({title: file.fieldname, name: file.filename, reference: file.path});
+            user.uploadStatus = true;
             });
         }
 
@@ -233,9 +235,15 @@ export const uploadDocuments = async (req, res, next) => {
             const validDocumentTypes = ['DNI', 'AddressProof', 'AccountStatement'];
             const documentType = file.originalname.split('.')[0];
             if (validDocumentTypes.includes(documentType)) {
-                documents.push({title: file.fieldname, name: file.filename, reference: file.path });
+                documents.push({title: file.fieldname, name: file.filename, reference: file.path});
+                user.uploadStatus = true;
             }
             });
+        }
+
+        // Si hay un archivo de perfil nuevo, guardarlo.
+        if (req.files['profile'] && !profileAlreadyExists) {
+            documents.push({title: file.fieldname, name: file.filename, reference: req.files['profile'][0].path});
         }
 
         // Actualizar el array de documents en el modelo de usuario.
@@ -243,51 +251,6 @@ export const uploadDocuments = async (req, res, next) => {
         await user.save();
 
         res.send('Archivos subidos correctamente.');
-    
-
-
-        /*
-        // Obtengo los archivos subidos
-        const profileImage = req.files['profile'] ? req.files['profile'][0] : null;
-        const productImage = req.files['product'] ? req.files['product'][0] : null;
-        const document = req.files['document'] ? req.files['document'][0] : null;
-        //console.log(profileImage)
-
-        const docProfile = user.documents.some((el) => el.title === 'profile');
-        const docProduct = user.documents.some((el) => el.title === 'product');
-        
-        // VEO SI SE TRATA DE UN ARCHIVO DE PROFILE - SOLO DEJO CARGAR UN PROFILE
-        if (profileImage){
-            if (!docProfile){
-                user.documents.push({title: profileImage.fieldname, name: profileImage.filename, reference: profileImage.path });
-                user.uploadStatus = true;
-                //res.status(200).json({ message: 'Archivo subido exitosamente' });
-            } else {
-                return res.status(404).json({ message: 'Ya tiene cargado un profile' });
-            }    
-        // VEO SI SE TRATA DE UN ARCHIVO PRODUCTO
-        } else if (productImage){
-            if (!docProduct){
-                user.documents.push({title: productImage.fieldname, name: productImage.filename, reference: productImage.path });
-                user.uploadStatus = true;
-                //res.status(200).json({ message: 'Archivo subido exitosamente' });
-            } else {
-                const indexProd = user.documents.findIndex(el => el.title === 'product');
-                console.log(user.documents[indexProd]);  //user.documents[indexProd].file = req.file.filename;
-            }
-        }    
-
-        // Verifico si se subió algun archivo y actualizo el uploadStatus del usuario
-       /*  if (profileImage || productImage || document) {
-          user.uploadStatus = true;
-        } else {
-          //Si no se subió ningún archivo válido
-          return res.status(400).json({ message: 'No se subió ningún archivo válido' });
-        } */
-
-
-       
-       
 
     } catch (error) {
         next(error);
