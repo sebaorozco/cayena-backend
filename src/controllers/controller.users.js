@@ -19,6 +19,20 @@ export const getUsers = async (req, res, next) => {
     }
 }
 
+export const getUserById = async (req, res, next) => {
+    try {
+        const { params: { uid } } = req;
+        const expectedUser = await UserManagerDAO.getUserById( uid );
+        if(!expectedUser){
+            throw new Exception('User not found', 404);
+        }
+        res.json({ expectedUser });
+       
+    } catch (error) {
+        next(error);
+    }
+}
+
 export const createUser = async (req, res, next) => {
     try {
         const { body: { first_name, last_name, email, age, password, role } } = req
@@ -191,26 +205,91 @@ export const changeUserRole = async (req, res, next) => {
 
 export const uploadDocuments = async (req, res, next) => {
     try {
+        // Verifico que el usuario exista
         const { uid } = req.params;
-  
         const user = await UserManagerDAO.getUserById(uid);
-
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
-        /* uploader(req, res, async (err) => {
-            if (err) {
-              return res.status(400).json({ message: 'Error al subir el archivo' });
-            } */
-            // Obtener los archivos subidos
-            const profileImage = req.files['profile'] ? req.files['profile'][0] : null;
-            const productImage = req.files['product'] ? req.files['product'][0] : null;
-            const document = req.files['document'] ? req.files['document'][0] : null;
         
-            res.status(200).json({ message: 'Archivo subido exitosamente' });
-   //     });
+        // Verificar si ya hay un archivo de perfil subido.
+        if (req.files['profile'] && user.documents.some((doc) => doc.title === 'profile')) {
+            return res.status(400).send('Archivo profile ya subido.');
+        }
+
+        // Guardar los archivos en el array de documents del usuario.
+        const documents = [];
+
+        // Verificar si hay archivos de productos subidos.
+        if (req.files['product']) {
+            req.files['product'].forEach((file) => {
+            documents.push({title: file.fieldname, name: file.filename, reference: file.path });
+            });
+        }
+
+        // Verificar si hay documentos PDF subidos.
+        if (req.files['document']) {
+            req.files['document'].forEach((file) => {
+            const validDocumentTypes = ['DNI', 'AddressProof', 'AccountStatement'];
+            const documentType = file.originalname.split('.')[0];
+            if (validDocumentTypes.includes(documentType)) {
+                documents.push({title: file.fieldname, name: file.filename, reference: file.path });
+            }
+            });
+        }
+
+        // Actualizar el array de documents en el modelo de usuario.
+        user.documents.push(...documents);
+        await user.save();
+
+        res.send('Archivos subidos correctamente.');
+    
+
+
+        /*
+        // Obtengo los archivos subidos
+        const profileImage = req.files['profile'] ? req.files['profile'][0] : null;
+        const productImage = req.files['product'] ? req.files['product'][0] : null;
+        const document = req.files['document'] ? req.files['document'][0] : null;
+        //console.log(profileImage)
+
+        const docProfile = user.documents.some((el) => el.title === 'profile');
+        const docProduct = user.documents.some((el) => el.title === 'product');
+        
+        // VEO SI SE TRATA DE UN ARCHIVO DE PROFILE - SOLO DEJO CARGAR UN PROFILE
+        if (profileImage){
+            if (!docProfile){
+                user.documents.push({title: profileImage.fieldname, name: profileImage.filename, reference: profileImage.path });
+                user.uploadStatus = true;
+                //res.status(200).json({ message: 'Archivo subido exitosamente' });
+            } else {
+                return res.status(404).json({ message: 'Ya tiene cargado un profile' });
+            }    
+        // VEO SI SE TRATA DE UN ARCHIVO PRODUCTO
+        } else if (productImage){
+            if (!docProduct){
+                user.documents.push({title: productImage.fieldname, name: productImage.filename, reference: productImage.path });
+                user.uploadStatus = true;
+                //res.status(200).json({ message: 'Archivo subido exitosamente' });
+            } else {
+                const indexProd = user.documents.findIndex(el => el.title === 'product');
+                console.log(user.documents[indexProd]);  //user.documents[indexProd].file = req.file.filename;
+            }
+        }    
+
+        // Verifico si se subió algun archivo y actualizo el uploadStatus del usuario
+       /*  if (profileImage || productImage || document) {
+          user.uploadStatus = true;
+        } else {
+          //Si no se subió ningún archivo válido
+          return res.status(400).json({ message: 'No se subió ningún archivo válido' });
+        } */
+
+
+       
+       
+
     } catch (error) {
         next(error);
     }
 }
-

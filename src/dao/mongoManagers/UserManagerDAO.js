@@ -32,11 +32,21 @@ class UserManagerDAO {
     //OBTENGO UN USUARIO POR ID
     static async getUserById (id) {
         try {
-            return await UsersModel.findById({ _id: id });
+            return await UsersModel.findById({ _id: id }) //populate('documents');
         } catch (error) {
             return null;
         }
     }
+
+/*      //OBTENGO DOCUMENTOS DE UN USUARIO POR SU ID
+     static async getDocsById(did) {
+        try {
+            const expectedDocs = await UsersModel.findOne(documents) 
+            return await expectedDocs.findById({ _id: did })     //.populate('documents._id');
+        } catch (error) {
+            return null;
+        }   
+    } */
 
     //ELIMINO UN USUARIO POR MAIL
     static async deleteUserByEmail({email}) {

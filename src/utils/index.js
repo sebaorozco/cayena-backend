@@ -102,13 +102,6 @@ export const generateCode = () => {
     return nanoid();
 }
 
-/* export const generateEmail = () => {
-    const alphabet = '0123456789abcdefghijklmnopqrstuvwxyz';
-    const length = 8;
-    const nanoid = customAlphabet(alphabet, length);
-    return nanoid();
-} */
-
 // Middleware para calcular el total de la compra
 export const calculateTotal = (products) => {
     let total = 0;

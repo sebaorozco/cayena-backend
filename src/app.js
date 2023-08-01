@@ -34,7 +34,6 @@ app.use(cookieParser());
 initPassport();
 
 app.use(passport.initialize());
-//app.use(passport.session());
 
 // *** Para saber número de procesarores de mi computador *** //
 const numDeProcesadores = cpus().length;
