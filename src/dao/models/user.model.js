@@ -6,6 +6,7 @@ const docs = new mongoose.Schema({
     title: { 
         type: String,
         enum: ['profile', 'product', 'document'],
+        require: true
     },
     name: { type: String },
     reference: { type: String }

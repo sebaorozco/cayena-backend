@@ -56,7 +56,7 @@ export const authMiddleware = (strategy) => (req, res, next) => {
         if (!user) {
             return next(new Exception('Unauthorized', 401));
         }
-        if (user.role === 'user' && req.params.id !== user.id){
+        if (user.role === 'user' && req.params.id && req.params.id !== user.id){
             return next(new Exception('Forbidden', 403));
         }
         req.user = user;

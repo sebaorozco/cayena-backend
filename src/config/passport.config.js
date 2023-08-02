@@ -57,7 +57,7 @@ const initPassport = () => {
             if(!validatePassword(password, user)){
                 return done(null, false)
             }
-    
+            console.log(user);
             done(null, user);
             
         } catch (error) {

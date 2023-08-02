@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { addCartToUser, changeUserRole, createUser, deleteUserByEmail, getCurrentUser, /* getDocsById ,*/ getUserById, getUsers, loginUser, logoutUser, resetPassword, uploadDocuments } from "../../controllers/controller.users.js";
+import {  addCartToUser, changeUserRole, createUser, deleteUserByEmail, getCurrentUser, getUserById, getUsers, loginUser, 
+          logoutUser, resetPassword, uploadDocuments } from "../../controllers/controller.users.js";
 import passport from "passport";
 import { authJWTMiddleware, authMiddleware, authorizationMiddleware } from "../../utils/index.js";
 import uploader from "../../utils/multer.utils.js"
@@ -15,7 +16,7 @@ router.post('/register', createUser)
 router.get('/', getUsers);
 
 // OBTENER USUARIO POR ID
-router.get('/:uid', getUserById);
+router.get('/user/:uid', getUserById);
 
 // ELIMINAR USUARIOS
 router.delete('/delete', deleteUserByEmail);
@@ -44,9 +45,6 @@ router.post('/:uid/documents', authJWTMiddleware(['admin', 'premium', 'user']), 
     { name: 'product', maxCount: 10 },
     { name: 'document', maxCount: 3 }
   ]), uploadDocuments);
-
-// OBTENER DOCS DE UN USUARIO POR ID
-//router.get('/:uid/documents/:did', getDocsById);
 
 // LOGIN POR GITHUB
 router.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));

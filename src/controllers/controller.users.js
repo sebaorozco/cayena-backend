@@ -179,25 +179,40 @@ export const changeUserRole = async (req, res, next) => {
         const { uid } = req.params;
   
         const user = await UserManagerDAO.getUserById(uid);
-
+        // Verifico si el usuario existe.
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        let newRole = '';
-        if (user.role === 'user') {
-            newRole = 'premium';
-        } else if (user.role === 'premium') {
-            newRole = 'user';
-        } else {
-            return res.status(400).json({ message: 'Rol de usuario inválido' });
+        // Verifico si el usuario ya es 'premium' o 'admin'.
+        if (user.role === 'premium' || user.role === 'admin') {
+            return res.status(400).json({ message: 'El usuario ya es "premium" o "admin".' });
         }
 
-        user.role = newRole;
+        // Verifico si se han cargado todos los documentos requeridos con el título 'document'.
+        const requiredDocument = ['DNI', 'AddressProof', 'AccountStatement'];
+        const uploadedDocument = user.documents.filter((el) => el.title === 'document');
+
+        //Verifico primero si hay tiene cargado algún document
+        if (!uploadedDocument){
+            return res.status(400).json({ message: 'El usuario no tiene cargado ningún documento aún.' });
+        } else {
+            uploadedDocument.map((doc) => doc.name);
+        }
+
+        const allRequiredDocumentsUploaded = requiredDocument.every((doc) =>
+        uploadedDocument.includes(doc));
+
+        if (!allRequiredDocumentsUploaded) {
+            return res.status(400).json({ message:'Cargue todos los documentos requeridos antes de actualizar a "premium".' });
+        }
+
+        // Actualizo el role del usuario a 'premium'.
+        user.role = 'premium';
         await user.save();
 
-        res.status(200).json({ message: 'Rol de usuario actualizado exitosamente', newRole });
- 
+        res.status(200).json({ message: 'Role del usuario actualizado a "premium" exitosamente.' });
+
     } catch (error) {   
         next(error);
     }
@@ -212,16 +227,16 @@ export const uploadDocuments = async (req, res, next) => {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
         
-        // Verificar si ya hay un archivo de perfil subido.
+        // Verifico si ya hay un archivo de perfil subido.
         const profileAlreadyExists = user.documents.some((doc) => doc.title === 'profile');
         if (req.files['profile'] && profileAlreadyExists) {
             return res.status(400).send('Archivo profile ya subido.');
         }
 
-        // Guardar los archivos en el array de documents del usuario.
+        // Guardo los archivos en el array de documents del usuario.
         const documents = [];
 
-        // Verificar si hay archivos de productos subidos.
+        // Verifico si hay archivos de productos subidos.
         if (req.files['product']) {
             req.files['product'].forEach((file) => {
             documents.push({title: file.fieldname, name: file.filename, reference: file.path});
@@ -229,7 +244,7 @@ export const uploadDocuments = async (req, res, next) => {
             });
         }
 
-        // Verificar si hay documentos PDF subidos.
+        // Verifico si hay documentos PDF subidos.
         if (req.files['document']) {
             req.files['document'].forEach((file) => {
             const validDocumentTypes = ['DNI', 'AddressProof', 'AccountStatement'];
@@ -241,12 +256,13 @@ export const uploadDocuments = async (req, res, next) => {
             });
         }
 
-        // Si hay un archivo de perfil nuevo, guardarlo.
+        // Si hay un archivo de perfil nuevo, lo guardo.
         if (req.files['profile'] && !profileAlreadyExists) {
-            documents.push({title: file.fieldname, name: file.filename, reference: req.files['profile'][0].path});
+            const profileImage = req.files['profile'][0]; 
+            documents.push({title: profileImage.fieldname, name: profileImage.filename, reference: profileImage.path});
         }
 
-        // Actualizar el array de documents en el modelo de usuario.
+        // Actualizo el array de documents en el modelo de usuario.
         user.documents.push(...documents);
         await user.save();
 
