@@ -1,4 +1,4 @@
-import { UserManagerDAO } from "../dao/factory.js"
+/* import { UserManagerDAO } from "../dao/factory.js"
 import { UsersModel } from "../dao/models/user.model.js";
 import UserDTO from "../dto/UsersDTO.js";
 import Exception from "../utils/exception.js";
@@ -11,6 +11,7 @@ export const getUsers = async (req, res, next) => {
         if(!result) {
             req.logger.fatal(` ${req.method} en ${req.url} - Something went wrong. Try again later.`);
             throw new Exception('Something went wrong. Try again later.', 500);
+            //return res.status(500).send({ status: 'error', error: 'Something went wrong. Try again later.' })
         }
         res.status(200).send({ status: 'success', result })
     } catch (error) {
@@ -89,10 +90,12 @@ export const loginUser = async (req, res, next) => {
         if(!user) {
             req.logger.error(` ${req.method} en ${req.url} - Email o password incorrect`);
             throw new Exception('Email or password is incorrect.', 401)
+            //return res.status(401).json({ success: false, message: 'Email or password is incorrect.' })
         }
         if(!validatePassword(password, user)) {
             req.logger.error(` ${req.method} en ${req.url} - Email o password incorrect`);
             throw new Exception('Email or password is incorrect.', 401)
+            //return res.status(401).json({ success: false, message: 'Email or password is incorrect.' })
         }
         if(user.status === 'active') {
             req.logger.error(` ${req.method} en ${req.url} - User already logged!`);
@@ -115,6 +118,7 @@ export const loginUser = async (req, res, next) => {
             message: 'User Logged in!',
             payload: user
         });
+        
         
     } catch (error) {
         next(error);
@@ -206,6 +210,7 @@ export const changeUserRole = async (req, res, next) => {
         // Actualizo el role del usuario a 'premium'.
         user.role = 'premium';
         await user.save();
+
         res.status(200).json({ message: 'Role del usuario actualizado a "premium" exitosamente.' });
 
     } catch (error) {   
@@ -248,47 +253,72 @@ export const uploadDocuments = async (req, res, next) => {
                 if (doc.title === 'document' && documentNames.includes(doc.name)) {
                     errorMessages.push(`Archivo ${doc.name} ya subido.`);
                 }
-            });
-            req.files['document'].forEach((file) => {
-                const documentType = file.originalname.split('.')[0];
-                if (!validDocumentTypes.includes(documentType)){
-                    // Si el documento no es un tipo válido, enviar un mensaje de error.
-                    errorMessages.push(`Nombre de documento ${documentType} no válido. Solo puede ser de tipo: ${validDocumentTypes}`);
+        });
+
+        req.files['document'].forEach((file) => {
+            const documentType = file.originalname;
+            if (validDocumentTypes.includes(documentType)) {
+                // Verifico primero si el documento ya existe en el array de documents del usuario.
+                const isDuplicateDocument = user.documents.some((doc) => doc.title === 'document' && doc.name === documentType);
+      
+                if (!isDuplicateDocument) {
+                    documents.push({title: file.fieldname, name: file.filename, reference: file.path});
                 }
-            })
-        }
+            } else {
+                // Si el documento no es un tipo válido, enviar un mensaje de error.
+                errorMessages.push(`Nombre de documento ${documentType} no válido. Solo puede ser de tipo: ${validDocumentTypes}`);
+            }
+        });
+
         // Si hay errores, enviarlos como respuesta.
         if (errorMessages.length > 0) {
-            return res.status(400).json({ message: 'Debe eliminar alguno de los siguientes errores para poder continuar con la carga de documentos: ', errorMessages });
+            return res.status(400).json({ errors: errorMessages });
         }
-         
+        // Desde aqui esta bien. Eliminar lo de arriba en caso de fallar        
         // Guardo los archivos en el array de documents del usuario.
         const documents = [];
 
-        // Verifico si hay archivos de productos para cargar.
+        // Verifico si hay archivos de productos para cargar y controlo repetidos.
         if (req.files['product']) {
             req.files['product'].forEach((file) => {
+            const prodName = file.originalname;
+            const isProdDuplicate = user.documents.some((doc) => doc.title === 'product' && doc.name === prodName);
+            if (!isProdDuplicate){
                 documents.push({title: file.fieldname, name: file.filename, reference: file.path});
                 user.uploadStatus = true;
+                res.send('Archivos subidos correctamente.');
+            } else {
+                return res.status(400).json({ message: 'Producto duplicado' });
+            }
             });
         }
 
-        // Verifico si hay documentos PDF a subir.
+        // Verifico si hay documentos PDF a subir y controlo repetidos.
         if (req.files['document']) {
-            const validDocumentTypes = ['DNI', 'AddressProof', 'AccountStatement'];
             req.files['document'].forEach((file) => {
-                const documentType = file.originalname.split('.')[0];
-                if (validDocumentTypes.includes(documentType)) {
+            const validDocumentTypes = ['DNI', 'AddressProof', 'AccountStatement'];
+            const documentType = file.originalname.split('.')[0];
+            const docName = file.originalname;
+            if (validDocumentTypes.includes(documentType)) {
+                const isDuplicate = user.documents.some((doc) => doc.title === 'document' && doc.name === docName);
+                if (!isDuplicate){
                     documents.push({title: file.fieldname, name: file.filename, reference: file.path});
                     user.uploadStatus = true;
-                } 
+                    res.send('Archivos subidos correctamente.');
+                } else {
+                    return res.status(400).json({ message: 'Documento duplicado.' });
+                }
+            } else {
+                return res.status(400).send('Nombre de Documento No válido.');
+            }
             });
         }
 
         // Si hay un archivo de perfil nuevo, lo guardo.
         if (req.files['profile'] && !profileAlreadyExists) {
             const profileImage = req.files['profile'][0]; 
-            documents.push({title: profileImage.fieldname, name: profileImage.filename, reference: profileImage.path}); 
+            documents.push({title: profileImage.fieldname, name: profileImage.filename, reference: profileImage.path});
+            
         }
 
         // Actualizo el array de documents en el modelo de usuario.
@@ -299,4 +329,4 @@ export const uploadDocuments = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+} */
