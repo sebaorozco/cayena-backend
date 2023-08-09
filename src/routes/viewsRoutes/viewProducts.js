@@ -50,8 +50,13 @@ router.get('/category/:cat', async (req, res) => {
 }) 
 
 // MARKETPLACE-COMPRAS
-router.get('/marketplace', async (req, res) => {
+router.get('/marketplace', authMiddleware('jwt'), async (req, res) => {
     try {
+       /*  // Obtengo el cartId asociado al usuario actual
+        const currentUser = req.user;
+        const user = await UserManagerDAO.getUserByEmail({ email: currentUser.email });
+        const cartId = user.cart._id;
+        console.log('CART IDDDDD: ', cartId) */
         const result = await ProductManagerDAO.getAllProducts();
         res.status(201).render('marketplace', { product: result.docs });
     } catch (error) {

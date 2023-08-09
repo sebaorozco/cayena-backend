@@ -1,29 +1,30 @@
 <div>
-  <h2 class="cart__h1">You are gonna take this!</h2>
+  <h1 class="cart__h1">You are gonna take this!</h1>
+  <br>
 </div>
 
-<table>
-  <thead>
+<table id="cartsTable" role="grid" class="carts__dashboard">
+  <thead class="table__header">
     <tr>
       <th>Product</th>
       <th>Description</th>
       <th>Price</th>
+      <th>Quantity</th>
       <th>Stock</th>
       <th>Category</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="table__body">
     {{#each cart.products}}
       <tr>
         <td>{{this.product_id.title}}</td>
         <td>{{this.product_id.description}}</td>
         <td>$ {{this.product_id.price}}</td>
+        <td>{{this.quantity}}</td>
         <td>{{this.product_id.stock}}</td>
         <td>{{this.product_id.category}}</td>
       </tr>
     {{/each}}
   </tbody>
 </table>
-<button class="buy__button">Buy Now!</button>
-
-<link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
+<button onclick="location.href='/carts/ticket'" id="buyBtn" class="buy__button">Buy Now!</button>

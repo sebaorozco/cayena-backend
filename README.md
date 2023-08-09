@@ -25,6 +25,7 @@ El proyecto fue desarrollado utilizando lo siguiente:
 - Swagger
 - Mocha
 - Chai
+- Railway
 
 ## Módulos
 
@@ -41,19 +42,20 @@ El proyecto fue desarrollado utilizando lo siguiente:
 - Mocking
 - Documentación API
 - Testing
+- Deploy
 
 ## Rutas
 
 El trabajo se ejecuta de manera local en el puerto 8080.
 - /login muestra la vista de formulario de login de usuario. Si el usuario esta registrado podrá loguearse, caso contrario se muestra error de email no registrado.
-- Para enviar un correo para reestablecer contraseña se debe hacer clic en el botón "Olvidé mi contraseña" que figura en esta ruta de login. Automáticamente se envía un mail a la casilla de correo del usuario, con un enlace a la ruta para reestablecer contraseña (/reset-password)
+- Para enviar un correo para reestablecer contraseña se debe hacer clic en el botón "Olvidé mi contraseña" que figura en esta ruta de login. En la siguiente pantalla se coloca el correo del usuario que se olvidó la contraseña y se envía un mail a la casilla de correo del usuario, con un enlace a la ruta para reestablecer contraseña (/reset-password)
 - /register muestra la vista de formulario de registro de usuario. Permite completar los campos para registrarse y almacena esos datos en la BD de nombre ecommerce (MongoDB).
 
 - http://localhost:8080/api-docs/#/ es la ruta para ver la documentación de las API a través de Swagger.
 
 
 ## Postman Collection
-En la raíz del proyecto encontrarán el archivo CuartaPracticaIntegradora.postman_collection.json que les permitirá probar desde postman los endpoint del servicio.
+En la raíz del proyecto encontrarán el archivo ProyectoFinal.postman_collection.json que les permitirá probar desde postman los endpoint del servicio.
 
 ## Ejecutar el proyecto
 Para ejecutar el proyecto de manera local se puede hacer con:

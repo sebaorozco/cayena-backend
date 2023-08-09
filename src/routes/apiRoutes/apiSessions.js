@@ -22,11 +22,7 @@ router.post('/register', async (req, res, next) => {
             req.logger.info(`${req.method} en ${req.url} - User already exist`);
             return res.status(400).render('register', { error: 'User already exist!'}) 
         }
-        // Creo un nuevo carrito y obtengo su ID
-        const newCart = await CartManagerDAO.createCart();
-
-        // Creo un nuevo usuario con el carrito asociado
-        let newUser = new UserDTO( { first_name, last_name, email, age, password, role, cart: newCart._id  });
+        let newUser = new UserDTO( { first_name, last_name, email, age, password, role });
         user = await UserManagerDAO.createUser(newUser)
         return res.status(201).render('register', { error: `Usuario registrado con éxito`}) 
     } catch (error) {
@@ -51,7 +47,10 @@ router.post('/login', async (req, res, next) => {
             req.logger.error(` ${req.method} en ${req.url} - User already logged!`);
             return res.render('login', { error: 'User already logged!'});
         } 
-
+        // Si se loguea creo un nuevo carrito y asocio ese cart al user.
+        const newCart = await CartManagerDAO.createCart({title: `Carrito ${user.name}`});
+        user.cart = newCart; 
+        await UserManagerDAO.addCartToUser(email, user)
         // Si se loguea se actualiza el campo "last_connection" y seteo al user como activo para no volver a permitir que se loguee de nuevo
         user.status = 'active';
         user.last_connection = new Date(); 
@@ -63,7 +62,7 @@ router.post('/login', async (req, res, next) => {
         res.cookie('token', token, {
             maxAge: 60 * 60 * 1000,
             httpOnly: true
-        }).redirect(`/profile`); //?token=${token}
+        }).redirect(`/profile`); 
         
     } catch (error) {
         next(error);
@@ -80,15 +79,16 @@ router.get('/logout', authMiddleware('jwt'), async (req, res, next) => {
             req.logger.error(` ${req.method} en ${req.url} - User not logged!`);
             return res.render('login', { error: 'User NOT logged!'});
         }
-        // Si se desloguea se actualiza el campo "last_connection" y el campo status
+        // Si se desloguea se actualiza el campo "last_connection" y el campo status y elimino también el carrito
         user.last_connection = new Date(); 
         user.status = 'inactive';
+        const deleteCartId = user.cart._id
+        await CartManagerDAO.deleteCartById(deleteCartId);
         await user.save();
         res.clearCookie('token').status(200).redirect('/login');
     } catch (error) {
         next(error);
     }
-  
 })
 
 router.get('/users', authMiddleware('jwt'), async (req, res, next) => {

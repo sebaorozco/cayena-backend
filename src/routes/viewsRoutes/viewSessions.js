@@ -29,7 +29,7 @@ router.get('/login', (req, res) => {
 router.get('/profile', authMiddleware('jwt'), async (req, res) => {
     const email = req.user.email;
     const user = await UserManagerDAO.getUserByEmail({ email })
-    req.logger.info(`El user es: , ${user}`);
+    req.logger.info(`El user es: ${user}`);
     res.render('profile', user);
 })
 

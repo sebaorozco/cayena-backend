@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "908d5712-272d-453c-9ddd-3fde4ef21723",
-		"name": "CuartaPracticaIntegradora",
+		"_postman_id": "02072219-f2f6-4022-bd73-d12d2eae9f7c",
+		"name": "Proyecto Final",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "26834707"
 	},
@@ -248,7 +248,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"nil@orozco.com\",\r\n    \"password\": \"cocomelon\"\r\n}",
+							"raw": "{\r\n    \"email\": \"seba@orozco.com\",\r\n    \"password\": \"qwerty\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -300,7 +300,39 @@
 					"response": []
 				},
 				{
-					"name": "Get Users",
+					"name": "Get Users all Data",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/users/get-all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Users Main Data",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -332,7 +364,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Current user",
+					"name": "Get User by ID",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -348,6 +380,27 @@
 								}
 							}
 						},
+						"url": {
+							"raw": "localhost:8080/api/users/user/6470b1c13285399ee913fdd7",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"user",
+								"6470b1c13285399ee913fdd7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current user",
+					"request": {
+						"method": "GET",
+						"header": [],
 						"url": {
 							"raw": "localhost:8080/api/users/current",
 							"host": [
@@ -394,6 +447,35 @@
 				},
 				{
 					"name": "Delete User by Email",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"josefina@orozco.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/users/delete-by-email",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"delete-by-email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Inactive User",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -468,7 +550,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/users/premium/64725f7c1d593462aa322554",
+							"raw": "localhost:8080/api/users/premium/6470b1c13285399ee913fdd7",
 							"host": [
 								"localhost"
 							],
@@ -477,7 +559,75 @@
 								"api",
 								"users",
 								"premium",
-								"64725f7c1d593462aa322554"
+								"6470b1c13285399ee913fdd7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Docs",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "profile",
+									"type": "file",
+									"src": "/C:/Users/Seba Orozco/Pictures/Saved Pictures/VSO.jpg",
+									"disabled": true
+								},
+								{
+									"key": "document",
+									"type": "file",
+									"src": "/C:/Users/Seba Orozco/Pictures/CayenaImgs/Docs/DNI.pdf",
+									"disabled": true
+								},
+								{
+									"key": "product",
+									"type": "file",
+									"src": "/C:/Users/Seba Orozco/Pictures/CayenaImgs/Diabeticos/endulzante_natural.jpg",
+									"disabled": true
+								},
+								{
+									"key": "document",
+									"type": "file",
+									"src": "/C:/Users/Seba Orozco/Pictures/CayenaImgs/Docs/AddressProof.pdf",
+									"disabled": true
+								},
+								{
+									"key": "product",
+									"type": "file",
+									"src": "/C:/Users/Seba Orozco/Pictures/CayenaImgs/Diabeticos/mermelada_cuarto_creciente.jpg"
+								},
+								{
+									"key": "document",
+									"type": "file",
+									"src": "/C:/Users/Seba Orozco/Pictures/CayenaImgs/Docs/DNI2.pdf",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/api/users/6470b1c13285399ee913fdd7/documents",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"6470b1c13285399ee913fdd7",
+								"documents"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -636,38 +786,43 @@
 							"formdata": [
 								{
 									"key": "title",
-									"value": "Prueba owner555",
+									"value": "MCT Oil",
 									"type": "text"
 								},
 								{
 									"key": "description",
-									"value": "Prueba owner555",
+									"value": "Suplemento Dietario Bebible",
 									"type": "text"
 								},
 								{
 									"key": "code",
-									"value": "PTE565",
+									"value": "ABC123",
 									"type": "text"
 								},
 								{
 									"key": "price",
-									"value": "1300.00",
+									"value": "3650",
 									"type": "text"
 								},
 								{
 									"key": "stock",
-									"value": "151",
+									"value": "100",
 									"type": "text"
 								},
 								{
 									"key": "category",
-									"value": "Celíacos",
+									"value": "Salud_Belleza",
 									"type": "text"
 								},
 								{
-									"key": "image",
+									"key": "product",
 									"type": "file",
-									"src": "/C:/Users/Seba Orozco/Pictures/Saved Pictures/VSO.jpg"
+									"src": "/C:/Users/Seba Orozco/Pictures/CayenaImgs/Salud_Belleza/mct_oil.jpg"
+								},
+								{
+									"key": "owner",
+									"value": "josefina@orozco.com",
+									"type": "text"
 								}
 							]
 						},
