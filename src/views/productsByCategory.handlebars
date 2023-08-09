@@ -1,24 +1,29 @@
 <h1 class="prod__h1">Products by Category</h1>
 
-<table id="main" role="grid" class="table__products">
-  <tr class="table__header">
-    <th>Producto</th>
-    <th>Descripción</th>
-    <th><a href="{{sortLink2}}">Price (Order by Price)</a></th>
-    <th>Stock</th>
-    <th>Código</th>
-    <th>Categoría</th>
-  </tr>
-  {{#each payload}}
-    <tr>
-      <td>{{this.title}}</td>
-      <td>{{this.description}}</td>
-      <td>$ {{this.price}}</td>
-      <td>{{this.stock}}</td>
-      <td>{{this.code}}</td>
-      <td>{{this.category}}</td>
+<table id="prodByCategory" role="grid" class="table__products">
+  <thead>
+    <tr class="table__header">
+      <th>Product</th>
+      <th>Description</th>
+      <th><a href="{{sortLink2}}">Price (Order by Price)</a></th>
+      <th>Stock</th>
+      <th>Code</th>
+      <th>Category</th>
     </tr>
-  {{/each}}
+  </thead>
+  <tbody>
+    {{#each payload}}
+      <tr>
+        <td>{{title}}</td>
+        <td>{{this.description}}</td>
+        <td>$ {{this.price}}</td>
+        <td>{{this.stock}}</td>
+        <td>{{this.code}}</td>
+        <td>{{this.category}}</td>
+        <td><button>Add Product</button></td>
+      </tr>
+    {{/each}}
+  </tbody>
 </table>
 
 <p>Página actual: {{page}}</p>

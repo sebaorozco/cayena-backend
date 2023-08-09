@@ -8,11 +8,11 @@ iconEye.addEventListener("click", () => {
     
     if(inputPassword.password.type === 'password'){
         inputPassword.password.type = 'text';
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
-    } else {
-        inputPassword.password.type = 'password';
         icon.classList.remove('fa-eye');
         icon.classList.add('fa-eye-slash');
+    } else {
+        inputPassword.password.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
     }
 })

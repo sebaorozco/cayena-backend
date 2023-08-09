@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="style.css">   
+</head>
+<body>
+    <h1>Cayena Almacén Orgánico & Natural</h1>
+    
+    <div class="product__container">
+        {{#each product}}
+        <div class="product__card">
+            <img src="/images/{{thumbnails}}" alt="{{title}}">
+            <h2>{{title}}</h2>
+            <p>{{description}}</p>
+            <p>Price: ${{price}}</p>
+            <p>Stock: {{stock}}</p>
+            <p>Code: {{code}}</p>
+            <p>Category: {{category}}</p>
+            <button class="add__to__cart__button" data-product-id="{{this._id}}">Agregar al carrito</button>
+        </div>
+        {{/each}}
+    </div>
+    <script src="/src/public/js/purchase.js"></script>  
+</body>
+</html>

@@ -1,38 +1,54 @@
-<h1>Bienvenido a nuestro listado de Productos</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Bienvenido a nuestro listado de Productos</h1>
 
-<table id="main" role="grid" class="table__products">
-  <thead>
-    <tr class="table__header">
-      <th>Product</th>
-      <th>Description</th>
-      <th><a href="{{sortLink}}">Price (order by price)</a></th>
-      <th>Stock</th>
-      <th>Code</th>
-      <th>Category</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each payload}}
-      <tr>
-        <td>{{this.title}}</td>
-        <td>{{this.description}}</td>
-        <td>$ {{this.price}}</td>
-        <td>{{this.stock}}</td>
-        <td>{{this.code}}</td>
-        <td>{{this.category}}</td>
-        <td><button>Add Product</button></td>
+  <table id="main" role="grid" class="products__dashboard">
+    <thead>
+      <tr class="table__header">
+        <th>Product</th>
+        <th>Description</th>
+        <th><a href="{{sortLink}}">Price (order by price)</a></th>
+        <th>Stock</th>
+        <th>Code</th>
+        <th>Category</th>
       </tr>
-    {{/each}}
-  </tbody>
-</table>
+    </thead>
+    <tbody class="table__body">
+      {{#each payload}}
+        <tr>
+          <td>{{this.title}}</td>
+          <td>{{this.description}}</td>
+          <td>$ {{this.price}}</td>
+          <td>{{this.stock}}</td>
+          <td>{{this.code}}</td>
+          <td>{{this.category}}</td>
+          <td>
+            <form action="/products/delete-product/{{this._id}}" method="POST">
+                <input type="hidden" name="productId" value={{this._id}}>
+                <button type="submit" class="delete__button">Eliminar Producto</button>
+            </form>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
 
-<p>Página actual: {{page}}</p>
+  <button onclick="location.href='/profile'" class="products__button">Ir a Profile</button><br>
 
-{{#if prevLink}}
-  <a href="{{prevLink}}" role="button">Anterior</a>
-{{/if}}
-{{#if nextLink}}
-  <a href="{{nextLink}}" role="button">Siguente</a>
-{{/if}}
-
-<link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
+  <p>Página actual: {{page}}</p>
+  <br>
+  {{#if prevLink}}
+    <a href="{{prevLink}}" role="button" class="prev__next__btn">Anterior</a>
+  {{/if}}
+  {{#if nextLink}}
+    <a href="{{nextLink}}" role="button" class="prev__next__btn">Siguente</a>
+  {{/if}}
+</body>
+</html>

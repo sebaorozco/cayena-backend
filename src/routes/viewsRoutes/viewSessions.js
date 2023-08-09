@@ -3,7 +3,7 @@ import passport from "passport";
 import { MessagesModel } from "../../dao/models/message.model.js";
 import __dirname from "../../utils.js";
 import emailServices from "../../services/email.services.js";
-import { isValidToken } from "../../utils/index.js";
+import { authMiddleware, isValidToken } from "../../utils/index.js";
 import { UserManagerDAO } from "../../dao/factory.js";
 
 const router = Router();
@@ -18,7 +18,6 @@ const auth = (req, res, next) => {
 // REGISTRO DE USUARIO
 router.get('/register', (req, res) => {
     res.render('register');
-
 })
 
 // LOGIN DE USUARIO
@@ -27,25 +26,11 @@ router.get('/login', (req, res) => {
 })
 
 // PERFIL DE USUARIO
-router.get('/profile', async (req, res) => {
-    const { query: { token } } = req;
-
-    if (!token){
-        return res.render('login', { error: 'Token inexistente' });
-    }
-
-    const payload = await isValidToken(token);
-
-    if (!payload){
-        return res.render('login', { error: 'Token no es válido' });
-    }
-
-    const { email } = payload
-    
+router.get('/profile', authMiddleware('jwt'), async (req, res) => {
+    const email = req.user.email;
     const user = await UserManagerDAO.getUserByEmail({ email })
     req.logger.info(`El user es: , ${user}`);
     res.render('profile', user);
-
 })
 
 // RESET CONTRASEÑA DE USUARIO
@@ -58,8 +43,6 @@ router.get('/change-password', async (req, res) => {
     const { query: { token } } = req;
     res.render('change-password', { token })
 })
-    
-
 
 // ENVÍO DE MAIL
 router.get('/password', async (req, res) => {
@@ -85,7 +68,6 @@ router.get('/password', async (req, res) => {
     )
     res.render('mail');
 })
-
 
 // LOGIN POR GITHUB
 router.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));

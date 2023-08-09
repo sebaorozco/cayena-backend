@@ -1,4 +1,5 @@
 import { CartsModel } from "../models/cart.model.js"
+import { ProductsModel } from "../models/product.model.js";
 
 class CartManagerDAO {
     //CREO EL CARRITO
@@ -36,6 +37,15 @@ class CartManagerDAO {
             return null;
         }
     }
+
+    //AGREGO UN PROD AL CART
+    static async addToCart(productId) {
+        try {
+          return await ProductsModel.find(item => item._id === productId);
+        } catch (error) {
+          console.error('Error al agregar al carrito:', error);
+        }
+      }
   }  
   
   export default CartManagerDAO;

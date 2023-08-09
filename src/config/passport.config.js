@@ -5,6 +5,7 @@ import { Strategy as JWTStrategy, ExtractJwt } from "passport-jwt";
 import { UsersModel } from "../dao/models/user.model.js";
 import { createHash, validatePassword } from "../utils/index.js";
 import config from "./index.js";
+import UserDTO from "../dto/UsersDTO.js";
 
 const initPassport = () => {
     const options = {

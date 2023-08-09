@@ -20,6 +20,15 @@ class UserManagerDAO {
         }
     }
 
+    //OBTENGO TODOS LOS USUARIOS CON FILTRO ENVIADO
+    static async getFilteredUsers(filter) {
+        try {
+            return await UsersModel.find(filter);
+        } catch (error) {
+            return null;
+        }
+    }
+
     //OBTENGO UN USUARIO POR EMAIL
     static async getUserByEmail ({email}) {
         try {
@@ -38,15 +47,14 @@ class UserManagerDAO {
         }
     }
 
-/*      //OBTENGO DOCUMENTOS DE UN USUARIO POR SU ID
-     static async getDocsById(did) {
+    //ELIMINO UN USUARIO POR ID
+    static async findByIdAndRemove(uid) {
         try {
-            const expectedDocs = await UsersModel.findOne(documents) 
-            return await expectedDocs.findById({ _id: did })     //.populate('documents._id');
+            return await UsersModel.findByIdAndRemove(uid);  
         } catch (error) {
             return null;
-        }   
-    } */
+        }
+    }
 
     //ELIMINO UN USUARIO POR MAIL
     static async deleteUserByEmail({email}) {

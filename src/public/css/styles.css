@@ -1,20 +1,19 @@
-/* *******aqui hago un reseteo CSS****** */
+/* *******RESET CSS****** */
 * {
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
+    text-align: center;
     box-sizing: border-box; 
   }
   
-/* *******aqui hago un reseteo tamaño de fuente****** */
+/* *******SETEO TAMAÑO DE FUENTE****** */
 html {
     font-size: 62.5%; 
 } 
-    
+/* ******** ESTILOS GENERALES ******* */    
 body {
     background-color: greenyellow;
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
 } 
 
 h1 {
@@ -28,14 +27,43 @@ h2,p {
     font-size: 2rem;
 }
 
-.error__message{
+.errors__message,
+.messages__message{
     text-align: center;
     font-weight: bold;
 }
 
-/*** Formulario Login ***/
+.errors__button button,
+.messages__button button{
+    background-color: rgb(140, 255, 0);
+    margin: 1rem;
+    padding: 1rem;
+    font-size: 1.5rem;
+    letter-spacing: .3rem;
+    border-radius: 1rem;
+    font-family: "Georgia";
+    font-weight: bold;
+}
+
+.errors__button__btn:hover,
+.messages__button button:hover {
+    background-color: rgb(140, 255, 0);
+    margin: 1rem;
+    padding: 1rem;
+    font-size: 1.5rem;
+    letter-spacing: .3rem;
+    border-radius: 1rem;
+    font-family: "Georgia";
+    font-weight: bold;
+}
+
+/*** LOGIN PAGE - FORMULARIO LOGIN ***/
+.login__page {
+    padding-top: 2rem;
+    justify-content: center;
+}
+
 .form__login {
-   text-align: center;
    max-width: 40rem;
    width: 95%;
 }
@@ -43,22 +71,35 @@ h2,p {
 .link__password, .link__register {
     font-size: 2rem;
     margin: 1rem;
-    display: inline-block;
+    display: inline-block; 
 }
 
 .login__button {
+    background-color: rgb(140, 255, 0);
     margin: 1rem;
-    font-size: 2rem;
+    padding: 1rem;
+    font-size: 1.5rem;
+    letter-spacing: .3rem;
+    border-radius: 1rem;
+    font-family: "Georgia";
+    font-weight: bold;
+}
+
+.login__button:hover {
+    background-color: rgb(0, 255, 102);
+    transform: scale(1.2);
+    transition: .4s ease all;
 }
 
 .wrapp-input {
-    position: relative;
     width: 100%;
     min-height: 5rem;
     margin-bottom: 1rem;
+    position: relative;
 }
 
 .wrapp-input input {
+    text-align: left;
     font-size: 2rem;
     width: 100%;
     height: 5rem;
@@ -72,6 +113,7 @@ h2,p {
     right: 1rem;
     top: 50%;
     transform: translateY(-50%);
+    z-index: 2;
     cursor: pointer;
     transition: .4s ease all;
 }
@@ -80,7 +122,7 @@ h2,p {
     color: blue;
 }
 
-/* Login por Terceros */
+/* LOGIN POR TERCEROS */
 
 .login__span {
     font-size: 2rem;
@@ -92,15 +134,14 @@ h2,p {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 3rem;
     margin-top: 1rem;
 }
 
-.registerExternal, .iconsRegister {
+.iconsRegister {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 3rem;
 }
 
 .registerExternal .iconsRegister .iconRegister {
@@ -116,11 +157,11 @@ h2,p {
 }
 
 .registerExternal .iconsRegister .iconRegister svg:hover {
-    transform: scale(1.05);
+    transform: scale(1.2);
     filter: grayscale(0%);
 }
 
-/*** Formulario Registro ***/
+/* **** FORMULARIO REGISTRO **** */
 .form__register {
     text-align: center;
     max-width: 40rem;
@@ -134,30 +175,73 @@ h2,p {
 }
  
 .register__button {
+    background-color: rgb(140, 255, 0);
     margin: 1rem;
-    font-size: 2rem;
+    padding: 1rem;
+    font-size: 1.5rem;
+    letter-spacing: .3rem;
+    border-radius: 1rem;
+    font-family: "Georgia";
+    font-weight: bold;
 }
 
-/*** Profile ***/
+.register__button:hover {
+    background-color: rgb(0, 255, 102);
+    transform: scale(1.2);
+    transition: .4s ease all;
+}
+
+/* **** PROFILE PAGE **** */
 .profile {
     max-width: 40rem;
     width: 95%;
+    margin: 0 auto;
+    padding: 2rem;
+    border: .1rem solid #031f02;
+    background-color: #5cc645;
+    box-shadow: 0 .4rem .6rem rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 .profile p {
+    text-align: left;
     font-weight: bold;
     font-size: 2rem;
     margin: 1rem;
 }
 
-.logout__button, .products__button{
-    font-size: 2rem;
-    margin: 1rem;
-    display: inline-block;
+.profile__buttons__1, 
+.profile__buttons__2 {
+    display: flex;
+    flex-direction: row;
+    max-width: 55%;
+    align-items: center;
+    margin-top: 2rem;
+    justify-content: center;
 }
 
+.profile__buttons__1 button,
+.profile__buttons__2 button {
+    background-color: rgb(140, 255, 0);
+    margin: 1rem;
+    padding: 1rem;
+    font-size: 1.5rem;
+    letter-spacing: .3rem;
+    border-radius: 1rem;
+    font-family: "Georgia";
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+}
 
-/*** Formulario Reset password ***/
+.profile__buttons__1 button:hover,
+.profile__buttons__2 button:hover {
+    background-color: rgb(0, 255, 102);
+    transform: scale(1.2);
+    transition: .4s ease all;
+}
+
+/* **** FORMULARIO RESET PASSWORD **** */
 .form__reset__password {
     text-align: center;
 }
@@ -172,7 +256,7 @@ h2,p {
 }
 
 
-/*** Formulario CHAT ***/
+/* **** CHAT **** */
 #formMessage {
     margin-left: 2rem;
 }
@@ -197,7 +281,184 @@ h2,p {
     text-align: center;
 }
 
-/*** Tabla de Productos ***/
-.body__products {
-    display: inline-block;
+/* **** USERS PAGE **** */
+.users__dashboard {
+    width: 95%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+}
+
+.table__header {
+    background-color: #77ea13;
+}
+
+.table__header th {
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.table__body tr {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+  
+.users__dashboard th,
+.users__dashboard td {
+    padding: 1rem;
+    text-align: center;
+    border: .3rem solid #0b0c01;
+}
+
+.updateRole__button,
+.delete__button,
+.users__button button{
+    background-color: rgb(140, 255, 0);
+    color: black;
+    margin: 1rem;
+    padding: 1rem 1.2rem;
+    border-radius: .4rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    letter-spacing: .3rem;
+    border-radius: 1rem;
+    font-family: "Georgia";
+    font-weight: bold;
+}
+
+.updateRole__button:hover,
+.delete__button:hover,
+.users__button button:hover {
+    background-color: rgb(0, 255, 102);
+    transform: scale(1.2);
+    transition: .4s ease all;
+}
+
+/* Estilos para el select */
+select {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    cursor: pointer;
+}
+  
+/* Estilos para los option dentro del select */
+select option {
+    font-size: 1.4rem;
+    color: #333;
+}
+
+/* Estilo cuando el select está enfocado */
+select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 .3rem rgba(0, 123, 255, 0.2);
+}
+
+/* Estilo cuando se pasa el mouse sobre el select */
+select:hover {
+    border-color: #66afe9;
+}
+
+/**** MARKETPLACE ****/
+/* Estilos para el contenedor de productos */
+.product__container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+  
+/* Estilos para la tarjeta de producto */
+.product__card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 300px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+  
+.product__card img {
+    max-width: 100%;
+    max-height: 20rem;
+    margin-bottom: 10px;
+}
+
+.product__card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.product__card p {
+    margin-bottom: 8px;
+}
+
+.add__to__cart__button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add__to__cart__button,
+.delete__product__button {
+    margin-right: 8px;
+}
+  
+.add__to__cart__button:hover,
+.delete__product__button:hover {
+    background-color: #0056b3;
+}
+  
+/* **** PRODUCTS PAGE **** */
+.products__dashboard {
+    width: 95%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+}
+.products__dashboard th,
+.products__dashboard td {
+    padding: 1rem;
+    text-align: center;
+    border: .3rem solid #0b0c01;
+}
+
+.products__button {
+    background-color: rgb(140, 255, 0);
+    color: black;
+    margin: 1rem;
+    padding: 1rem 1.2rem;
+    border-radius: .4rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    letter-spacing: .3rem;
+    border-radius: 1rem;
+    font-family: "Georgia";
+    font-weight: bold;
+}
+
+.products__button:hover {
+    background-color: rgb(0, 255, 102);
+    transform: scale(1.2);
+    transition: .4s ease all;
+}
+
+.prev__next__btn {
+    background-color: rgb(140, 255, 0);
+    color: black;
+    margin: .5rem;
+    padding: 1rem 1rem;
+    border-radius: .4rem;
+    cursor: pointer;
+    font-size: 1rem;
+    letter-spacing: .3rem;
+    border-radius: 1rem;
+    font-family: "Georgia";
+    font-weight: bold;
 }

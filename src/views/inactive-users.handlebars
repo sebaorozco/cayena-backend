@@ -1,0 +1,32 @@
+<h1>Usuarios Inactivos</h1>
+
+<table id="usersTable" role="grid" class="users__dashboard">
+    <thead>
+        <tr class="table__header">
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Eliminar Usuario Inactivo</th>
+        </tr>
+    </thead>
+    <tbody class="table__body">
+        {{#each users}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{email}}</td>
+                <td>{{role}}</td>
+                <td>
+                    <form action="/api/sessions/delete-user" method="POST">
+                        <input type="hidden" name="userId" value={{userId}}>
+                        <button type="submit" class="delete__button">Eliminar Usuario Inactivo</button>
+                    </form>
+                </td>
+
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<div class="messages__button">
+  <button onclick="location.href='/api/sessions/users'">Ir a Listado de usuarios (Solo admin)</button><br>
+</div>

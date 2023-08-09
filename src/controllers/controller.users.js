@@ -1,6 +1,8 @@
 import { UserManagerDAO } from "../dao/factory.js"
 import { UsersModel } from "../dao/models/user.model.js";
 import UserDTO from "../dto/UsersDTO.js";
+import { UserBasicDTO } from "../dto/UsersDTO.js";
+import emailServices from "../services/email.services.js";
 import Exception from "../utils/exception.js";
 import { createHash, tokenGenerator, validatePassword, authMiddleware, authorizationMiddleware } from "../utils/index.js";
 
@@ -13,6 +15,26 @@ export const getUsers = async (req, res, next) => {
             throw new Exception('Something went wrong. Try again later.', 500);
         }
         res.status(200).send({ status: 'success', result })
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const getUsersData = async (req, res, next) => {
+    try {
+        let result = await UserManagerDAO.getUsers();
+        if(!result) {
+            req.logger.fatal(` ${req.method} en ${req.url} - Something went wrong. Try again later.`);
+            throw new Exception('Something went wrong. Try again later.', 500);
+        }
+        // Mapeo los datos principales de cada usuario utilizando el DTO.
+        const usersMainData = result.map((user) => {
+            if (!user) {
+                return null; 
+            }
+            return new UserBasicDTO(user);
+      });
+        res.status(200).send({ status: 'success', usersMainData })
     } catch (error) {
         next(error);
     }
@@ -59,6 +81,38 @@ export const deleteUserByEmail = async (req, res, next) => {
         }
         await UserManagerDAO.deleteUserByEmail({email});
         return res.status(200).json({ message: "USER DELETED" });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const deleteInactiveUsers = async (req, res, next) => {
+    try {
+        // Obtengo la fecha actual y resto dos días para obtener la fecha límite de inactividad
+        /* const twoDaysAgo = new Date();
+        twoDaysAgo.setDate(twoDaysAgo.getDate() - 2); */
+        const thirtyMinutesAgo = new Date();
+        thirtyMinutesAgo.setMinutes(thirtyMinutesAgo.getMinutes() - 30);
+
+        // Busco los usuarios inactivos (última conexión anterior a twoDaysAgo)
+        const inactiveUsers = await UserManagerDAO.getFilteredUsers({ last_connection: { $lt: thirtyMinutesAgo } });
+        req.logger.info(` Inactive users: ${inactiveUsers}`);
+        
+        // Enviar el correo electrónico a los usuarios inactivos y eliminarlos
+        inactiveUsers.forEach(async (user) => {
+            const userEmail = user.email;
+            const emailSubject = 'Eliminación de cuenta por inactividad';
+            const emailHtml = `<p>Estimado usuario,</p>
+                            <p>Su cuenta ha sido eliminada por presentar una inactividad mayor a 2 días.</p>
+                            <p>Si deseas seguir formando parte de nuestro mundo orgánico y natural, podés registrarte nuevamente.</p>
+                            <p>Atentamente,</p>
+                            <p>Cayena Almacén Orgánico & Natural.</p>`;
+  
+            await emailServices.sendEmail(userEmail, emailSubject, emailHtml);
+            await UserManagerDAO.findByIdAndRemove(user._id);
+        });
+  
+        res.json({ message: 'Usuarios inactivos eliminados y correos electrónicos enviados.' });
     } catch (error) {
         next(error);
     }

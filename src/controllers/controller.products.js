@@ -1,4 +1,5 @@
-import { ProductManagerDAO } from "../dao/factory.js";
+import { ProductManagerDAO, UserManagerDAO } from "../dao/factory.js";
+import emailServices from "../services/email.services.js";
 import commonsUtils from "../utils/common.js";
 import Exception from "../utils/exception.js";
 
@@ -124,17 +125,46 @@ export const deleteProductById = async (req, res, next) => {
             throw new Exception('Product not found', 404);
         }
 
-        // Verifico permisos de eliminación del producto 
-        if ((isPremiumUser & expectedProduct.owner === req.user.email)) {
-            console.log("Es premium user? ", isPremiumUser)
-            const result = await ProductManagerDAO.deleteProductById({ _id: pid });
-            const deletedProduct = expectedProduct;
-            return res.json({ message: 'Deleted product!:', deletedProduct, result})
-        } else if (isAdmin){
+        // Verifico permisos de eliminación del producto. 
+        // Si es Admin puede eliminar cualquier producto. 
+        // Pero si ese prod. pertenece a un user premium deberá notificarlo vía email.
+        if (isAdmin){
             console.log("Es admin user: ", isAdmin)
+
+            // Verifico si el prod. pertenece a un usuario Premium
+            const ownerEmail = expectedProduct.owner
+            const ownerUser = await UserManagerDAO.getUserByEmail({ email: ownerEmail });
+            
+            if (ownerUser.role === 'premium') {
+                const deletedProduct = expectedProduct;
+                const result = await ProductManagerDAO.deleteProductById({ _id: pid });
+
+                // Enviar correo electrónico al usuario premium propietario del producto
+                const userEmail = expectedProduct.owner;
+                const emailSubject = 'Eliminación de tu producto';
+                const emailHtml = `<p>Estimado usuario premium: ${ownerUser.name},</p>
+                                <p>Tu producto ${deletedProduct} ha sido eliminado por un administrador.</p>
+                                <p>Atentamente</p>
+                                <p>Cayena Almacén Orgánico y Natural.</p>`;
+                await emailServices.sendEmail(userEmail, emailSubject, emailHtml);
+
+                return res.json({ message: 'Producto eliminado y correo enviado!', deletedProduct, result });
+            }
+
+            // Si elproducto a eliminar no es de un usuario premium eliminar sin enviar correo.
             const deletedProduct = expectedProduct;
             const result = await ProductManagerDAO.deleteProductById({ _id: pid });
-            return res.json({ message: 'Deleted product!:', deletedProduct, result})
+            return res.json({ message: 'Deleted product!:', deletedProduct, result});
+        } else if (isPremiumUser) {
+            console.log("Es premium user? ", isPremiumUser)
+            // Verificar si el producto pertenece al usuario premium
+            if (expectedProduct.owner === req.user.email) {
+                const deletedProduct = expectedProduct;
+                const result = await ProductManagerDAO.deleteProductById({ _id: pid });
+                return res.json({ message: 'Deleted your product!', deletedProduct, result });
+            } else {
+                return res.status(403).json({ message: 'Forbidden, you do not have permission to delete this product.' });
+            }
         }
         return res.status(403).json({ message: 'Forbidden, you do not have permission to delete this product.' });
     } catch (error) {

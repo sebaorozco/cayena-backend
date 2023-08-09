@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {  addCartToUser, changeUserRole, createUser, deleteUserByEmail, getCurrentUser, getUserById, getUsers, loginUser, 
+import {  addCartToUser, changeUserRole, createUser, deleteInactiveUsers, deleteUserByEmail, getCurrentUser, getUserById, getUsers, getUsersData, loginUser, 
           logoutUser, resetPassword, uploadDocuments } from "../../controllers/controller.users.js";
 import passport from "passport";
 import { authJWTMiddleware, authMiddleware, authorizationMiddleware } from "../../utils/index.js";
@@ -12,14 +12,20 @@ const router = Router();
 // REGISTRO DE USARIO
 router.post('/register', createUser)
 
-// OBTENER USUARIOS
-router.get('/', getUsers);
+// OBTENER USUARIOS CON TODA LA INFORMACIÓN
+router.get('/get-all', authJWTMiddleware(['admin']), getUsers);
+
+// OBTENER USUARIOS CON INFORMACIÓN BÁSICA
+router.get('/', authJWTMiddleware(['admin']), getUsersData);
 
 // OBTENER USUARIO POR ID
 router.get('/user/:uid', getUserById);
 
-// ELIMINAR USUARIOS
-router.delete('/delete', deleteUserByEmail);
+// ELIMINAR USUARIOS POR EMAIL
+router.delete('/delete-by-email', authJWTMiddleware(['admin']), deleteUserByEmail);
+
+// ELIMINAR USUARIOS INACTIVOS
+router.delete('/delete', authJWTMiddleware(['admin']), deleteInactiveUsers);
 
 // AGREGA UN CARRITO A UN USER ESPECÍFICO 
 router.put('/:email', addCartToUser); 
@@ -33,7 +39,7 @@ router.post('/logout', authMiddleware('jwt'), logoutUser);
 //RESET PASSWORD
 router.post('/reset-password', authMiddleware('jwt'), authorizationMiddleware('user'), resetPassword);
 
-// RUTA PRIVADA
+// RUTA PRIVADA GET USUARIO ACTUAL
 router.get('/current', authMiddleware('jwt'), authorizationMiddleware('user'), getCurrentUser)
 
 // MODIFICAR ROL DE USUARIO
@@ -47,7 +53,7 @@ router.post('/:uid/documents', authJWTMiddleware(['admin', 'premium', 'user']), 
   ]), uploadDocuments);
 
 // LOGIN POR GITHUB
-router.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
+router.get('/auth/github', passport.authenticate('github', { scope: [ 'user: email' ] }));
 
 
 export default router;

@@ -7,5 +7,16 @@ export default class UserDTO {
         this.age = user.age;
         this.password = createHash(user.password);
         this.role = user.role;
+        this.cart = user.cart;
+    }
+}
+
+// Clase UserBasicDTO que excluye los campos password y age.
+export class UserBasicDTO {
+    constructor(user){
+        this.name = user.name; 
+        this.email = user.email;
+        this.role = user.role;
+        this.userId = user._id;
     }
 }

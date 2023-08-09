@@ -1,0 +1,44 @@
+<h1>Usuarios</h1>
+
+<table id="usersTable" role="grid" class="users__dashboard">
+    <thead>
+        <tr class="table__header">
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Modificar Rol</th>
+            <th>Eliminar Usuario</th>
+        </tr>
+    </thead>
+    <tbody class="table__body">
+        {{#each users}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{email}}</td>
+                <td>{{role}}</td>
+                <td>
+                    <form action="/api/sessions/change-role" method="POST">
+                        <input type="hidden" name="userId" value={{userId}}>
+                        <select name="newRole">
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                            <option value="premium">Premium</option>
+                        </select>
+                        <button type="submit" class="updateRole__button">Modificar Rol</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="/api/sessions/delete-user" method="POST">
+                        <input type="hidden" name="userId" value={{userId}}>
+                        <button type="submit" class="delete__button">Eliminar Usuario</button>
+                    </form>
+                </td>
+
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
+<div class="users__button">
+    <button onclick="location.href='/api/sessions/inactive-users'">Ver Listado de Usuarios Inactivos (2 dias de inactividad)</button><br>
+    <button onclick="location.href='/profile'">Volver a Profile</button><br>
+</div>

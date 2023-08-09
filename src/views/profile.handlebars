@@ -9,7 +9,14 @@
             <li><p>Perfil de usuario: {{role}}</p></li>
         </ul> 
     </div><br>
+    
+    <div class="profile__buttons__1">
+        <button onclick="location.href='/api/sessions/logout'" class="logout__button">LOGOUT</a></button><br>
+        <button onclick="location.href='/products/marketplace'" class="buy__button">IR A COMPRAS</a></button><br>
+    </div>
+    <div class="profile__buttons__2">
+        <button onclick="location.href='/products'" class="products__button">Ver listado de productos (Sólo Admin o Premium)</a></button><br>
+        <button onclick="location.href='/api/sessions/users'" class="products__button">Ver Listado de Usuarios (Sólo Admin)</a></button><br>
+    </div>
 
-    <p class="logout__button"><a href="/api/sessions/logout" role="button">Logout</a></p>
-    <p class="products__button"><a href="/products" role="button">Ver nuestros productos</a></p>
 </article>

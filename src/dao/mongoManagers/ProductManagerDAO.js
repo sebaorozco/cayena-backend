@@ -23,7 +23,7 @@ class ProductManagerDAO {
     //OBTENGO UN PRODUCTO POR ID
     static async getProductById(pid) {
         try {
-            return await ProductsModel.findById(pid)
+            return await ProductsModel.findById(pid);
         } catch (error) {
             return null;
         }
