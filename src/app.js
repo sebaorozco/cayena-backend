@@ -7,13 +7,9 @@ import path from 'path';
 import { Server } from 'socket.io';
 import router from './routes/index.js';
 import { MessagesModel } from './dao/models/message.model.js';
-//import ProductManager from './dao/fsManagers/ProductManager.js';
-//import session from 'express-session';
-//import MongoStore from 'connect-mongo';
 import initPassport from './config/passport.config.js';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
-//import MiddlewareError from './utils/errors/MiddlewareError.js';
 import { addLogger } from './utils/logger.js';
 import { cpus } from 'os';
 import swaggerJSDoc from 'swagger-jsdoc';
@@ -59,12 +55,6 @@ app.use("/", express.static(__dirname + '/public'));
 // *******Llamo al enrutador*******************//
 router(app);
 
-// ****** middleware de errores ***************//
-//app.use(MiddlewareError);
-
-/* // Me conecto a la BD
-dbConnect(); */
-
 // ******** Swagger configuration ************** //
 const swaggerOptions = {
     definition: {
@@ -83,7 +73,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // Creo el servidor HTTP
 const httpServer = app.listen(PORT, () => {
-    logger.info(`Server running in: http://localhost:${PORT}/login`);
+    logger.info(`Server running in: http://localhost:${PORT}`);
 });  //Server Http
 
 // Creamos el servidor para sockets viviendo dentro de nuestro servidor principal

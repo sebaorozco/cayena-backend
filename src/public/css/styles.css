@@ -244,6 +244,8 @@ h2,p {
 /* **** FORMULARIO RESET PASSWORD **** */
 .form__reset__password {
     text-align: center;
+    max-width: 40rem;
+    width: 95%;
 }
 
 .form__reset__password p {
@@ -251,8 +253,14 @@ h2,p {
 }
 
 .reset__button {
+    background-color: rgb(140, 255, 0);
     margin: 1rem;
-    font-size: 2rem;
+    padding: 1rem;
+    font-size: 1.5rem;
+    letter-spacing: .3rem;
+    border-radius: 1rem;
+    font-family: "Georgia";
+    font-weight: bold;
 }
 
 

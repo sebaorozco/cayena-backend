@@ -31,7 +31,7 @@ router.post('/register', async (req, res, next) => {
 })
 
 // LOGIN DE USUARIO
-router.post('/login', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     try {
         const { body: { email, password } } = req
         const user = await UserManagerDAO.getUserByEmail({ email })
@@ -85,7 +85,7 @@ router.get('/logout', authMiddleware('jwt'), async (req, res, next) => {
         const deleteCartId = user.cart._id
         await CartManagerDAO.deleteCartById(deleteCartId);
         await user.save();
-        res.clearCookie('token').status(200).redirect('/login');
+        res.clearCookie('token').status(200).redirect('/');
     } catch (error) {
         next(error);
     }
@@ -242,7 +242,7 @@ router.post('/change-password', async (req, res) => {
 
     await UsersModel.updateOne({ _id: id }, user);
 
-    res.redirect('/login');
+    res.redirect('/');
 
 })
 
@@ -294,7 +294,7 @@ router.post('/change-role', authMiddleware('jwt'), async (req, res, next) => {
 })
 
 // LOGIN POR GITHUB
-router.get('/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
+router.get('/github/callback', passport.authenticate('github', { failureRedirect: '/' }), (req, res) => {
     // Successful authentication, redirect profile.
     console.log('req.user', req.user);
     req.session.user = req.user;

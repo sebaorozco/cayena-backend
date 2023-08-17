@@ -47,7 +47,7 @@ El proyecto fue desarrollado utilizando lo siguiente:
 ## Rutas
 
 El trabajo se ejecuta de manera local en el puerto 8080.
-- /login muestra la vista de formulario de login de usuario. Si el usuario esta registrado podrá loguearse, caso contrario se muestra error de email no registrado.
+- / muestra la vista de formulario de login de usuario. Si el usuario esta registrado podrá loguearse, caso contrario se muestra error de email no registrado.
 - Para enviar un correo para reestablecer contraseña se debe hacer clic en el botón "Olvidé mi contraseña" que figura en esta ruta de login. En la siguiente pantalla se coloca el correo del usuario que se olvidó la contraseña y se envía un mail a la casilla de correo del usuario, con un enlace a la ruta para reestablecer contraseña (/reset-password)
 - /register muestra la vista de formulario de registro de usuario. Permite completar los campos para registrarse y almacena esos datos en la BD de nombre ecommerce (MongoDB).
 

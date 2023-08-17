@@ -89,10 +89,10 @@ export const deleteUserByEmail = async (req, res, next) => {
 export const deleteInactiveUsers = async (req, res, next) => {
     try {
         // Obtengo la fecha actual y resto dos días para obtener la fecha límite de inactividad
-        /* const twoDaysAgo = new Date();
-        twoDaysAgo.setDate(twoDaysAgo.getDate() - 2); */
-        const thirtyMinutesAgo = new Date();
-        thirtyMinutesAgo.setMinutes(thirtyMinutesAgo.getMinutes() - 30);
+        const twoDaysAgo = new Date();
+        twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+       /* const thirtyMinutesAgo = new Date();
+        thirtyMinutesAgo.setMinutes(thirtyMinutesAgo.getMinutes() - 30); */ //Lo use de prueba
 
         // Busco los usuarios inactivos (última conexión anterior a twoDaysAgo)
         const inactiveUsers = await UserManagerDAO.getFilteredUsers({ last_connection: { $lt: thirtyMinutesAgo } });
@@ -213,7 +213,7 @@ export const resetPassword = async (req, res) => {
 
     await UsersModel.updateOne({ email }, newUser);
     
-    res.redirect('/login');
+    res.redirect('/');
 }
 
 export const getCurrentUser = (req, res, next) => {
@@ -272,6 +272,7 @@ export const uploadDocuments = async (req, res, next) => {
         // Verifico que el usuario exista
         const { uid } = req.params;
         const user = await UserManagerDAO.getUserById(uid);
+        console.log('Este es el usuario: ', user)
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
@@ -280,6 +281,7 @@ export const uploadDocuments = async (req, res, next) => {
         
         // Verifico si ya hay un archivo de perfil subido.
         const profileAlreadyExists = user.documents.some((doc) => doc.title === 'profile');
+
         if (req.files['profile'] && profileAlreadyExists) {
             errorMessages.push('Archivo profile ya subido.');
         }
@@ -342,7 +344,8 @@ export const uploadDocuments = async (req, res, next) => {
         // Si hay un archivo de perfil nuevo, lo guardo.
         if (req.files['profile'] && !profileAlreadyExists) {
             const profileImage = req.files['profile'][0]; 
-            documents.push({title: profileImage.fieldname, name: profileImage.filename, reference: profileImage.path}); 
+            documents.push({title: profileImage.fieldname, name: profileImage.filename, reference: profileImage.path});
+            user.uploadStatus = true; 
         }
 
         // Actualizo el array de documents en el modelo de usuario.

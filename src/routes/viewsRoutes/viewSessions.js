@@ -12,7 +12,7 @@ const auth = (req, res, next) => {
     if(req.session.user){
         return next();
     }
-    res.redirect('/login');
+    res.redirect('/');
 }
 
 // REGISTRO DE USUARIO
@@ -21,7 +21,7 @@ router.get('/register', (req, res) => {
 })
 
 // LOGIN DE USUARIO
-router.get('/login', (req, res) => {
+router.get('/', (req, res) => {
     res.render('login')
 })
 

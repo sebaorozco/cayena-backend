@@ -1,26 +1,26 @@
 <article>
   <h1>Registro de Usuario</h1>
   {{#if error }}
-    <p>{{error}}</p>
+      <p>{{error}}</p>
   {{/if}}
   <form action="/api/sessions/register" method="POST" class="form__register">
-    <div class="wrapp-input">
-      <input type="text" name="first_name" placeholder="Nombre"> 
-    </div>
-    <div class="wrapp-input">
-      <input type="text" name="last_name" placeholder="Apellido">
-    </div>      
-    <div class="wrapp-input">
-      <input type="email" name="email" placeholder="Correo"> 
-    </div>
-    <div class="wrapp-input">
-      <input type="number" name="age" placeholder="Edad">
-    </div>
-    <div class="wrapp-input">
-      <input type="password" name="password" id="password" placeholder="Contraseña">
-      <span class="icon-eye"><i class="fas fa-eye-slash"></i> </span>
-    </div><br>
-    <p class="link__login">Ir a <a href="/login">Login</a></p>
-    <button type="submit" class="register__button">Registrar</button>
+      <div class="wrapp-input">
+        <input type="text" name="first_name" placeholder="Nombre"> 
+      </div>
+      <div class="wrapp-input">
+        <input type="text" name="last_name" placeholder="Apellido">
+      </div>      
+      <div class="wrapp-input">
+        <input type="email" name="email" placeholder="Correo"> 
+      </div>
+      <div class="wrapp-input">
+        <input type="number" name="age" placeholder="Edad">
+      </div>
+      <div class="wrapp-input">
+        <input type="password" name="password" id="password" placeholder="Contraseña">
+        <span class="icon-eye"><i class="fas fa-eye-slash"></i> </span>
+      </div><br>
+      <p class="link__login">Ir a <a href="/">Login</a></p>
+      <button type="submit" class="register__button">Registrar</button>
   </form>
 </article>

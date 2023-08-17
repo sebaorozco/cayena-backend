@@ -4,7 +4,7 @@
         <p class="error__message">{{error}}</p>
     {{/if}}
 
-    <form action="/api/sessions/login?token={{token}}" method="post" class="form__login">
+    <form action="/api/sessions/?token={{token}}" method="post" class="form__login">
         <div class="wrapp-input">
             <input type="email" name="email" id="correo" placeholder="Correo"><br> 
         </div>

@@ -13,12 +13,12 @@ class commonsUtils {
             page: data.page,
             hasPrevPage: data.hasPrevPage,
             hasNextPage: data.hasNextPage,
-            prevLink: !data.hasPrevPage ? null : `http://localhost:8080/products?limit=${data.limit}&page=${data.prevPage}${paramSort}`,
-            nextLink: !data.hasNextPage ? null : `http://localhost:8080/products?limit=${data.limit}&page=${data.nextPage}${paramSort}`,
+            prevLink: !data.hasPrevPage ? null : `/products?limit=${data.limit}&page=${data.prevPage}${paramSort}`,
+            nextLink: !data.hasNextPage ? null : `/products?limit=${data.limit}&page=${data.nextPage}${paramSort}`,
             sort: data.sort,
             cat: data.cat,
-            sortLink: `http://localhost:8080/products?limit=${data.limit}&page=${data.page}&sort=${data.sort === 'asc' ? 'desc' : 'asc'}`,
-            sortLink2: `http://localhost:8080/products/category/${data.cat}?sort=${data.sort === 'asc' ? 'desc' : 'asc'}`
+            sortLink: `/products?limit=${data.limit}&page=${data.page}&sort=${data.sort === 'asc' ? 'desc' : 'asc'}`,
+            sortLink2: `/products/category/${data.cat}?sort=${data.sort === 'asc' ? 'desc' : 'asc'}`
         }
     }
 }
