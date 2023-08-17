@@ -70,3 +70,6 @@ Para ejecutar las pruebas de los modulos Products, Carts y Users se puede hacer 
 ```
 $ npm test
 ```
+
+## railway deploy
+https://cayena-backend-production.up.railway.app/
