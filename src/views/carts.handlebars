@@ -26,5 +26,43 @@
       </tr>
     {{/each}}
   </tbody>
+  <tbody class="table__body">
+    <tr>
+      <td>Precio Total: $</td>
+      <td><span id="totalPricePlaceholder"></span></td>
+    </tr>
+  </tbody>
 </table>
-<button onclick="location.href='/carts/ticket'" id="buyBtn" class="buy__button">Buy Now!</button>
+<button onclick="location.href='/carts/purchase'" id="buyBtn" class="buy__button" method="POST">Buy Now!</button>
+
+<script>
+  // Obtengo una referencia al marcador de posición del precio total en el HTML.
+  const totalPricePlaceholder = document.getElementById('totalPricePlaceholder');
+
+  if(cart.products.length <= 0){
+        throw new Exception('Empty cart', 404);
+    } else {
+
+      const purchasedProducts = [];
+      const returnedProducts = [];
+      
+      for (const item of cart.products) {
+        const product = item.product_id;
+        const quantity = item.quantity;
+        
+        if (product.stock >= quantity) {
+          product.stock -= quantity;
+          await product.save();
+          purchasedProducts.push(item);
+        } else {
+            returnedProducts.push(item);
+        }
+      }
+  // Función para calcular el precio total.
+  const totalPrice = calculateTotal(purchasedProducts) 
+
+  // Actualiza el marcador de posición con el precio total calculado.
+  totalPricePlaceholder.textContent = totalPrice.toFixed(2); // Asegura que se muestren dos decimales.
+
+
+</script> 

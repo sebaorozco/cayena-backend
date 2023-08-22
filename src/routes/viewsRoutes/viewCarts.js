@@ -4,6 +4,8 @@ import { authJWTMiddleware, calculateTotal, generateCode } from '../../utils/ind
 import { CartManagerDAO, ProductManagerDAO, TicketManagerDAO, UserManagerDAO } from '../../dao/factory.js';
 import Exception from '../../utils/exception.js';
 import twilioServices from '../../services/twilio.services.js';
+import emailServices from '../../services/email.services.js';
+import __dirname from '../../utils.js';
 
 const router = Router()
 
@@ -77,7 +79,7 @@ router.put('/products/:pid', authJWTMiddleware(['admin', 'user', 'premium']), as
   }
 })
 
-router.post('/purchase', authJWTMiddleware(['admin', 'user', 'premium']), async (req, res, next) => {
+router.get('/purchase', authJWTMiddleware(['admin', 'user', 'premium']), async (req, res, next) => {
   try {
     const currentUser = req.user; // Obtengo el usuario actual
     const user = await UserManagerDAO.getUserByEmail({ email: currentUser.email });
@@ -112,23 +114,33 @@ router.post('/purchase', authJWTMiddleware(['admin', 'user', 'premium']), async 
 
       const code = generateCode(); // Genera un código único
       const amount = calculateTotal(purchasedProducts); // Calcula el total de la compra
-      const purchaser = 'email@email.com';
+      const purchaser = user.email;
       console.log('Ticket de compra: ', code, amount, purchaser)
       
       await TicketManagerDAO.createTicket(code, amount, purchaser);
       
-      // Envío sms al cliente
-      const nombre = purchaser;
-      const clientPhone = '+543854160596'
-      const body = `Gracias ${nombre}, tu solicitud de compra ha sido aprobada. `
-      const result2 = await twilioServices.sendSMS(clientPhone, body)
-      console.log('SMS enviado al cliente:',result2);
+      // Envío mail al cliente
+      const attachments = [
+        {
+            filename: 'logoCayena.jpg',
+            path: (__dirname + '/public/images/logoCayena/logoCayena.jpg'),
+            cid: 'logoCayena'
+        }
+      ] 
+      const userEmail = user.email;
+      const emailSubject = 'Gracias por su compra.';
+      const emailHtml = `<p>Estimado ${user.name},</p>
+                      <p>Tu compra por $${amount} ha sido aprobada.</p>
+                      <p>Ticket number: ${code}</p>
+                      <p>Atentamente</p>
+                      <p>Cayena Almacén Orgánico y Natural.</p>`;
+      await emailServices.sendEmail(userEmail, emailSubject, emailHtml, attachments);
 
       // Actualizar el carrito con los productos no comprados
       cart.products = returnedProducts;
       await cart.save();
 
-      return res.render('messages',{ purchasedProducts, returnedProducts });
+      return res.render('ticket', user);
     }
 
   } catch (error) {
